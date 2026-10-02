@@ -18,6 +18,9 @@ jobs:
   install:
     runs-on: macos-15
     timeout-minutes: 20
+    defaults:
+      run:
+        shell: bash
     env:
       HOMEBREW_NO_AUTO_UPDATE: "1"
       HOMEBREW_NO_INSTALL_CLEANUP: "1"
@@ -29,13 +32,17 @@ jobs:
         run: |
           test "$(uname -m)" = arm64
           brew update
+          # Hosted images may expose OpenSSL 1.1 through the shared bin directory.
+          if brew list --versions openssl@1.1 >/dev/null 2>&1; then
+            brew unlink openssl@1.1
+          fi
           brew tap iamorlando/ai_lab
           cp Formula/ai_lab.rb "$(brew --repository iamorlando/ai_lab)/Formula/ai_lab.rb"
           brew trust --formula iamorlando/ai_lab/ai_lab
       - name: Install and check post-install linkage
         run: |
           brew install iamorlando/ai_lab/ai_lab 2>&1 | tee "$RUNNER_TEMP/ai-lab-install.log"
-          if /usr/bin/grep -E 'HeaderPadError|Failed to fix install linkage|^Error:' "$RUNNER_TEMP/ai-lab-install.log"; then
+          if /usr/bin/grep -E 'HeaderPadError|Failed to fix install linkage|did not complete successfully|Could not symlink|Error:' "$RUNNER_TEMP/ai-lab-install.log"; then
             exit 1
           fi
           brew linkage --test iamorlando/ai_lab/ai_lab
