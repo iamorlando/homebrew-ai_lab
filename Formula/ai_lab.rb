@@ -4,6 +4,7 @@ class AiLab < Formula
   url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.0/ai_lab-0.1.0.tar.gz"
   version "0.1.0"
   sha256 "911fe6e9b34a13e0d112cf9d6400b308477f8ea34b655097ff9df1225aa3709b"
+  revision 1
 
   depends_on arch: :arm64
   depends_on :macos
@@ -18,9 +19,7 @@ class AiLab < Formula
     system "uv", "sync", "--frozen", "--no-dev", "--no-editable",
            "--python", Formula["python@3.13"].opt_bin/"python3.13"
     bin.install_symlink libexec/"venv/bin/ai-lab"
-    (bash_completion/"ai-lab").write shell_output("#{bin}/ai-lab completion bash")
-    (zsh_completion/"_ai-lab").write shell_output("#{bin}/ai-lab completion zsh")
-    (fish_completion/"ai-lab.fish").write shell_output("#{bin}/ai-lab completion fish")
+    generate_completions_from_executable(bin/"ai-lab", "completion")
   end
 
   def caveats
@@ -43,5 +42,8 @@ class AiLab < Formula
     schema = JSON.parse(shell_output("#{bin}/ai-lab api schema"))
     assert schema.fetch("paths").key?("/api/lab/sessions/{session}/complete")
     assert_match "session", shell_output("#{bin}/ai-lab help --json")
+    assert_path_exists bash_completion/"ai-lab"
+    assert_path_exists zsh_completion/"_ai-lab"
+    assert_path_exists fish_completion/"ai-lab.fish"
   end
 end
