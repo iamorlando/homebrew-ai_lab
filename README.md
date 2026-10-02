@@ -4,6 +4,7 @@ Local DeepSeek completions, model configuration, and synchronized terminal inspe
 
 ```sh
 brew tap iamorlando/ai_lab
+brew trust --formula iamorlando/ai_lab/ai_lab
 brew install ai_lab
 ai-lab
 ```
