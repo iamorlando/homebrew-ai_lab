@@ -1,0 +1,35 @@
+name: Build pinned runtime
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/runtime.yml
+      - runtime/**
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 60
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Build both pinned forks
+        run: python3 runtime/build.py --sources runtime/sources.json --checkout "$RUNNER_TEMP/forks" --output "$RUNNER_TEMP/dist"
+      - name: Check without developer tools
+        run: |
+          env DEVELOPER_DIR=/nonexistent PATH=/usr/bin:/bin "$RUNNER_TEMP/dist/package/mistralrs" --version
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ai-lab-runtime-macos-arm64
+          path: |
+            ${{ runner.temp }}/dist/ai_lab-runtime-macos-arm64.tar.gz
+            ${{ runner.temp }}/dist/runtime.json
+          if-no-files-found: error
