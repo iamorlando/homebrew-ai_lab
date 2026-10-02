@@ -43,7 +43,7 @@ For a direct package install, download the wheel from the
 [release](https://github.com/iamorlando/homebrew-ai_lab/releases/latest), then run:
 
 ```sh
-uv tool install --python 3.13 ./ai_lab-0.1.0-py3-none-any.whl
+uv tool install --python 3.13 ./ai_lab-0.1.1-py3-none-any.whl
 ai-lab setup --yes
 ```
 
@@ -51,6 +51,19 @@ Installed copies store data in `~/.local/share/ai-lab` (or `AI_LAB_HOME`). Sourc
 runs default to this checkout. To share website models and the existing DeepSeek
 installation, pass `--root /path/to/deepseek` before the subcommand or export
 `AI_LAB_ROOT`. Runtime paths remain outside Homebrew's Cellar and survive upgrades.
+
+## Update an existing installation
+
+```sh
+brew update
+brew upgrade ai_lab
+ai-lab server stop             # only if an idle private service is running
+ai-lab setup --yes
+```
+
+Version 0.1.1 pins the published tournament implementations in both forks. Setup
+updates an unchanged 0.1.0 source manifest, keeps saved profiles and weights, and
+builds the new revisions. Custom source manifests remain under your control.
 
 ## Models
 
@@ -191,7 +204,7 @@ uv sync --frozen
 uv run python -m unittest discover -s tests/ai_lab -v
 uv run python -m unittest discover -s harness/tests -p 'test_*.py'
 uv build
-python3 packaging/homebrew/generate.py dist/ai_lab-0.1.0.tar.gz --version 0.1.0
+python3 packaging/homebrew/generate.py dist/ai_lab-0.1.1.tar.gz --version 0.1.1
 ```
 
 The generator writes `dist/homebrew/ai_lab.rb` with the actual archive checksum and
