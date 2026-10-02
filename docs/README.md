@@ -22,10 +22,17 @@ navigate. Small windows switch to one panel at a time with view buttons; short
 panes use the keyboard commands to preserve room for results. Closing a pane does not stop its session or the background service.
 
 A plain `ai-lab` starts setup on first interactive launch. Setup explains the
-5.03 GB weight download, checks prerequisites, builds the pinned Metal runtime,
-and verifies model, tokenizer, template, and binary hashes. It needs Apple Silicon
-macOS, full Xcode with Metal, current Xcode Command Line Tools, and Rust via rustup. Completion-only setup does not
-need Docker or OpenCode. A package installation does not silently download weights.
+5.03 GB weight download, downloads the pinned prebuilt Metal runtime,
+and verifies model, tokenizer, template, archive, and binary hashes. It needs
+Apple Silicon and macOS 15 or newer. Users do not need Xcode, the Metal developer
+toolchain, Rust, Docker, or OpenCode. Homebrew manages Python and the CLI's own
+dependencies. A package installation does not silently download weights.
+
+Both public forks are compiled into the server at their exact `sources.json`
+commits. Metal kernels use the macOS Metal framework on first use; no developer
+tools run on the user's machine. The release binary links only to macOS system
+libraries. `ai-lab doctor --json` reports the supported OS and download size.
+The first server startup prepares Metal kernels and can take several minutes.
 
 ## Homebrew
 
@@ -43,7 +50,7 @@ For a direct package install, download the wheel from the
 [release](https://github.com/iamorlando/homebrew-ai_lab/releases/latest), then run:
 
 ```sh
-uv tool install --python 3.13 ./ai_lab-0.1.1-py3-none-any.whl
+uv tool install --python 3.13 ./ai_lab-0.1.2-py3-none-any.whl
 ai-lab setup --yes
 ```
 
@@ -61,9 +68,21 @@ ai-lab server stop             # only if an idle private service is running
 ai-lab setup --yes
 ```
 
-Version 0.1.1 pins the published tournament implementations in both forks. Setup
+Version 0.1.2 downloads a verified prebuilt runtime instead of compiling on the
+user's machine. Existing verified runtimes and downloaded weights are reused.
+Both forks retain the same pins as 0.1.1. Setup
 updates an unchanged 0.1.0 source manifest, keeps saved profiles and weights, and
-builds the new revisions. Custom source manifests remain under your control.
+installs the matching runtime. Custom source manifests remain under your control.
+
+Developers with custom runtime pins can opt into compilation:
+
+```sh
+ai-lab setup --build-from-source --yes
+```
+
+Source builds require Rust via rustup and Apple's Command Line Tools. Full Xcode
+is not required. `--use-local-source` also selects this path and records local
+source provenance. Normal setup never silently falls back to a source build.
 
 ## Models
 
@@ -199,12 +218,20 @@ automatically replayed. Incomplete runs are marked interrupted on recovery. Logs
 
 ## Build, test and release
 
+Build the runtime from the exact public forks with the tap's `Build pinned
+runtime` workflow (`packaging/runtime/build.yml`). It targets Apple Silicon
+macOS 15, links only system libraries, and uses `MISTRALRS_METAL_PRECOMPILE=0`
+so Metal kernel compilation uses the OS framework. Copy the resulting runtime
+descriptor to `ai_lab/runtime.json`, adding the immutable release asset URL.
+Publish the runtime archive with the application artifacts; its SHA-256 and
+both source pins are checked before the executable can replace an installation.
+
 ```sh
 uv sync --frozen
 uv run python -m unittest discover -s tests/ai_lab -v
 uv run python -m unittest discover -s harness/tests -p 'test_*.py'
 uv build
-python3 packaging/homebrew/generate.py dist/ai_lab-0.1.1.tar.gz --version 0.1.1
+python3 packaging/homebrew/generate.py dist/ai_lab-0.1.2.tar.gz --version 0.1.2
 ```
 
 The generator writes `dist/homebrew/ai_lab.rb` with the actual archive checksum and

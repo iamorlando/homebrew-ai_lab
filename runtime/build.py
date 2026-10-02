@@ -8,6 +8,7 @@ from pathlib import Path
 import shutil
 import subprocess
 import tarfile
+from notices import collect
 
 
 def output(*args, **kwargs):
@@ -73,6 +74,10 @@ def main():
     (package / 'build.json').write_text(json.dumps(build, indent=2) + '\n')
     for name in ('mistral', 'llm_watermarking'):
         shutil.copy2(checkout / name / 'LICENSE', package / f'LICENSE-{name}')
+    dependencies = json.loads(output(*cargo, 'metadata', '--locked', '--format-version', '1',
+                                     '--filter-platform', 'aarch64-apple-darwin',
+                                     cwd=checkout / 'mistral', env=env))
+    (package / 'THIRD_PARTY_NOTICES.txt').write_text(collect(dependencies))
     archive = destination / 'ai_lab-runtime-macos-arm64.tar.gz'
     with tarfile.open(archive, 'w:gz') as tar:
         for path in sorted(package.iterdir()):

@@ -54,3 +54,20 @@ jobs:
           ai-lab --version
           ai-lab api schema > "$RUNNER_TEMP/ai-lab-schema.json"
           ai-lab help --json > "$RUNNER_TEMP/ai-lab-help.json"
+      - name: Install the native runtime without developer tools
+        run: |
+          ai_lab_python="$(brew --prefix ai_lab)/libexec/venv/bin/python"
+          env DEVELOPER_DIR=/nonexistent PATH=/usr/bin:/bin "$ai_lab_python" - <<'PYCODE'
+          import json
+          from pathlib import Path
+          import tempfile
+          from ai_lab.setup import prepare, doctor
+          from ai_lab.runtime import install
+          with tempfile.TemporaryDirectory() as directory:
+              root = Path(directory)
+              prepare(root)
+              assert doctor(root)['prerequisites'] == {}
+              build = install(root)
+              assert build['distribution'] == 'prebuilt'
+              print(json.dumps(build))
+          PYCODE

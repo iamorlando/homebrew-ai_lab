@@ -1,13 +1,13 @@
 class AiLab < Formula
   desc "Local DeepSeek completions and synchronized terminal inspection panes"
   homepage "https://github.com/iamorlando/homebrew-ai_lab"
-  url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.1/ai_lab-0.1.1.tar.gz"
-  version "0.1.1"
-  sha256 "42d7fc82a9e237477af005d45cf8183b58e6ed064cda87c373c2ff48ee01d156"
+  url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.2/ai_lab-0.1.2.tar.gz"
+  version "0.1.2"
+  sha256 "327a33ba3ca12401c1ea60448d3cdaf0e5a707e99d3ad533fedeb415f7eb8dc9"
 
 
   depends_on arch: :arm64
-  depends_on :macos
+  depends_on macos: :sequoia
   depends_on "python@3.13"
   depends_on "uv" => :build
 
@@ -32,8 +32,8 @@ class AiLab < Formula
       Or provision from scripts:
         ai-lab setup --yes
 
-      Local inference requires full Xcode (including Metal) and Rust via rustup.
-      Setup downloads ~5 GB of verified DeepSeek weights and builds our pinned server.
+      Requires Apple Silicon and macOS 15+. No Xcode or Rust installation needed.
+      Setup downloads our verified prebuilt server and ~5 GB of DeepSeek weights.
       Models and sessions live in ~/.local/share/ai-lab, outside Homebrew's Cellar.
       To share an existing website workspace, set AI_LAB_ROOT to that repository.
       Discover the API with: ai-lab api schema
