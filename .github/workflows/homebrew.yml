@@ -33,8 +33,10 @@ jobs:
           test "$(uname -m)" = arm64
           brew update
           # Hosted images may expose OpenSSL 1.1 through the shared bin directory.
-          if brew list --versions openssl@1.1 >/dev/null 2>&1; then
-            brew unlink openssl@1.1
+          ai_lab_brew_prefix="$(brew --prefix)"
+          ai_lab_openssl_link="$ai_lab_brew_prefix/bin/openssl"
+          if test -L "$ai_lab_openssl_link" && test "$(readlink "$ai_lab_openssl_link")" = "$ai_lab_brew_prefix/opt/openssl@1.1/bin/openssl"; then
+            unlink "$ai_lab_openssl_link"
           fi
           brew tap iamorlando/ai_lab
           cp Formula/ai_lab.rb "$(brew --repository iamorlando/ai_lab)/Formula/ai_lab.rb"
