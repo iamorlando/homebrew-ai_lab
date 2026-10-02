@@ -5,6 +5,37 @@ terminal panes. It uses the same pinned `iamorlando/mistral.rs` server, watermar
 validation, native logits, and verified production tournament traces. Pair
 conversations, detection, and Harbor experiments stay in the website.
 
+## Open the website
+
+```sh
+ai-lab web
+# From this repository:
+./ai-lab web
+```
+
+This launches the existing website and opens
+`http://127.0.0.1:8080/completion`. The same completion brackets, model configuration,
+watermark experiments, detection, paired conversations and results pages are
+included. The terminal views and the default `ai-lab` command are unchanged.
+
+The website runs in the foreground. Keep its terminal open; Ctrl+C stops the
+website and its owned session helper. Model profiles, recordings, CLI sessions,
+and the inference runtime remain in the selected workspace. If this workspace's
+website is already on the requested port, the command opens that existing site.
+
+```sh
+ai-lab web --port 8090 --no-browser
+ai-lab --root /path/to/deepseek web
+ai-lab web --yes --no-browser --json
+```
+
+First use offers the normal inference setup if needed. The website's pinned
+OpenCode 1.18.32 helper downloads automatically (46 MB), with archive and binary
+checksum verification; no separate installation is needed. `--no-setup` skips
+inference checks/downloads when browsing saved results or configuring models.
+The existing UI assets ship with the package and are served directly from it;
+saved data stays outside Homebrew's Cellar.
+
 ## Run from this repository
 
 ```sh
@@ -50,7 +81,7 @@ For a direct package install, download the wheel from the
 [release](https://github.com/iamorlando/homebrew-ai_lab/releases/latest), then run:
 
 ```sh
-uv tool install --python 3.13 ./ai_lab-0.1.2-py3-none-any.whl
+uv tool install --python 3.13 ./ai_lab-0.1.3-py3-none-any.whl
 ai-lab setup --yes
 ```
 
@@ -231,7 +262,7 @@ uv sync --frozen
 uv run python -m unittest discover -s tests/ai_lab -v
 uv run python -m unittest discover -s harness/tests -p 'test_*.py'
 uv build
-python3 packaging/homebrew/generate.py dist/ai_lab-0.1.2.tar.gz --version 0.1.2
+python3 packaging/homebrew/generate.py dist/ai_lab-0.1.3.tar.gz --version 0.1.3
 ```
 
 The generator writes `dist/homebrew/ai_lab.rb` with the actual archive checksum and

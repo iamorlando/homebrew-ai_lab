@@ -9,7 +9,7 @@ brew install ai_lab
 ai-lab
 ```
 
-The Homebrew package is `ai_lab`. Run it with `ai-lab`.
+The Homebrew package is `ai_lab`. Run the terminal interface with `ai-lab`, or open the existing website with `ai-lab web`. The website opens at `http://127.0.0.1:8080/completion`; keep the terminal open and press Ctrl+C to stop it. Use `ai-lab web --port 8090 --no-browser` to choose another port without opening a browser.
 
 AI Lab provides a model editor, prompt/answer view, native tournament brackets, probability bars, and token inspection. All panes share the same session and selected token.
 

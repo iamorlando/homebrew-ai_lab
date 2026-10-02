@@ -71,3 +71,5 @@ jobs:
               assert build['distribution'] == 'prebuilt'
               print(json.dumps(build))
           PYCODE
+      - name: Exercise the installed website and model editor
+        run: python3 scripts/check_web.py "$(brew --prefix ai_lab)/bin/ai-lab"

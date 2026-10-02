@@ -1,9 +1,9 @@
 class AiLab < Formula
   desc "Local DeepSeek completions and synchronized terminal inspection panes"
   homepage "https://github.com/iamorlando/homebrew-ai_lab"
-  url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.2/ai_lab-0.1.2.tar.gz"
-  version "0.1.2"
-  sha256 "327a33ba3ca12401c1ea60448d3cdaf0e5a707e99d3ad533fedeb415f7eb8dc9"
+  url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.3/ai_lab-0.1.3.tar.gz"
+  version "0.1.3"
+  sha256 "b8b115384947d66ca435447f3680a7e17da386417a7b4b3ac029a68e61206eed"
 
 
   depends_on arch: :arm64
@@ -29,6 +29,8 @@ class AiLab < Formula
     <<~EOS
       Start AI Lab for guided setup:
         ai-lab
+      Open the existing website:
+        ai-lab web
       Or provision from scripts:
         ai-lab setup --yes
 
