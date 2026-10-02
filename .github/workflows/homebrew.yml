@@ -1,0 +1,47 @@
+name: Homebrew installation
+
+on:
+  push:
+    paths:
+      - Formula/**
+      - .github/workflows/homebrew.yml
+  pull_request:
+    paths:
+      - Formula/**
+      - .github/workflows/homebrew.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  install:
+    runs-on: macos-15
+    timeout-minutes: 20
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: "1"
+      HOMEBREW_NO_INSTALL_CLEANUP: "1"
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Prepare Apple Silicon Homebrew
+        run: |
+          test "$(uname -m)" = arm64
+          brew update
+          brew tap iamorlando/ai_lab
+          cp Formula/ai_lab.rb "$(brew --repository iamorlando/ai_lab)/Formula/ai_lab.rb"
+          brew trust --formula iamorlando/ai_lab/ai_lab
+      - name: Install and check post-install linkage
+        run: |
+          brew install iamorlando/ai_lab/ai_lab 2>&1 | tee "$RUNNER_TEMP/ai-lab-install.log"
+          if /usr/bin/grep -E 'HeaderPadError|Failed to fix install linkage|^Error:' "$RUNNER_TEMP/ai-lab-install.log"; then
+            exit 1
+          fi
+          brew linkage --test iamorlando/ai_lab/ai_lab
+      - name: Test the installed application
+        run: |
+          brew test iamorlando/ai_lab/ai_lab
+          ai-lab --version
+          ai-lab api schema > "$RUNNER_TEMP/ai-lab-schema.json"
+          ai-lab help --json > "$RUNNER_TEMP/ai-lab-help.json"

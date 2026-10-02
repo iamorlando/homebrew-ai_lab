@@ -4,12 +4,15 @@ class AiLab < Formula
   url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.0/ai_lab-0.1.0.tar.gz"
   version "0.1.0"
   sha256 "911fe6e9b34a13e0d112cf9d6400b308477f8ea34b655097ff9df1225aa3709b"
-  revision 1
+  revision 2
 
   depends_on arch: :arm64
   depends_on :macos
   depends_on "python@3.13"
   depends_on "uv" => :build
+
+  # PyPI wheels use @rpath IDs and may lack space for longer Cellar paths.
+  preserve_rpath
 
   def install
     ENV["UV_PYTHON_DOWNLOADS"] = "never"
@@ -45,5 +48,7 @@ class AiLab < Formula
     assert_path_exists bash_completion/"ai-lab"
     assert_path_exists zsh_completion/"_ai-lab"
     assert_path_exists fish_completion/"ai-lab.fish"
+    system libexec/"venv/bin/python", "-c",
+           "import jiter, tokenizers, pydantic_core; assert jiter.from_json(b'{\"ok\":true}') == {'ok': True}"
   end
 end
