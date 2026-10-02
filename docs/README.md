@@ -24,7 +24,7 @@ panes use the keyboard commands to preserve room for results. Closing a pane doe
 A plain `ai-lab` starts setup on first interactive launch. Setup explains the
 5.03 GB weight download, checks prerequisites, builds the pinned Metal runtime,
 and verifies model, tokenizer, template, and binary hashes. It needs Apple Silicon
-macOS, full Xcode with Metal, and Rust via rustup. Completion-only setup does not
+macOS, full Xcode with Metal, current Xcode Command Line Tools, and Rust via rustup. Completion-only setup does not
 need Docker or OpenCode. A package installation does not silently download weights.
 
 ## Homebrew

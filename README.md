@@ -13,7 +13,7 @@ The Homebrew package is `ai_lab`. Run it with `ai-lab`.
 
 AI Lab provides a model editor, prompt/answer view, native tournament brackets, probability bars, and token inspection. All panes share the same session and selected token.
 
-First launch guides you through downloading approximately 5 GB of DeepSeek weights and building the pinned inference server. Local inference requires Apple Silicon macOS, full Xcode with Metal, and Rust via rustup. Models and sessions live outside Homebrew, in `~/.local/share/ai-lab`; set `AI_LAB_ROOT` to share an existing website workspace.
+First launch guides you through downloading approximately 5 GB of DeepSeek weights and building the pinned inference server. Local inference requires Apple Silicon macOS, full Xcode with Metal, current Xcode Command Line Tools, and Rust via rustup. Models and sessions live outside Homebrew, in `~/.local/share/ai-lab`; set `AI_LAB_ROOT` to share an existing website workspace.
 
 ## Agent discovery
 
