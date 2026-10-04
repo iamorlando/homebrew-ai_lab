@@ -36,6 +36,58 @@ inference checks/downloads when browsing saved results or configuring models.
 The existing UI assets ship with the package and are served directly from it;
 saved data stays outside Homebrew's Cellar.
 
+## Decisions
+
+Open **Decisions** in the website navigation, or visit `/decisions`. The Ask and
+Rank editors follow the [CLM playground](https://github.com/Contrastive-LM/CLM):
+text or JSON state, Noul/Choice/Score questions, editable criteria, examples,
+probability bars, and JSON/curl/Python views. Copy link preserves the inputs in
+the URL fragment without running the request. Inputs are also remembered in
+this browser. Shared links contain the state and questions.
+
+**Contrastive** calls native CLM through the local Mistral `/v1/systemone` API.
+This needs a fork build containing the decision-model feature (commit
+`5d4a6b6c9` or newer). The older completion-only release binary cannot serve CLM.
+Start a server with:
+
+```sh
+mistralrs serve -m Contrastive-LM/CLM-v0.1-8B --host 127.0.0.1 -p 11436
+```
+
+Alternatively, place that executable at `.runtime/decisions/mistralrs` and the
+model at `.models/clm-v0.1-8b/` in the workspace. AI Lab starts it on the first
+Contrastive request and stops its owned process when the website exits. This
+managed path runs offline and expects the original encoder files under
+`.models/clm-v0.1-8b/Qwen/Qwen3-8B/`. `AI_LAB_DECISIONS_BINARY` can select another
+executable. To use an already running server on a different port, set
+`AI_LAB_DECISIONS_URL` to its loopback HTTP origin before launching the website.
+Optional `AI_LAB_DECISIONS_MODEL` selects a name from its decision-model list;
+`AI_LAB_DECISIONS_API_KEY` supplies local server authentication.
+
+**Jev** appears only when the website process has a nonempty `TYPESAFE_API_KEY`
+(or `JEV_API_KEY`). Configure it in the environment before starting the website.
+If a website is already running, stop it with Ctrl+C in its launch terminal and
+start it again from the terminal with the key, then reload the page. Running
+`ai-lab web` again only opens an existing server; it cannot update that server's
+environment. The launcher warns when your terminal has a key that the existing
+server lacks.
+Selecting Jev and pressing Run sends the state and questions to TypeSafe's
+`https://api.typesafe.ai/v1/systemone` with `jev-latest`. Credentials stay on the
+server. Contrastive requests never use that endpoint. Provider failures are
+shown directly; they do not cause automatic fallback to another model.
+
+The API is discoverable in `/docs` and `/openapi.json`:
+
+- `GET /api/decisions/models` lists available choices without credentials.
+- `POST /api/decisions/systemone` accepts `model` (`contrastive` or `jev`),
+  `state`, and named `questions`.
+- `POST /api/decisions/rank` accepts `model`, `context`, optional `question`,
+  and an `answers` array. It uses a Choice question and returns ranked candidates.
+
+Native CLM allows 2048 tokens per state-plus-question or candidate. Requests
+larger than 100 KB are rejected before contacting either provider. The local
+model uses the original Qwen3-8B encoder and published CLM heads.
+
 ## Run from this repository
 
 ```sh
@@ -81,7 +133,7 @@ For a direct package install, download the wheel from the
 [release](https://github.com/iamorlando/homebrew-ai_lab/releases/latest), then run:
 
 ```sh
-uv tool install --python 3.13 ./ai_lab-0.1.3-py3-none-any.whl
+uv tool install --python 3.13 ./ai_lab-0.1.4-py3-none-any.whl
 ai-lab setup --yes
 ```
 
@@ -262,7 +314,7 @@ uv sync --frozen
 uv run python -m unittest discover -s tests/ai_lab -v
 uv run python -m unittest discover -s harness/tests -p 'test_*.py'
 uv build
-python3 packaging/homebrew/generate.py dist/ai_lab-0.1.3.tar.gz --version 0.1.3
+python3 packaging/homebrew/generate.py dist/ai_lab-0.1.4.tar.gz --version 0.1.4
 ```
 
 The generator writes `dist/homebrew/ai_lab.rb` with the actual archive checksum and

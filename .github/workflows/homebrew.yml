@@ -2,12 +2,15 @@ name: Homebrew installation
 
 on:
   push:
+    branches: [main]
     paths:
       - Formula/**
+      - scripts/check_web.py
       - .github/workflows/homebrew.yml
   pull_request:
     paths:
       - Formula/**
+      - scripts/check_web.py
       - .github/workflows/homebrew.yml
   workflow_dispatch:
 
@@ -72,4 +75,6 @@ jobs:
               print(json.dumps(build))
           PYCODE
       - name: Exercise the installed website and model editor
-        run: python3 scripts/check_web.py "$(brew --prefix ai_lab)/bin/ai-lab"
+        run: |
+          python3 scripts/check_web.py "$(brew --prefix ai_lab)/bin/ai-lab"
+          python3 scripts/check_web.py "$(brew --prefix ai_lab)/bin/ai-lab" --jev-configured

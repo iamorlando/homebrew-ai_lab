@@ -15,6 +15,21 @@ AI Lab provides a model editor, prompt/answer view, native tournament brackets, 
 
 First launch downloads a verified prebuilt inference server and approximately 5 GB of DeepSeek weights. Requires Apple Silicon and macOS 15 or newer. Users do not need Xcode, the Metal developer toolchain, or Rust. Models and sessions live outside Homebrew, in `~/.local/share/ai-lab`; set `AI_LAB_ROOT` to share an existing website workspace.
 
+## Update to the latest web app
+
+```sh
+brew update
+brew upgrade iamorlando/ai_lab/ai_lab
+ai-lab --version
+ai-lab web
+```
+
+Stop an already running website with Ctrl+C before launching the upgraded version, then refresh the browser.
+
+Version 0.1.4 includes **Decisions**: Ask and Rank, editable typed questions, probability bars, and JSON/curl/Python examples. Jev appears when `TYPESAFE_API_KEY` or `JEV_API_KEY` is set in the website's launch environment. Use `ai-lab web --no-setup` for hosted Jev without downloading DeepSeek.
+
+Local Contrastive requires a separately configured CLM-capable Mistral runtime and the CLM/Qwen3-8B weights; follow the [Decisions setup guide](docs/README.md#decisions). The bundled DeepSeek setup does not install these additional model files.
+
 ## Agent discovery
 
 ```sh

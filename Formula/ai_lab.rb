@@ -1,9 +1,9 @@
 class AiLab < Formula
-  desc "Local DeepSeek completions and synchronized terminal inspection panes"
+  desc "AI Lab website, local completions, decisions, and terminal inspection panes"
   homepage "https://github.com/iamorlando/homebrew-ai_lab"
-  url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.3/ai_lab-0.1.3.tar.gz"
-  version "0.1.3"
-  sha256 "b8b115384947d66ca435447f3680a7e17da386417a7b4b3ac029a68e61206eed"
+  url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.4/ai_lab-0.1.4.tar.gz"
+  version "0.1.4"
+  sha256 "9897b4442a6948f84c3a2e4d4d91edd8c6d6da1e5033b6c91d891308afb98411"
 
 
   depends_on arch: :arm64
@@ -31,6 +31,8 @@ class AiLab < Formula
         ai-lab
       Open the existing website:
         ai-lab web
+      Open the website without downloading DeepSeek (for hosted Jev or saved data):
+        ai-lab web --no-setup
       Or provision from scripts:
         ai-lab setup --yes
 
@@ -38,6 +40,10 @@ class AiLab < Formula
       Setup downloads our verified prebuilt server and ~5 GB of DeepSeek weights.
       Models and sessions live in ~/.local/share/ai-lab, outside Homebrew's Cellar.
       To share an existing website workspace, set AI_LAB_ROOT to that repository.
+      Decisions: Jev requires TYPESAFE_API_KEY or JEV_API_KEY in the website's
+      launch environment. Restart an existing website after setting the key.
+      Local Contrastive requires a separately configured CLM-capable Mistral
+      runtime and CLM/Qwen3-8B weights; see the Decisions setup guide.
       Discover the API with: ai-lab api schema
     EOS
   end
