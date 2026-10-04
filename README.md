@@ -1,12 +1,12 @@
 # AI Lab (`ai_lab`)
 
-AI Lab 0.1.7 provides a local web app, terminal inspection panes, and agent tools for decisions and watermarking. Requires Apple Silicon and macOS 15 or newer. Homebrew installs Python and uv; users do not need Xcode or Rust for normal setup.
+AI Lab 0.1.8 provides a local web app, terminal inspection panes, and agent tools for decisions and watermarking. Requires Apple Silicon and macOS 15 or newer. Homebrew installs Python and uv; users do not need Xcode or Rust for normal setup.
 
 ```sh
 brew tap iamorlando/ai_lab
 brew install iamorlando/ai_lab/ai_lab
-ai-lab --version                       # AI Lab 0.1.7
-ai-lab downloads offer                 # asks before downloading optional models
+ai-lab --version                       # AI Lab 0.1.8
+ai-lab downloads offer                 # keyboard picker for optional models
 ai-lab web                            # opens the app in its own window
 ```
 
@@ -14,14 +14,14 @@ The package is `ai_lab`; the executable is `ai-lab`. The website opens at `http:
 
 AI Lab provides a model editor, prompt/answer view, native tournament brackets, probability bars, and token inspection. All panes share the same session and selected token.
 
-The first interactive launch offers missing DeepSeek (5.03 GB), CLM (16.47 GB), and Laya (1.69 GB) models and their dependencies. Accept to download; existing files are verified and reused. Declining is remembered for the release. `ai-lab downloads offer` asks again. Models, recordings, profiles, and watermark keys live outside Homebrew in `~/.local/share/ai-lab`; set `AI_LAB_ROOT=/path/to/deepseek` before MCP installation or model launch to share an existing repository workspace.
+The first interactive launch offers missing DeepSeek (5.03 GB), CLM (16.47 GB), and Laya (1.69 GB) models and their dependencies. Use **↑/↓** to move, **Space** to select any combination, **A** for all/none, **Enter** to download, or **Esc** to skip. The picker shows the combined missing weight size. Download bars update in place, with speed and ETA on wider terminals; verification and dependency installation share the same display. Existing files are verified and reused, and interrupted model downloads resume. Your choice is remembered for the release. `ai-lab downloads offer` reopens the picker. Use `downloads install ... --yes` to bypass selection in scripts. Models, recordings, profiles, and watermark keys live outside Homebrew in `~/.local/share/ai-lab`; set `AI_LAB_ROOT=/path/to/deepseek` before MCP installation or model launch to share an existing repository workspace.
 
 ## Update
 
 ```sh
 brew update
 brew upgrade iamorlando/ai_lab/ai_lab
-ai-lab --version                       # AI Lab 0.1.7
+ai-lab --version                       # AI Lab 0.1.8
 ai-lab downloads offer
 ai-lab mcp install --codex --force     # refresh an existing client entry
 ```

@@ -1,9 +1,9 @@
 class AiLab < Formula
   desc "AI Lab website, local completions, decisions, and terminal inspection panes"
   homepage "https://github.com/iamorlando/homebrew-ai_lab"
-  url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.7/ai_lab-0.1.7.tar.gz"
-  version "0.1.7"
-  sha256 "9ea9e1aa305c864e2f129f84730a406a936884cabf0256d3420eb4c08167466f"
+  url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.8/ai_lab-0.1.8.tar.gz"
+  version "0.1.8"
+  sha256 "f95138a72b9d13b4dc5273c010cb03009e7e6d4819e87928e35b775d238cc0f8"
 
 
   depends_on arch: :arm64
@@ -31,7 +31,9 @@ class AiLab < Formula
         ai-lab
       The first interactive launch after installation or upgrade offers missing
       DeepSeek (~5.03 GB), CLM (~16.47 GB), and Laya (~1.69 GB), with dependencies.
-      Accept to download; existing files are reused. Declining is remembered.
+      Use arrows to move, Space to select models, Enter to download, Esc to skip.
+      Progress bars update in place. Existing files are verified and reused.
+      Your selection or skip is remembered for this release.
       Inspect or install them explicitly:
         ai-lab downloads list
         ai-lab downloads install laya

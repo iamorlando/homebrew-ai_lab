@@ -5,7 +5,7 @@ terminal panes. It uses the same pinned `iamorlando/mistral.rs` server, watermar
 validation, native logits, and verified production tournament traces. Pair
 conversations, detection, and Harbor experiments stay in the website.
 
-## Install and use 0.1.7
+## Install and use 0.1.8
 
 Requires Apple Silicon and macOS 15 or newer. Homebrew installs the Python and
 `uv` dependencies; local model downloads remain optional.
@@ -13,8 +13,8 @@ Requires Apple Silicon and macOS 15 or newer. Homebrew installs the Python and
 ```sh
 brew tap iamorlando/ai_lab
 brew install iamorlando/ai_lab/ai_lab
-ai-lab --version                       # AI Lab 0.1.7
-ai-lab downloads offer                 # asks before downloading missing models
+ai-lab --version                       # AI Lab 0.1.8
+ai-lab downloads offer                 # keyboard model picker
 ai-lab web                            # opens the app in its own window
 ```
 
@@ -99,18 +99,27 @@ saved data stays outside Homebrew's Cellar.
 
 The first interactive launch after installing or updating also offers optional
 local models: **DeepSeek** (5.03 GB), **CLM** (16.47 GB, shared by native and upstream
-CLM), and **Laya** (1.69 GB). The offer shows missing weight sizes and server dependencies
-before asking. Accepting downloads pinned, checksum-verified files and installs
-the standalone servers. Existing weights are verified and reused; interrupted
-downloads resume. Declining is remembered for that release, and updates offer
-missing models again. Jev uses your API key.
+CLM), and **Laya** (1.69 GB). A keyboard picker shows missing weight sizes and
+server dependencies. Use **↑/↓** to move, **Space** to select any combination,
+**A** to select or clear all, **Enter** to download your selections, or **Esc**
+to skip. **Ctrl+C** cancels the command. The summary shows the selected models' combined missing weight size;
+dependencies use additional space. Leaving DeepSeek unselected does not trigger
+another DeepSeek setup prompt when the app opens.
+
+Downloads use an overall bar and a current-file bar that update in place, with
+transfer speed and estimated time on wider terminals. Verification and dependency
+installation appear in the same display. Package-manager output is saved in
+`ROOT/.state/ai-lab/model-install.log`; failures point to that log. Existing files
+are checksum-verified and reused; interrupted model downloads resume. Your
+selection or skip is remembered for that release, and updates offer missing
+models again. Jev uses your API key and needs no model download.
 
 ```sh
 ai-lab downloads list --json
-ai-lab downloads install laya             # asks before downloading
+ai-lab downloads install laya             # picker for this model
 ai-lab downloads install clm laya --yes    # explicitly accepts both
 ai-lab downloads install --yes            # explicitly accepts all missing models
-ai-lab downloads offer                    # ask again after an earlier decline
+ai-lab downloads offer                    # reopen the model picker
 ai-lab web --with-models --yes            # downloads optional models, then opens UI
 ai-lab web --no-models                    # skips this launch's optional model offer
 ```
@@ -458,10 +467,10 @@ For a direct package install, download the wheel from the
 [release](https://github.com/iamorlando/homebrew-ai_lab/releases/latest), then run:
 
 ```sh
-uv tool install --force --python 3.13 ./ai_lab-0.1.7-py3-none-any.whl
+uv tool install --force --python 3.13 ./ai_lab-0.1.8-py3-none-any.whl
 uv tool update-shell                  # if the executable directory is not on PATH
 ai-lab --version
-ai-lab downloads offer                # optional models; asks before downloading
+ai-lab downloads offer                # optional models; keyboard picker
 ```
 
 Installed copies store data in `~/.local/share/ai-lab` (or `AI_LAB_HOME`). Source
@@ -474,9 +483,9 @@ installation, pass `--root /path/to/deepseek` before the subcommand or export
 ```sh
 brew update
 brew upgrade iamorlando/ai_lab/ai_lab
-ai-lab --version                      # AI Lab 0.1.7
+ai-lab --version                      # AI Lab 0.1.8
 ai-lab server stop             # only if an idle private service is running
-ai-lab downloads offer                # asks about missing models/dependencies
+ai-lab downloads offer                # choose missing models with Space and Enter
 ai-lab mcp install --codex --force     # refresh this client's packaged tools
 ```
 
@@ -649,7 +658,7 @@ uv sync --frozen
 uv run python -m unittest discover -s tests/ai_lab -v
 uv run python -m unittest discover -s harness/tests -p 'test_*.py'
 uv build
-python3 packaging/homebrew/generate.py dist/ai_lab-0.1.7.tar.gz --version 0.1.7
+python3 packaging/homebrew/generate.py dist/ai_lab-0.1.8.tar.gz --version 0.1.8
 ```
 
 The generator writes `dist/homebrew/ai_lab.rb` with the actual archive checksum and
