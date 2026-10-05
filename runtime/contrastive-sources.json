@@ -4,7 +4,7 @@
     "version": "0.9.4",
     "repository": "https://github.com/iamorlando/mistral.rs.git",
     "upstream": "https://github.com/EricLBuehler/mistral.rs.git",
-    "commit": "49b9643d21d2da0a587835f63614d2655e443e29",
+    "commit": "fc1292fa11dc36e327975e4d246ea7144b6a83ca",
     "rust_version": "1.96.0",
     "features": [
       "metal"

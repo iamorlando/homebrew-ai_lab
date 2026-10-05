@@ -1,9 +1,9 @@
 class AiLab < Formula
   desc "AI Lab website, local completions, decisions, and terminal inspection panes"
   homepage "https://github.com/iamorlando/homebrew-ai_lab"
-  url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.9/ai_lab-0.1.9.tar.gz"
-  version "0.1.9"
-  sha256 "b172979be13bcd7b549d1ffbf8251a8ea1f79f0db1a3dc3dd2684583268ab01e"
+  url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.10/ai_lab-0.1.10.tar.gz"
+  version "0.1.10"
+  sha256 "bc9561269d427a23547de4757b3d3ebde86415d2635389c01436cf6e8f4c90e1"
 
 
   depends_on arch: :arm64

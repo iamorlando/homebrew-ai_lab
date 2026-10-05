@@ -5,7 +5,7 @@ terminal panes. It uses the same pinned `iamorlando/mistral.rs` server, watermar
 validation, native logits, and verified production tournament traces. Pair
 conversations, detection, and Harbor experiments stay in the website.
 
-## Install and use 0.1.9
+## Install and use 0.1.10
 
 Requires Apple Silicon and macOS 15 or newer. Homebrew installs the Python and
 `uv` dependencies; local model downloads remain optional.
@@ -13,7 +13,7 @@ Requires Apple Silicon and macOS 15 or newer. Homebrew installs the Python and
 ```sh
 brew tap iamorlando/ai_lab
 brew install iamorlando/ai_lab/ai_lab
-ai-lab --version                       # AI Lab 0.1.9
+ai-lab --version                       # AI Lab 0.1.10
 ai-lab downloads offer                 # keyboard model picker
 ai-lab web                            # opens the app in its own window
 ```
@@ -159,7 +159,7 @@ and reused, and interrupted weight downloads resume. No Rust, Xcode, manual
 binary placement, or environment-variable configuration is required.
 
 After upgrading an older installation that already has the CLM/Qwen weights,
-`ai-lab models run --contrastive` automatically installs the missing native
+`ai-lab models run --contrastive` automatically installs or updates the native
 server before starting the API. `ai-lab models status --json` reports
 `weights_present` separately from `installed`, and includes the install command.
 
@@ -170,6 +170,13 @@ launcher stays in the foreground; Ctrl+C stops the server it started.
 Logs are in `.state/decisions-mistral.log`.
 The first startup and inference can take a few minutes while the encoder loads
 and Metal compiles its kernels. The CLI prints the log path during startup.
+
+The native runtime reserves memory for encoder workspace and moves layers to
+the CPU when the GPU budget cannot hold them. Apple Silicon GPU and CPU layers
+share the same physical RAM budget. Encoder batches shrink and unused Metal
+scratch buffers are reclaimed under memory pressure. These adjustments preserve
+weights and precision; CPU offloading can increase latency. The full Qwen3-8B
+encoder still needs enough system memory to hold its weights and workspace.
 
 For an explicitly managed custom installation, `AI_LAB_DECISIONS_BINARY` selects
 another executable. To use an already running server on another port, set
@@ -481,7 +488,7 @@ For a direct package install, download the wheel from the
 [release](https://github.com/iamorlando/homebrew-ai_lab/releases/latest), then run:
 
 ```sh
-uv tool install --force --python 3.13 ./ai_lab-0.1.9-py3-none-any.whl
+uv tool install --force --python 3.13 ./ai_lab-0.1.10-py3-none-any.whl
 uv tool update-shell                  # if the executable directory is not on PATH
 ai-lab --version
 ai-lab downloads offer                # optional models; keyboard picker
@@ -497,7 +504,7 @@ installation, pass `--root /path/to/deepseek` before the subcommand or export
 ```sh
 brew update
 brew upgrade iamorlando/ai_lab/ai_lab
-ai-lab --version                      # AI Lab 0.1.9
+ai-lab --version                      # AI Lab 0.1.10
 ai-lab server stop             # only if an idle private service is running
 ai-lab downloads offer                # choose missing models with Space and Enter
 ai-lab mcp install --codex --force     # refresh this client's packaged tools
@@ -686,7 +693,7 @@ uv sync --frozen
 uv run python -m unittest discover -s tests/ai_lab -v
 uv run python -m unittest discover -s harness/tests -p 'test_*.py'
 uv build
-python3 packaging/homebrew/generate.py dist/ai_lab-0.1.9.tar.gz --version 0.1.9
+python3 packaging/homebrew/generate.py dist/ai_lab-0.1.10.tar.gz --version 0.1.10
 ```
 
 The generator writes `dist/homebrew/ai_lab.rb` with the actual archive checksum and
