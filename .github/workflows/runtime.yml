@@ -14,6 +14,15 @@ jobs:
   build:
     runs-on: macos-15
     timeout-minutes: 60
+    strategy:
+      matrix:
+        include:
+          - kind: deepseek
+            sources: sources.json
+            archive: ai_lab-runtime-macos-arm64.tar.gz
+          - kind: contrastive
+            sources: contrastive-sources.json
+            archive: ai_lab-contrastive-runtime-macos-arm64.tar.gz
     defaults:
       run:
         shell: bash
@@ -22,14 +31,14 @@ jobs:
         with:
           persist-credentials: false
       - name: Build both pinned forks
-        run: python3 runtime/build.py --sources runtime/sources.json --checkout "$RUNNER_TEMP/forks" --output "$RUNNER_TEMP/dist"
+        run: python3 runtime/build.py --sources "runtime/${{ matrix.sources }}" --checkout "$RUNNER_TEMP/forks" --output "$RUNNER_TEMP/dist" --kind "${{ matrix.kind }}"
       - name: Check without developer tools
         run: |
           env DEVELOPER_DIR=/nonexistent PATH=/usr/bin:/bin "$RUNNER_TEMP/dist/package/mistralrs" --version
       - uses: actions/upload-artifact@v4
         with:
-          name: ai-lab-runtime-macos-arm64
+          name: ai-lab-${{ matrix.kind }}-runtime-macos-arm64
           path: |
-            ${{ runner.temp }}/dist/ai_lab-runtime-macos-arm64.tar.gz
+            ${{ runner.temp }}/dist/${{ matrix.archive }}
             ${{ runner.temp }}/dist/runtime.json
           if-no-files-found: error

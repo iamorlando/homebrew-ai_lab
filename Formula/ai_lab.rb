@@ -1,9 +1,9 @@
 class AiLab < Formula
   desc "AI Lab website, local completions, decisions, and terminal inspection panes"
   homepage "https://github.com/iamorlando/homebrew-ai_lab"
-  url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.8/ai_lab-0.1.8.tar.gz"
-  version "0.1.8"
-  sha256 "f95138a72b9d13b4dc5273c010cb03009e7e6d4819e87928e35b775d238cc0f8"
+  url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.9/ai_lab-0.1.9.tar.gz"
+  version "0.1.9"
+  sha256 "b172979be13bcd7b549d1ffbf8251a8ea1f79f0db1a3dc3dd2684583268ab01e"
 
 
   depends_on arch: :arm64
@@ -66,8 +66,10 @@ class AiLab < Formula
       Decisions: the CLI automatically syncs TYPESAFE_API_KEY or JEV_API_KEY
       to the website, including on reused launches. No key-related restart needed.
       Laya uses an independent local Node/ONNX server, with automatic Node setup.
-      Local Contrastive requires a separately configured CLM-capable Mistral
-      runtime and CLM/Qwen3-8B weights; see the Decisions setup guide.
+      Contrastive setup installs CLM/Qwen3-8B weights and a verified prebuilt
+      native Metal server automatically; no Rust or manual binary is needed.
+        ai-lab downloads install clm --yes
+        ai-lab models run --contrastive
       Discover the API with: ai-lab api schema
     EOS
   end

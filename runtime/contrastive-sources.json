@@ -1,0 +1,49 @@
+{
+  "runtime": {
+    "name": "mistral.rs",
+    "version": "0.9.4",
+    "repository": "https://github.com/iamorlando/mistral.rs.git",
+    "upstream": "https://github.com/EricLBuehler/mistral.rs.git",
+    "commit": "49b9643d21d2da0a587835f63614d2655e443e29",
+    "rust_version": "1.96.0",
+    "features": [
+      "metal"
+    ],
+    "package": "mistralrs-cli"
+  },
+  "watermark_library": {
+    "repository": "https://github.com/iamorlando/llm_watermarking.git",
+    "commit": "7ed8f403d463191bc091b19cb476e9945e3b0260"
+  },
+  "model": {
+    "name": "DeepSeek-R1-0528-Qwen3-8B",
+    "api_model": "default",
+    "quantization": "Q4_K_M",
+    "repository": "unsloth/DeepSeek-R1-0528-Qwen3-8B-GGUF",
+    "revision": "eb48357c179d34dbf515983f798dfb8752a0f261",
+    "filename": "DeepSeek-R1-0528-Qwen3-8B-Q4_K_M.gguf",
+    "weights_sha256": "a86349a4180c4e6bb43f874c29c404fa2be3f90b15509bd6d86f697dba724ec1",
+    "weights_bytes": 5027785216,
+    "upstream": "https://huggingface.co/deepseek-ai/DeepSeek-R1-0528-Qwen3-8B",
+    "license": "MIT"
+  },
+  "assets": {
+    "repository": "deepseek-ai/DeepSeek-R1-0528-Qwen3-8B",
+    "revision": "6e8885a6ff5c1dc5201574c8fd700323f23c25fa",
+    "files": [
+      "config.json",
+      "tokenizer.json",
+      "tokenizer_config.json"
+    ],
+    "sha256": {
+      "config.json": "1b1cbbba841c180e94192f7a25d2d97e21498fc1a0a0b4785942158af5eee183",
+      "tokenizer.json": "47d3a3ffb1ff38eb6a22f8a2d207306bfa3ea2499ff70df4baeaa559bf7453c7",
+      "tokenizer_config.json": "78872f2c1f0a5fb79d5872dbacb4c83991ef416315a25f34659e6a7c34108027"
+    }
+  },
+  "chat_template": {
+    "file": "deepseek-chat.jinja",
+    "sha256": "06ff98c593789cfe9501ed3cc7a74f63a537201baf092d1a2c905c8aee3cc83b",
+    "derivation": "Pinned official tokenizer_config.json chat_template plus an explicit <think> generation prefix."
+  }
+}

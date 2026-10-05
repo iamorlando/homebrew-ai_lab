@@ -25,6 +25,7 @@ def main():
     parser.add_argument('--sources', type=Path, required=True)
     parser.add_argument('--checkout', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--kind', choices=['deepseek', 'contrastive'], default='deepseek')
     args = parser.parse_args()
     sources = json.loads(args.sources.read_text())
     runtime = sources['runtime']
@@ -41,6 +42,8 @@ def main():
         subprocess.run(['git', 'checkout', '--detach', config['commit']], cwd=directory, check=True)
         assert output('git', 'rev-parse', 'HEAD', cwd=directory) == config['commit']
         assert not output('git', 'status', '--porcelain', cwd=directory)
+    if args.kind == 'contrastive' and not (checkout / 'mistral/mistralrs-core/src/decision.rs').is_file():
+        raise RuntimeError('The pinned runtime has no native CLM decision implementation.')
     env = os.environ.copy()
     env.update(MACOSX_DEPLOYMENT_TARGET='15.0', MISTRALRS_METAL_PRECOMPILE='0',
                CARGO_NET_GIT_FETCH_WITH_CLI='true', RUSTFLAGS='')
@@ -71,6 +74,8 @@ def main():
              'source': {'commit': runtime['commit'], 'dirty': False},
              'platform': 'macos-arm64', 'minimum_macos': '15.0',
              'metal_compilation': 'macOS Metal framework; no developer tools at runtime'}
+    if args.kind == 'contrastive':
+        build['decision_support'] = True
     (package / 'build.json').write_text(json.dumps(build, indent=2) + '\n')
     for name in ('mistral', 'llm_watermarking'):
         shutil.copy2(checkout / name / 'LICENSE', package / f'LICENSE-{name}')
@@ -78,7 +83,9 @@ def main():
                                      '--filter-platform', 'aarch64-apple-darwin',
                                      cwd=checkout / 'mistral', env=env))
     (package / 'THIRD_PARTY_NOTICES.txt').write_text(collect(dependencies))
-    archive = destination / 'ai_lab-runtime-macos-arm64.tar.gz'
+    filename = ('ai_lab-contrastive-runtime-macos-arm64.tar.gz' if args.kind == 'contrastive'
+                else 'ai_lab-runtime-macos-arm64.tar.gz')
+    archive = destination / filename
     with tarfile.open(archive, 'w:gz') as tar:
         for path in sorted(package.iterdir()):
             tar.add(path, arcname=path.name, recursive=False)

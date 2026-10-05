@@ -1,11 +1,11 @@
 # AI Lab (`ai_lab`)
 
-AI Lab 0.1.8 provides a local web app, terminal inspection panes, and agent tools for decisions and watermarking. Requires Apple Silicon and macOS 15 or newer. Homebrew installs Python and uv; users do not need Xcode or Rust for normal setup.
+AI Lab 0.1.9 provides a local web app, terminal inspection panes, and agent tools for decisions and watermarking. Requires Apple Silicon and macOS 15 or newer. Homebrew installs Python and uv; users do not need Xcode or Rust for normal setup.
 
 ```sh
 brew tap iamorlando/ai_lab
 brew install iamorlando/ai_lab/ai_lab
-ai-lab --version                       # AI Lab 0.1.8
+ai-lab --version                       # AI Lab 0.1.9
 ai-lab downloads offer                 # keyboard picker for optional models
 ai-lab web                            # opens the app in its own window
 ```
@@ -21,7 +21,7 @@ The first interactive launch offers missing DeepSeek (5.03 GB), CLM (16.47 GB), 
 ```sh
 brew update
 brew upgrade iamorlando/ai_lab/ai_lab
-ai-lab --version                       # AI Lab 0.1.8
+ai-lab --version                       # AI Lab 0.1.9
 ai-lab downloads offer
 ai-lab mcp install --codex --force     # refresh an existing client entry
 ```
@@ -64,7 +64,18 @@ MCP exposes 14 tools: model discovery/downloads, seeded/watermarked DeepSeek pro
 
 Watermark creation accepts an explicit key and every supported scheme setting. Keys and settings persist across sessions. `update_watermarked_model` saves overrides; `get_model_config` retrieves the key only when requested explicitly. `detect_watermark` accepts text plus a saved model or explicit scheme/key/settings and returns native evidence, p-value, confidence, and `match`, `no_match`, or `insufficient`. Confidence is statistical evidence, not a posterior authorship probability. Per-call overrides do not change the saved profile. MCP never starts local model APIs.
 
-Native CLM needs a separately configured CLM-capable runtime; the shared CLM download provisions its weights and upstream server. Follow the [Decisions setup guide](docs/README.md#decisions).
+Native Contrastive setup installs its verified prebuilt Metal runtime together with
+the CLM checkpoint and Qwen3-8B encoder weights. No compiler or manual executable
+setup is needed:
+
+```sh
+ai-lab downloads install clm --yes
+ai-lab models run --contrastive
+```
+
+Existing CLM/Qwen downloads automatically gain a missing native runtime on the
+next `ai-lab models run --contrastive` launch. Follow the
+[Decisions setup guide](docs/README.md#decisions).
 
 ## Agent discovery
 

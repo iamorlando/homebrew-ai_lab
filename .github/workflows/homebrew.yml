@@ -65,7 +65,7 @@ jobs:
           from pathlib import Path
           import tempfile
           from ai_lab.setup import prepare, doctor
-          from ai_lab.runtime import install
+          from ai_lab.runtime import install, install_decisions, decisions_ready
           with tempfile.TemporaryDirectory() as directory:
               root = Path(directory)
               prepare(root)
@@ -73,6 +73,11 @@ jobs:
               build = install(root)
               assert build['distribution'] == 'prebuilt'
               print(json.dumps(build))
+              native = install_decisions(root)
+              assert native['distribution'] == 'prebuilt'
+              assert native['decision_support'] is True
+              assert decisions_ready(root)
+              print(json.dumps(native))
           PYCODE
       - name: Exercise the installed website and model editor
         run: |

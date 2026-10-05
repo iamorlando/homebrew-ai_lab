@@ -5,7 +5,7 @@ terminal panes. It uses the same pinned `iamorlando/mistral.rs` server, watermar
 validation, native logits, and verified production tournament traces. Pair
 conversations, detection, and Harbor experiments stay in the website.
 
-## Install and use 0.1.8
+## Install and use 0.1.9
 
 Requires Apple Silicon and macOS 15 or newer. Homebrew installs the Python and
 `uv` dependencies; local model downloads remain optional.
@@ -13,7 +13,7 @@ Requires Apple Silicon and macOS 15 or newer. Homebrew installs the Python and
 ```sh
 brew tap iamorlando/ai_lab
 brew install iamorlando/ai_lab/ai_lab
-ai-lab --version                       # AI Lab 0.1.8
+ai-lab --version                       # AI Lab 0.1.9
 ai-lab downloads offer                 # keyboard model picker
 ai-lab web                            # opens the app in its own window
 ```
@@ -44,6 +44,8 @@ ai-lab models status --json
 ai-lab downloads install laya          # asks before downloading
 ai-lab models run --laya               # local decisions
 ai-lab models run --deepseek           # generation and watermark detection
+ai-lab downloads install clm --yes     # CLM/Qwen weights and both CLM servers
+ai-lab models run --contrastive        # native Contrastive decisions
 ```
 
 Ask your agent to list models, answer decision questions, explain watermark
@@ -142,26 +144,38 @@ the URL fragment without running the request. Inputs are also remembered in
 this browser. Shared links contain the state and questions.
 
 **Contrastive** calls native CLM through the local Mistral `/v1/systemone` API.
-This needs a fork build containing the decision-model feature (commit
-`5d4a6b6c9` or newer). The older completion-only release binary cannot serve CLM.
-Start a server with:
+Install and start it with:
 
 ```sh
-mistralrs serve -m Contrastive-LM/CLM-v0.1-8B --host 127.0.0.1 -p 11436
+ai-lab downloads install clm --yes
+ai-lab models run --contrastive
 ```
 
-Alternatively, place that executable at `.runtime/decisions/mistralrs` and the
-model at `.models/clm-v0.1-8b/` in the workspace. AI Lab starts it on the first
-Contrastive request and stops its owned process when the website exits. This
-managed path runs offline and expects the original encoder files under
-`.models/clm-v0.1-8b/Qwen/Qwen3-8B/`. `AI_LAB_DECISIONS_BINARY` can select another
-executable. To use an already running server on a different port, set
-`AI_LAB_DECISIONS_URL` to its loopback HTTP origin before launching the website.
-Optional `AI_LAB_DECISIONS_MODEL` selects a name from its decision-model list;
+CLM installation downloads and verifies three parts: the published CLM
+projection checkpoint, its Qwen3-8B encoder weights, and a prebuilt CLM-capable
+Metal server. It also prepares the independent upstream Python server. Both
+CLM implementations share the downloaded weights. Existing files are verified
+and reused, and interrupted weight downloads resume. No Rust, Xcode, manual
+binary placement, or environment-variable configuration is required.
+
+After upgrading an older installation that already has the CLM/Qwen weights,
+`ai-lab models run --contrastive` automatically installs the missing native
+server before starting the API. `ai-lab models status --json` reports
+`weights_present` separately from `installed`, and includes the install command.
+
+The native server is installed at `.runtime/decisions/mistralrs`, with verified
+provenance in `.runtime/decisions/build.json`. It loads local files from
+`.models/clm-v0.1-8b/`, runs offline, and listens on loopback port 11436. The
+launcher stays in the foreground; Ctrl+C stops the server it started.
+Logs are in `.state/decisions-mistral.log`.
+The first startup and inference can take a few minutes while the encoder loads
+and Metal compiles its kernels. The CLI prints the log path during startup.
+
+For an explicitly managed custom installation, `AI_LAB_DECISIONS_BINARY` selects
+another executable. To use an already running server on another port, set
+`AI_LAB_DECISIONS_URL` to its loopback HTTP origin. Optional
+`AI_LAB_DECISIONS_MODEL` selects a name from its decision-model list;
 `AI_LAB_DECISIONS_API_KEY` supplies local server authentication.
-The download offer provisions CLM weights and its upstream server. Native CLM
-still needs a CLM-capable Mistral executable as described above; the published
-completion runtime does not contain that feature.
 
 **CLM upstream** runs the unmodified upstream API, schema, projection heads, and
 probability calculation at revision `bb42c6c5bf914fd449bed2f6ca65be80602cb1f7`.
@@ -320,9 +334,9 @@ The launcher stays in the foreground. Ctrl+C stops only APIs it started, leaving
 already running APIs alone. Without selection flags, missing models are reported
 and skipped. An explicitly selected missing model returns installation instructions.
 `--jev` needs no local process. Local inference uses the same pinned runtimes,
-weights, loopback endpoints and logs as the website. Native CLM needs the
-CLM-capable executable described in [Decisions](#decisions); downloading the
-shared CLM weights installs the upstream runtime, not that separate native build.
+weights, loopback endpoints and logs as the website. `downloads install clm`
+provisions both native and upstream CLM runtimes. When existing CLM weights are
+present, `models run --contrastive` repairs a missing native runtime automatically.
 
 MCP probes and calls already running model APIs. It never starts a local model
 or the CLI daemon, including during a download tool call. The website retains
@@ -467,7 +481,7 @@ For a direct package install, download the wheel from the
 [release](https://github.com/iamorlando/homebrew-ai_lab/releases/latest), then run:
 
 ```sh
-uv tool install --force --python 3.13 ./ai_lab-0.1.8-py3-none-any.whl
+uv tool install --force --python 3.13 ./ai_lab-0.1.9-py3-none-any.whl
 uv tool update-shell                  # if the executable directory is not on PATH
 ai-lab --version
 ai-lab downloads offer                # optional models; keyboard picker
@@ -483,7 +497,7 @@ installation, pass `--root /path/to/deepseek` before the subcommand or export
 ```sh
 brew update
 brew upgrade iamorlando/ai_lab/ai_lab
-ai-lab --version                      # AI Lab 0.1.8
+ai-lab --version                      # AI Lab 0.1.9
 ai-lab server stop             # only if an idle private service is running
 ai-lab downloads offer                # choose missing models with Space and Enter
 ai-lab mcp install --codex --force     # refresh this client's packaged tools
@@ -650,6 +664,20 @@ runtime` workflow (`packaging/runtime/build.yml`). It targets Apple Silicon
 macOS 15, links only system libraries, and uses `MISTRALRS_METAL_PRECOMPILE=0`
 so Metal kernel compilation uses the OS framework. Copy the resulting runtime
 descriptor to `ai_lab/runtime.json`, adding the immutable release asset URL.
+The same workflow builds the independent native CLM server from
+`packaging/runtime/contrastive-sources.json`; its descriptor lives at
+`ai_lab/decisions-runtime.json`. To build it locally:
+
+```sh
+python3 packaging/runtime/build.py --kind contrastive \
+  --sources packaging/runtime/contrastive-sources.json \
+  --checkout .runtime/contrastive-release/forks --output .runtime/contrastive-release/dist
+```
+
+Publish `ai_lab-contrastive-runtime-macos-arm64.tar.gz` at the descriptor's
+immutable release URL before publishing the CLI that refers to it. The CLM
+runtime is installed independently of the completion runtime and has its own
+source pins, executable checksum, and `decision_support` provenance check.
 Publish the runtime archive with the application artifacts; its SHA-256 and
 both source pins are checked before the executable can replace an installation.
 
@@ -658,7 +686,7 @@ uv sync --frozen
 uv run python -m unittest discover -s tests/ai_lab -v
 uv run python -m unittest discover -s harness/tests -p 'test_*.py'
 uv build
-python3 packaging/homebrew/generate.py dist/ai_lab-0.1.8.tar.gz --version 0.1.8
+python3 packaging/homebrew/generate.py dist/ai_lab-0.1.9.tar.gz --version 0.1.9
 ```
 
 The generator writes `dist/homebrew/ai_lab.rb` with the actual archive checksum and
