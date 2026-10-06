@@ -4,7 +4,7 @@
     "version": "0.9.4",
     "repository": "https://github.com/iamorlando/mistral.rs.git",
     "upstream": "https://github.com/EricLBuehler/mistral.rs.git",
-    "commit": "fc3c3f5a043759076a4e9f2bb85bc665d50ab98c",
+    "commit": "a976f7d041173f5b076b267796aecec6040c990b",
     "rust_version": "1.96.0",
     "features": [
       "metal"
@@ -43,7 +43,7 @@
   },
   "chat_template": {
     "file": "deepseek-chat.jinja",
-    "sha256": "06ff98c593789cfe9501ed3cc7a74f63a537201baf092d1a2c905c8aee3cc83b",
-    "derivation": "Pinned official tokenizer_config.json chat_template plus an explicit <think> generation prefix."
+    "sha256": "f3ee548562d647b506a7b60a4cf0a955d1aab29a3f358a625ce721f325d06d44",
+    "derivation": "Pinned official tokenizer_config.json ordinary chat rendering and explicit <think> generation prefix. Tool-enabled chats use the pinned distilled tokenizer's supported Qwen XML call/result framing and no-thinking prefix, with native mapped-argument serialization/null guards. Byte-equivalent no-tool rendering; raw completion prefix unchanged."
   }
 }

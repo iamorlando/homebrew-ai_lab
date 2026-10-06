@@ -86,3 +86,43 @@ jobs:
       - name: Exercise client-launched MCP and persistent watermark configuration
         run: |
           uv run --python 3.13 --with 'mcp==1.30.0' python scripts/check_mcp.py --executable "$(brew --prefix ai_lab)/bin/ai-lab"
+      - name: Verify installed release bytes and local agent fixtures
+        run: |
+          ai_lab_python="$(brew --prefix ai_lab)/libexec/venv/bin/python"
+          ai_lab_version="$(ai-lab --version | awk '{print $3}')"
+          ai_lab_release="https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v${ai_lab_version}"
+          ai_lab_wheel="$RUNNER_TEMP/ai_lab-${ai_lab_version}-py3-none-any.whl"
+          ai_lab_source="$RUNNER_TEMP/ai_lab-${ai_lab_version}.tar.gz"
+          curl --fail --location "$ai_lab_release/ai_lab-${ai_lab_version}-py3-none-any.whl" --output "$ai_lab_wheel"
+          curl --fail --location "$ai_lab_release/ai_lab-${ai_lab_version}.tar.gz" --output "$ai_lab_source"
+          "$ai_lab_python" -I - "$ai_lab_wheel" <<'PYCODE'
+          import hashlib
+          from pathlib import Path
+          import sys
+          import zipfile
+          import ai_lab
+          site = Path(ai_lab.__file__).resolve().parent.parent
+          checked = 0
+          package_paths = set()
+          with zipfile.ZipFile(sys.argv[1]) as wheel:
+              for entry in wheel.infolist():
+                  name = entry.filename
+                  path = Path(name)
+                  if name.endswith('/') or not name.startswith('ai_lab/'):
+                      continue
+                  assert not path.is_absolute() and '..' not in path.parts
+                  canonical = path.as_posix()
+                  assert canonical not in package_paths, name
+                  package_paths.add(canonical)
+                  installed = site / path
+                  assert installed.is_file(), name
+                  assert hashlib.sha256(installed.read_bytes()).digest() == hashlib.sha256(wheel.read(entry)).digest(), name
+                  checked += 1
+          assert checked > 100, checked
+          print(f'Verified {checked} installed application files against the published wheel')
+          PYCODE
+          "$ai_lab_python" scripts/check_mcp_client.py --installed --wheel "$ai_lab_wheel" --sdist "$ai_lab_source"
+          "$ai_lab_python" scripts/check_agent.py --wheel "$ai_lab_wheel" --sdist "$ai_lab_source"
+          python3 scripts/check_cross_model_profiles.py --python "$ai_lab_python"
+          python3 scripts/check_cross_model_chat.py --python "$ai_lab_python"
+          python3 scripts/check_cross_model_chat.py --python "$ai_lab_python" --required-only

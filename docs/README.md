@@ -5,7 +5,7 @@ terminal panes. It uses the same pinned `iamorlando/mistral.rs` server, watermar
 validation, native logits, and verified production tournament traces. Pair
 conversations, detection, and Harbor experiments stay in the website.
 
-## Install and use 0.1.10
+## Install and use 0.1.11
 
 Requires Apple Silicon and macOS 15 or newer. Homebrew installs the Python and
 `uv` dependencies; local model downloads remain optional.
@@ -13,7 +13,7 @@ Requires Apple Silicon and macOS 15 or newer. Homebrew installs the Python and
 ```sh
 brew tap iamorlando/ai_lab
 brew install iamorlando/ai_lab/ai_lab
-ai-lab --version                       # AI Lab 0.1.10
+ai-lab --version                       # AI Lab 0.1.11
 ai-lab downloads offer                 # keyboard model picker
 ai-lab web                            # opens the app in its own window
 ```
@@ -43,7 +43,10 @@ Local APIs are started explicitly in a separate terminal:
 ai-lab models status --json
 ai-lab downloads install laya          # asks before downloading
 ai-lab models run --laya               # local decisions
-ai-lab models run --deepseek           # generation and watermark detection
+ai-lab models run --deepseek           # DeepSeek generation and watermark detection
+ai-lab downloads install qwen --yes    # official Qwen3-8B Q4_K_M, verified SHA-256
+ai-lab models create --name Qwen --underlying-model qwen --seed 42
+ai-lab models run --qwen               # separate owned API on 127.0.0.1:11439
 ai-lab downloads install clm --yes     # CLM/Qwen weights and both CLM servers
 ai-lab models run --contrastive        # native Contrastive decisions
 ```
@@ -270,6 +273,10 @@ model uses the original Qwen3-8B encoder and published CLM heads.
 
 ## MCP for agent clients
 
+Python chat hosts can launch AI Lab's own MCP server without a config file,
+with optional external stdio servers and approval-aware tool continuation.
+See [the local MCP connector](mcp-client.md) for its configuration and interface.
+
 ```sh
 ai-lab mcp install --codex
 ai-lab mcp install --claude
@@ -340,6 +347,16 @@ ai-lab models run --contrastive             # native CLM; also accepts --clm-nat
 The launcher stays in the foreground. Ctrl+C stops only APIs it started, leaving
 already running APIs alone. Without selection flags, missing models are reported
 and skipped. An explicitly selected missing model returns installation instructions.
+
+DeepSeek and Qwen APIs started by another launcher are reused only when their
+saved launch settings, binary hash and loaded chat-template hash match the current
+version. After upgrading, an API with missing or older template identity is
+reported as unavailable even if it still responds as `default`. Stop that API
+through its original launcher (Ctrl+C in that terminal), then run
+`ai-lab models run --deepseek` or `ai-lab models run --qwen` again. Updating the
+template file alone cannot change a running model's in-memory template. AI Lab
+does not stop or restart another launcher's API to repair this mismatch.
+
 `--jev` needs no local process. Local inference uses the same pinned runtimes,
 weights, loopback endpoints and logs as the website. `downloads install clm`
 provisions both native and upstream CLM runtimes. When existing CLM weights are
@@ -352,23 +369,24 @@ when started together because they each load their own Qwen encoder.
 
 | MCP tool | Operation |
 | --- | --- |
-| `list_models` | Lists all five backends, installed/running status, missing weight sizes, launch commands, and saved profiles. |
-| `create_seeded_model` | Creates a named DeepSeek R1 profile with a decimal or hexadecimal seed. |
-| `create_watermarked_model` | Creates a persistent DeepSeek profile with a scheme, optional seed, optional key, and overridable settings. |
+| `list_models` | Lists all six backends, installed/running status, missing weight sizes, launch commands, and saved profiles. |
+| `create_seeded_model` | Creates a named DeepSeek or Qwen profile with a decimal or hexadecimal seed. |
+| `create_watermarked_model` | Creates a persistent DeepSeek or Qwen profile with a scheme, optional seed, optional key, and overridable settings. |
 | `get_model_config` | Reads all saved profile settings; `include_watermark_key=true` explicitly retrieves its watermark key. |
 | `update_watermarked_model` | Saves partial key, scheme, or setting overrides for future sessions while preserving the model ID, name, and seed. |
-| `detect_watermark` | Tests supplied text using a saved profile or explicit DeepSeek scheme/key; returns a verdict, confidence, p-value, token count, and native evidence. |
+| `generate_text` | Generates actual text with DeepSeek/Qwen or a saved profile, inheriting its seed/watermark with optional unsaved overrides. |
+| `detect_watermark` | Tests supplied text using a saved profile or explicit DeepSeek/Qwen scheme/key; returns a verdict, confidence, p-value, token count, and native evidence. |
 | `download_models` | Downloads missing weights, verifies/resumes files, and installs server dependencies. Both CLMs share one weight family; Jev has none. |
 | `explain_watermarks` | Explains the six schemes, exact fields, and linked papers, including membership and tournament differences. |
 | `answer_decisions` | Answers named Noul, Choice or Score questions via Jev by default, or explicit `laya`, `contrastive`, or `clm-upstream`. |
 | `rank_decisions` | Ranks candidate actions/answers through the selected provider's Choice API. |
-| `inspect_next_token` | Uses a saved DeepSeek profile and exact raw prefix, with optional per-call scheme/key/settings overrides, then saves the native trace and returns an `inspection_id`. |
+| `inspect_next_token` | Uses a saved DeepSeek/Qwen profile and exact raw prefix, with optional per-call scheme/key/settings overrides, then saves the native trace and returns an `inspection_id`. |
 | `list_results` | Lists saved MCP inspections, CLI sessions and website watermark experiments with their source IDs. |
 | `get_green_red_lists` | Returns captured native token membership, optionally for a SynthID layer, with capture limits. |
 | `get_tournament_results` | Returns the saved production tournament and any separate teaching simulation. |
 
 Profiles share `harness/models.json` with the website and terminal interface;
-they are aliases over the same DeepSeek weights. If the website is running,
+they select either DeepSeek or Qwen weights through `underlying_model`. If the website is running,
 profile creation and updates use its publication transaction. Without it, they
 write the registry directly under the workspace lock. Restart a website launched
 with an older CLI before updating profiles through MCP. New SynthID profiles
@@ -392,20 +410,37 @@ update_watermarked_model(model="my-model", settings={"green_fraction": 0.25})
 detect_watermark(text="...", model="my-model")
 ```
 
-To test text from elsewhere, pass `model="deepseek"`, its original `scheme`,
+To test text from elsewhere, pass `model="deepseek"` or `model="qwen"`, its original `scheme`,
 `key`, and matching `settings`. Detection and `inspect_next_token` accept
 per-call overrides without changing the profile. `update_watermarked_model`
 saves changes for future sessions; omitted fields retain their saved values.
 Changing schemes retains the key and resets scheme-specific fields. Existing
 generation sessions keep their original configuration snapshots.
 
-Detection uses the native DeepSeek tokenizer/API, which must already be running.
+Detection uses the selected native backend tokenizer/API, which must already be running.
 It returns `matches`, `verdict` (`match`, `no_match`, or `insufficient`),
 `tokens_scored`, `p_value`, `confidence`, and `stats`. Confidence is `1 - p_value`
 from a known-key statistical test or conservative bound, not a posterior
 probability of authorship. The defaults are `p_value_threshold=0.001` and
 `min_tokens=20`; these, `prompt_len`, `eos_token_ids`, and `add_special_tokens`
 can all be overridden. Short or unscorable text reports `insufficient`.
+
+The website's **Watermark decoder** at `/decoder` (also `/detection`) exposes this
+same detector for pasted text and named generation profiles. Select the profile
+that generated the text: its saved scheme/settings are displayed, while its key
+stays on the server. A scheme change or explicit key/settings override affects
+only the current decode; it never saves profile changes. **Restore profile
+settings** clears overrides. Changing models resets the configuration and
+preserves the pasted text. For a plain profile, supply the original scheme and
+key; the decoder never creates one. Start the selected API manually with
+`ai-lab models run --deepseek` or `ai-lab models run --qwen` if the page asks.
+Results show the effective model/scheme, native statistics, known-key confidence
+and p-value, or insufficient evidence. Edited text/configuration marks previous
+results stale; an API failure leaves the inputs and last successful result
+available for retry. The optional generation/edit/inspection experiment remains
+below the decoder. HTTP fixture results are explicitly labeled and are not
+native model evidence.
+
 Decision models such as Jev, Laya, and CLM do not generate text watermarks.
 
 For trace tools, pass the `inspection_id` as `source_id`, or use `list_results`
@@ -488,7 +523,7 @@ For a direct package install, download the wheel from the
 [release](https://github.com/iamorlando/homebrew-ai_lab/releases/latest), then run:
 
 ```sh
-uv tool install --force --python 3.13 ./ai_lab-0.1.10-py3-none-any.whl
+uv tool install --force --python 3.13 ./ai_lab-0.1.11-py3-none-any.whl
 uv tool update-shell                  # if the executable directory is not on PATH
 ai-lab --version
 ai-lab downloads offer                # optional models; keyboard picker
@@ -504,7 +539,7 @@ installation, pass `--root /path/to/deepseek` before the subcommand or export
 ```sh
 brew update
 brew upgrade iamorlando/ai_lab/ai_lab
-ai-lab --version                      # AI Lab 0.1.10
+ai-lab --version                      # AI Lab 0.1.11
 ai-lab server stop             # only if an idle private service is running
 ai-lab downloads offer                # choose missing models with Space and Enter
 ai-lab mcp install --codex --force     # refresh this client's packaged tools
@@ -534,11 +569,13 @@ source provenance. Normal setup never silently falls back to a source build.
 
 ## Models
 
-The interactive editor uses the website's field metadata: name, DeepSeekR1,
+The interactive editor uses the website's field metadata: name, DeepSeekR1 or Qwen3-8B,
 optional decimal/hexadecimal seed, scheme, generated or supplied key, and each
 scheme's settings. Names are unique; seedless profiles remain seedless. Selecting
 a saved profile displays its settings; **Open** launches its completion workspace; change the name to make a copy. Deleting a
 profile preserves recorded sessions, but that profile cannot start new runs.
+See [model profiles and watermarking](model-profiles.md) for choosing either
+family, creating watermarked profiles, and an isolated installed-package check.
 
 ```sh
 ai-lab models list --json
@@ -547,7 +584,13 @@ ai-lab models create --name marked --watermark-file watermark.json --json
 ai-lab schemes --json
 ```
 
-A session requires an existing model ID or an exact, unique model name.
+A session requires a saved profile. Use `--name 'My model'` to select its exact
+name (including case), or `--model MODEL_ID` for its ID. `--model` retains legacy
+exact-name support. Do not combine these flags. Names remain unique without
+regard to case when profiles are created; selection uses their saved spelling.
+Unknown or ambiguous selections fail with guidance to list models. Use
+`--session-name experiment` to label the new session; session commands previously
+used `--name` for this label. `models create --name` still names the new profile.
 `--scheme model` (the default) inherits its saved watermark. `--scheme none`
 disables watermarking. A named scheme reuses matching profile settings or creates
 fresh temporary settings and a key. Fresh SynthID sessions default to actual
@@ -558,7 +601,7 @@ configuration remains fixed; make a new session to change it.
 ## Separate tmux or Herdr panes
 
 ```sh
-ai-lab session create --model seeded --scheme synthid --name experiment --json
+ai-lab session create --name seeded --scheme synthid --session-name experiment --json
 # Use the returned id for every pane:
 ai-lab view chat --session SESSION_ID
 ai-lab view tournament --session SESSION_ID
@@ -569,9 +612,9 @@ ai-lab view tokens --session SESSION_ID
 Or create the layout automatically:
 
 ```sh
-ai-lab layout tmux --model seeded --scheme synthid --launch --json
+ai-lab layout tmux --name seeded --scheme synthid --launch --json
 # The result includes the tmux attach command.
-ai-lab layout herdr --model seeded --scheme synthid --launch --json
+ai-lab layout herdr --name seeded --scheme synthid --launch --json
 ```
 
 Herdr must already have a running session. Both layout commands print their plan
@@ -590,6 +633,75 @@ updates, and the token table labels green/red or favored/unfavored membership. T
 
 ## Automation and API discovery
 
+For multi-turn local assistant chat, open an agent window:
+
+```bash
+ai-lab agent --model qwen
+ai-lab agent --name "My saved profile" --self-mcp
+ai-lab agent --model deepseek --self-mcp --tool-choice required
+ai-lab agent --model deepseek --self-mcp --herdr-tab --json
+```
+
+Start the selected native API in another terminal with `ai-lab models run --qwen`
+or `--deepseek`. The agent reports an unavailable model with its launch command;
+it never starts/downloads a model or switches to a hosted service. `--name`
+selects an exact saved profile and inherits its seed and watermark settings.
+`--scheme none` disables watermarking for this chat without changing the profile;
+`--seed`, `--watermark-file`, `--temperature` and `--max-tokens` are unsaved overrides.
+The window shows the selected profile, backend and watermark scheme. It displays
+progress while waiting for the native response and retains successful conversation
+history. Stop with Ctrl+C/Escape and exit with Ctrl+Q. Failed/canceled turns stay
+visible and are excluded from subsequent history. Existing `ai-lab chat` remains
+the next-token inspection workspace.
+
+`--self-mcp` connects the shipped AI Lab MCP server without a config file. Its
+decision tools require an explicit local provider (`laya`, `contrastive` or
+`clm-upstream`) and a separately running local API. The assistant requests real
+tools through native tool calls, receives actual MCP results and continues the
+answer. Each call asks Allow/Deny unless its exact own tool name was explicitly
+preauthorized with `--allow-tool TOOL`. For example,
+`--self-mcp --allow-tool answer_decisions` preauthorizes only that own tool.
+`--mcp-config FILE` optionally connects external stdio servers; combine it with
+`--self-mcp` to include both. No hosted key is needed for the built-in offline
+connection.
+
+Tools default to `auto`: the model decides whether to call a function and may
+reply with text. Select `--tool-choice required`, click the window's visible
+Tools control, or press Ctrl+T to require at least one native tool call for the
+next submitted user turn. Required needs a configured MCP connection and still
+uses ordinary validation and Allow/Deny. The visible choice remains selected
+for subsequent user turns until you switch it; it is locked while a turn runs.
+Only that turn's first native request uses required. Requests after actual tool
+results use auto so the assistant can answer. Empty discovery or a required
+response without genuine calls fails visibly without dispatch or automatic retry.
+Plain chat remains available with no MCP connection.
+
+One observed DeepSeek automatic request on the current runtime returned prose
+and unwrapped JSON without native tool calls. This does not establish that all
+DeepSeek requests fail. Explicit required mode is a separate user choice;
+its evidence must be assessed separately from automatic behavior.
+
+Custom AI Lab agent windows in Herdr use an explicit prompt bridge:
+
+```bash
+ai-lab agent-prompt --pane PANE_ID --prompt "Your message" --wait --timeout 30 --json
+```
+
+Use `--session-id UUID` to require a known chat session, or `--prompt-file FILE`
+(`-` for stdin) to preserve a longer prompt. The bridge checks the exact live
+AI Lab pane/session and its private input channel, then submits to the app.
+It rejects busy, blocked, stale and exited targets. It never writes prompt text
+to a terminal or falls back to a shell. The reply identifies the accepted request
+and session; `--wait` observes working followed by settlement, or a real approval
+block. A timeout is an uncertain outcome: inspect the window before retrying.
+Delivery uses the target window's visible Tools choice, with no hidden mode
+change. `--herdr-tab` preserves the launch command's `--tool-choice` option.
+
+Herdr 0.9.1 supports the `ai-lab` custom lifecycle label but its native
+`herdr agent prompt` accepts only built-in agent kinds. Use the bridge above
+for custom AI Lab windows. A pending tool approval must be answered in the
+window's Allow/Deny dialog. Stop with Ctrl+C or Escape; exit with Ctrl+Q.
+
 Inspired by Herdr's [CLI](https://herdr.dev/docs/cli-reference/) and
 [socket API](https://herdr.dev/docs/socket-api/), AI Lab exposes structured commands,
 a versioned local API, persistent sessions, shell completion and an agent guide:
@@ -602,11 +714,15 @@ ai-lab completion zsh > ~/.zfunc/_ai-lab
 ```
 
 `api schema`, `--skill`, help, and completion generation work before setup and do
-not launch a server. Dynamic shell completion suggests model keys and session IDs
-from a running service without starting one.
+not launch a server. Dynamic shell completion suggests saved names for `--name`,
+model IDs for `--model`, and session IDs from a running service without starting
+one. Names with spaces complete as a single value. `models create --name` accepts
+a new name and does not suggest saved profiles.
+Dynamic lookups honor the global `--root PATH` or `--root=PATH`; quote workspace
+paths containing spaces to complete names and session IDs from that workspace.
 
 ```sh
-ai-lab complete --model seeded --scheme synthid \
+ai-lab complete --name seeded --scheme synthid \
   --prompt 'the quick brown fox jumps over the lazy' --json
 ai-lab complete --session SESSION_ID --prompt-file prefix.txt --no-wait --json
 ai-lab session wait SESSION_ID --timeout 1200 --json
@@ -615,6 +731,9 @@ ai-lab session select SESSION_ID --step 0 --token-id 5562 --revision REV --json
 ai-lab session append SESSION_ID --revision REV --json
 ai-lab session stop SESSION_ID --json
 ```
+
+An existing session keeps its profile, scheme, and temperature. Do not supply
+`--name` or `--model` when using `--session`; create a new session to change models.
 
 `--prompt-file -` reads stdin without trimming whitespace. The default is one
 next-token decision, matching the website. `--max-tokens 1..256` repeats inspection
@@ -632,6 +751,9 @@ native decision before releasing the shared inference lock.
 `ai-lab api call METHOD /api/lab/... --body-file request.json` invokes the same
 endpoints as the TUI. `api snapshot` lists models and sessions. Session responses
 omit watermark keys; model configuration responses include them for editing.
+To create a session directly, send either `{"model_name":"seeded"}` or
+`{"model":"MODEL_ID"}` to `POST /api/lab/sessions`. Exactly one selector is
+required; the JSON field `name` continues to label the session.
 Session files have mode 0600 inside a mode-0700 directory.
 
 ## Service lifecycle
@@ -693,7 +815,7 @@ uv sync --frozen
 uv run python -m unittest discover -s tests/ai_lab -v
 uv run python -m unittest discover -s harness/tests -p 'test_*.py'
 uv build
-python3 packaging/homebrew/generate.py dist/ai_lab-0.1.10.tar.gz --version 0.1.10
+python3 packaging/homebrew/generate.py dist/ai_lab-0.1.11.tar.gz --version 0.1.11
 ```
 
 The generator writes `dist/homebrew/ai_lab.rb` with the actual archive checksum and
@@ -704,3 +826,5 @@ AI Lab tap's `Formula/ai_lab.rb`. No repository push or release is automatic.
 For a local Homebrew build, pass `--url file:///absolute/path/to/archive.tar.gz` to
 the generator and use the resulting formula in a local tap. Rebuild and regenerate
 if any release content changes.
+
+Generation profiles persist `underlying_model: DeepSeekR1` or `Qwen3-8B`; the CLI also accepts `deepseek` and `qwen`. Existing IDs, seeds and watermark keys are preserved. Select the backend when creating a profile on the Models page or in the TUI. On the website, the model row’s backend selector updates that profile without changing its key or watermark configuration. Raw next-token inspection offers the same two backends. Qwen tokenizer/config assets are shared with the CLM encoder, but generation readiness requires the separate official GGUF weights and verified completion binary. Each API refuses a port owned by another workspace and its launcher stops only processes it started.

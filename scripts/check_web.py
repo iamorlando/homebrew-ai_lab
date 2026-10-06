@@ -64,7 +64,7 @@ def main():
                         break
                     except OSError:
                         time.sleep(.25)
-                pages = ('/completion', '/models', '/pair', '/wm', '/detection', '/decisions', '/')
+                pages = ('/completion', '/models', '/pair', '/wm', '/decoder', '/detection', '/decisions', '/')
                 assets = set()
                 for path in pages:
                     page = request(path).decode()
@@ -86,7 +86,8 @@ def main():
                     expected.insert(1, 'laya')
                 assert [m['name'] for m in json.loads(decisions)['models']] == expected
                 schema = json.loads(request('/openapi.json'))
-                for path in ('/api/decisions/models', '/api/decisions/systemone', '/api/decisions/rank'):
+                for path in ('/api/decisions/models', '/api/decisions/systemone', '/api/decisions/rank',
+                             '/api/decoder/models', '/api/decoder/detect'):
                     assert path in schema['paths'], path
                 assert b'Apache' in request('/pair-assets/licenses/CLM-LICENSE.txt')
                 if args.laya_source:
@@ -107,13 +108,39 @@ def main():
                 updated = json.loads(request('/api/models/' + model['key'],
                           {'scheme': 'kgw', 'key': '42' * 32, 'settings': {'delta': 3}}, method='PATCH'))
                 assert updated['watermark']['delta'] == 3
+                qwen = json.loads(request('/api/models', {'name': 'Installed Qwen verification',
+                                  'underlying_model': 'qwen', 'seed': '43'}))
+                assert qwen['underlying_model'] == 'Qwen3-8B', qwen
+                request('/api/models/' + qwen['key'],
+                        {'scheme': 'kgw', 'key': '43' * 32, 'settings': {'delta': 4}}, method='PATCH')
+                decoder = json.loads(request('/api/decoder/models'))
+                catalog = {profile['id']: profile for profile in decoder['profiles']}
+                assert catalog[model['key']]['underlying_model'] == 'DeepSeekR1'
+                assert catalog[qwen['key']]['underlying_model'] == 'Qwen3-8B'
+                assert catalog[qwen['key']]['scheme'] == 'kgw'
+                assert catalog[qwen['key']]['settings']['delta'] == 4
+                assert catalog[qwen['key']]['hasKey'] is True
+                assert '42' * 32 not in json.dumps(decoder) and '43' * 32 not in json.dumps(decoder)
+                assert all('key' not in profile and 'seed' not in profile for profile in decoder['profiles'])
+                try:
+                    request('/api/decoder/detect', {'model': qwen['name'], 'text': 'A packaged decoder check.'})
+                    raise AssertionError('Stopped Qwen must require an explicit model start')
+                except urllib.error.HTTPError as error:
+                    assert error.code == 503, error.code
+                    assert '--qwen' in error.read().decode()
+                assert not (root / '.state/qwen-server.json').exists()
+                assert not (root / '.models/qwen3-8b').exists(), 'Website checks must not download Qwen'
+                assert not (root / '.models/deepseek-r1').exists(), 'Website checks must not download DeepSeek'
                 assert (root / 'harness/models.json').stat().st_mode & 0o777 == 0o600
                 assert 'patch' in schema['paths']['/api/lab/models/{key}']
                 request('/api/models/' + model['key'], method='DELETE')
+                request('/api/models/' + qwen['key'], method='DELETE')
                 reused = subprocess.run(command, text=True, capture_output=True, timeout=15, check=True, env=env)
                 assert json.loads(reused.stdout)['existing'] is True, reused.stdout
                 assert not (root / 'harness/ui').exists(), 'Assets must come from the package'
-                print(json.dumps({'pages': list(pages), 'assets': len(assets), 'model_crud': 'passed', 'reuse': 'passed', 'decisions': expected}))
+                print(json.dumps({'pages': list(pages), 'assets': len(assets), 'model_crud': 'passed',
+                                  'qwen_profile': 'passed', 'decoder_key_privacy': 'passed',
+                                  'stopped_qwen_guidance': 'passed', 'reuse': 'passed', 'decisions': expected}))
             finally:
                 if process.poll() is None:
                     process.send_signal(signal.SIGINT)

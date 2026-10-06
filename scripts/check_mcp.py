@@ -1,89 +1,158 @@
 #!/usr/bin/env python3
-"""Exercise the installed uvx wheel over real MCP stdio in an empty workspace.
+"""Real packaged MCP stdio smoke in empty roots plus explicit HTTP fixtures.
 
-Run with uv sync --extra mcp, then .venv/bin/python packaging/check_mcp.py.
-Does not install into a user's client config or download/start model APIs.
+Does not install user client configs, download models, or start native APIs.
+The fixture phase is protocol/package proof, never native model evidence.
 """
 import argparse
 import asyncio
+from contextlib import contextmanager
 from datetime import timedelta
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
 from pathlib import Path
-import sys
 import subprocess
+import sys
 import tempfile
+import threading
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
 
 
+@contextmanager
+def model_fixture(family):
+    requests = []
+    class Model(BaseHTTPRequestHandler):
+        def log_message(self, *args): pass
+        def respond(self, value):
+            data = json.dumps(value).encode()
+            self.send_response(200); self.send_header('Content-Type', 'application/json')
+            self.end_headers(); self.wfile.write(data)
+        def do_GET(self):
+            assert self.path == '/v1/models'
+            self.respond({'data': [{'id': 'ai-lab-fixture-' + family}]})
+        def do_POST(self):
+            body = json.loads(self.rfile.read(int(self.headers['Content-Length'])))
+            requests.append((self.path, body))
+            assert body.get('model', body.get('input', {}).get('model')) == 'default'
+            if self.path == '/v1/completions':
+                self.respond({'choices': [{'text': family + ' fixture answer', 'finish_reason': 'stop'}],
+                              'usage': {'completion_tokens': 3}})
+            elif self.path == '/v1/watermark/detect':
+                self.respond({'tokens_scored': 100, 'trials': 100, 'green_count': 75, 'z_score': 5})
+            else: raise AssertionError(self.path)
+    server = ThreadingHTTPServer(('127.0.0.1', 0), Model)
+    worker = threading.Thread(target=server.serve_forever, daemon=True); worker.start()
+    try: yield f'http://127.0.0.1:{server.server_port}', requests
+    finally:
+        server.shutdown(); server.server_close(); worker.join(timeout=2)
+
+
+async def phase(root, entry, *, fixture=False):
+    env = {**entry['env'], 'TYPESAFE_API_KEY': '', 'JEV_API_KEY': '',
+           'AI_LAB_LAYA_URL': 'http://127.0.0.1:1', 'AI_LAB_DECISIONS_URL': 'http://127.0.0.1:1',
+           'AI_LAB_CLM_UPSTREAM_URL': 'http://127.0.0.1:1',
+           'UV_CACHE_DIR': str(Path(__file__).resolve().parents[1] / '.runtime/uv-cache'),
+           'UV_TOOL_DIR': str(root.parent / 'uv-tools')}
+    if fixture: env['AI_LAB_GENERATION_FIXTURE_FILE'] = str(root / 'generation-fixture.json')
+    async with stdio_client(StdioServerParameters(command=entry['command'], args=entry['args'], env=env)) as (read, write):
+        async with ClientSession(read, write, read_timeout_seconds=timedelta(seconds=120)) as session:
+            await session.initialize()
+            catalog = await session.list_tools()
+            names = {tool.name for tool in catalog.tools}
+            assert {'generate_text', 'answer_decisions', 'detect_watermark', 'create_seeded_model',
+                    'create_watermarked_model', 'update_watermarked_model', 'inspect_next_token'} <= names
+            async def call(name, arguments=None, error=False):
+                result = await session.call_tool(name, arguments or {})
+                assert bool(result.isError) == error, (name, result)
+                if error: return '\n'.join(getattr(item, 'text', '') for item in result.content)
+                return result.structuredContent or json.loads(result.content[0].text)
+            models = await call('list_models')
+            assert {'jev', 'deepseek', 'qwen', 'contrastive', 'clm-upstream', 'laya'} <= {r['name'] for r in models['models']}
+            assert models['default_decision_model'] == 'jev'
+            for family in ('deepseek', 'qwen'):
+                row = next(r for r in models['models'] if r['name'] == family)
+                assert row['run_command'].endswith('--'+family)
+                assert row['install_command'] == f'ai-lab downloads install {family} --yes'
+            assert len((await call('explain_watermarks'))['schemes']) == 6
+            seeded = await call('create_seeded_model', {'name': 'MCP seed', 'seed': '0x2A'})
+            assert seeded['seed'] == 42 and seeded['underlying_model'] == 'DeepSeekR1'
+            profiles = {}
+            for family, canonical in [('deepseek', 'DeepSeekR1'), ('qwen', 'Qwen3-8B')]:
+                wm = await call('create_watermarked_model', {'name': 'MCP '+family, 'scheme': 'kgw',
+                    'seed': 42, 'underlying_model': family, 'key': '42'*32})
+                profiles[family] = wm
+                assert wm['underlying_model'] == canonical and wm['watermark']['has_key']
+                assert '42'*32 not in json.dumps(wm)
+                config = await call('get_model_config', {'model': wm['key'], 'include_watermark_key': True})
+                assert config['watermark']['key'] == '42'*32
+                updated = await call('update_watermarked_model', {'model': wm['key'], 'settings': {'delta': 4}})
+                assert updated['watermark']['delta'] == 4 and '42'*32 not in json.dumps(updated)
+                assert '42'*32 not in json.dumps(await call('get_model_config', {'model': wm['name']}))
+                if fixture:
+                    generated = await call('generate_text', {'model': wm['name'], 'prompt': 'Hello', 'max_tokens': 4})
+                    assert generated['answer'] == family+' fixture answer' and generated['fixture'] is True
+                    assert generated['underlying_model'] == canonical and generated['profile_key'] == wm['key']
+                    assert generated['seed'] == 42 and generated['watermark']['delta'] == 4
+                    assert '42'*32 not in json.dumps(generated)
+                    override = await call('generate_text', {'model': wm['key'], 'prompt': 'Hello', 'key': '23'*32})
+                    assert '23'*32 not in json.dumps(override)
+                    off = await call('generate_text', {'model': wm['key'], 'prompt': 'Hello', 'scheme': 'none'})
+                    assert off['watermark'] is None
+                    config = await call('get_model_config', {'model': wm['key'], 'include_watermark_key': True})
+                    assert config['watermark']['key'] == '42'*32
+                    detected = await call('detect_watermark', {'text': 'External text', 'model': wm['key']})
+                    assert detected['fixture'] is True and detected['underlying_model'] == canonical
+                    assert detected['verdict'] == 'match' and '42'*32 not in json.dumps(detected)
+                else:
+                    for name, args in [('generate_text', {'prompt': 'Hello', 'model': wm['key']}),
+                                       ('detect_watermark', {'text': 'External text', 'model': wm['key']}),
+                                       ('inspect_next_token', {'prompt': 'Exact prefix', 'model': wm['key']})]:
+                        assert 'models run --'+family in await call(name, args, error=True)
+            assert root.joinpath('harness/models.json').stat().st_mode & 0o777 == 0o600
+            assert 'models run --laya' in await call('answer_decisions', {'model': 'laya', 'state': 'test',
+                     'questions': {'ok': {'type': 'noul'}}}, error=True)
+            assert 'Jev needs' in await call('answer_decisions', {'state': 'test', 'questions': {'ok': {'type': 'noul'}}}, error=True)
+            assert (await call('list_results'))['results'] == []
+            assert not (root / '.models').exists()
+            assert not list(root.glob('.state/*server*.json'))
+            return names
+
+
 async def check(executable=None):
-    project = Path(__file__).resolve().parents[1]
-    with tempfile.TemporaryDirectory(prefix='ai-lab-mcp-check-') as folder:
-        root = Path(folder).resolve()
+    def entry(root):
         if executable:
             configured = subprocess.run([executable, '--root', str(root), 'mcp', 'config', '--codex', '--json'],
                                         capture_output=True, text=True, check=True)
-            entry = json.loads(configured.stdout)['entry']
-        else:
-            from ai_lab.mcp_install import launch_config
-            entry = launch_config(root)
-        env = {**entry['env'], 'UV_CACHE_DIR': str(project / '.runtime/uv-cache')}
-        # Keep any installed credential environment out of this offline check.
-        env.update(TYPESAFE_API_KEY='', JEV_API_KEY='')
-        env.update(AI_LAB_LAYA_URL='http://127.0.0.1:1', AI_LAB_DECISIONS_URL='http://127.0.0.1:1',
-                   AI_LAB_CLM_UPSTREAM_URL='http://127.0.0.1:1')
-        parameters = StdioServerParameters(command=entry['command'], args=entry['args'], env=env)
-        async with stdio_client(parameters) as (read, write):
-            async with ClientSession(read, write, read_timeout_seconds=timedelta(seconds=120)) as session:
-                await session.initialize()
-                catalog = await session.list_tools()
-                assert len(catalog.tools) == 14
-
-                async def call(name, arguments=None, error=False):
-                    result = await session.call_tool(name, arguments or {})
-                    assert bool(result.isError) == error, (name, result)
-                    if error: return '\n'.join(getattr(item, 'text', '') for item in result.content)
-                    return result.structuredContent or json.loads(result.content[0].text)
-
-                models = await call('list_models')
-                assert {row['name'] for row in models['models']} == {'jev', 'deepseek', 'contrastive', 'clm-upstream', 'laya'}
-                assert models['default_decision_model'] == 'jev'
-                schemes = await call('explain_watermarks')
-                assert len(schemes['schemes']) == 6
-                seeded = await call('create_seeded_model', {'name': 'MCP smoke seed', 'seed': '0x2A'})
-                assert seeded['seed'] == 42
-                watermarked = await call('create_watermarked_model', {'name': 'MCP smoke SynthID', 'scheme': 'synthid', 'seed': 42})
-                assert watermarked['watermark']['has_key'] and 'key' not in watermarked['watermark']
-                config = await call('get_model_config', {'model': watermarked['key'], 'include_watermark_key': True})
-                saved_key = config['watermark']['key']
-                updated = await call('update_watermarked_model', {'model': watermarked['key'], 'settings': {'depth': 3}})
-                assert updated['watermark']['depth'] == 3
-                config = await call('get_model_config', {'model': watermarked['key'], 'include_watermark_key': True})
-                assert config['watermark']['key'] == saved_key
-                assert 'key' not in (await call('get_model_config', {'model': watermarked['key']}))['watermark']
-                assert root.joinpath('harness/models.json').stat().st_mode & 0o777 == 0o600
-                stopped = await call('answer_decisions', {'model': 'laya', 'state': 'test', 'questions': {'ok': {'type': 'noul'}}}, error=True)
-                assert 'models run --laya' in stopped
-                missing = await call('answer_decisions', {'state': 'test', 'questions': {'ok': {'type': 'noul'}}}, error=True)
-                assert 'Jev needs' in missing
-                detector = await call('detect_watermark', {'text': 'External text', 'model': watermarked['key']}, error=True)
-                assert 'models run --deepseek' in detector
-                assert (await call('list_results'))['results'] == []
-                assert not list(root.glob('.state/*server*.json'))
-                result = {'status': 'passed', 'transport': 'stdio', 'launcher': 'uvx',
-                          'tool_count': len(catalog.tools), 'tools': [tool.name for tool in catalog.tools],
-                          'checked': ['isolated packaged wheel', 'missing-model discovery', 'paper catalog',
-                                      'seeded/watermarked profiles', 'private watermark keys',
-                                      'persisted config updates', 'explicit watermark key retrieval', 'detector manual API requirement',
-                                      'stopped API instructions', 'Jev default', 'no CLI daemon or model starts']}
-        return result
+            return json.loads(configured.stdout)['entry']
+        from ai_lab.mcp_install import launch_config
+        return launch_config(root)
+    with tempfile.TemporaryDirectory(prefix='ai-lab-mcp-check-') as folder:
+        base = Path(folder).resolve(); empty = base / 'empty'; fixture = base / 'fixture'
+        tools = await phase(empty, entry(empty))
+        with model_fixture('deepseek') as (deepseek_url, deepseek_requests), model_fixture('qwen') as (qwen_url, qwen_requests):
+            fixture.mkdir()
+            (fixture/'generation-fixture.json').write_text(json.dumps({'version': 1, 'endpoints': {
+                'deepseek': deepseek_url, 'qwen': qwen_url}}))
+            await phase(fixture, entry(fixture), fixture=True)
+            for family, requests in [('deepseek', deepseek_requests), ('qwen', qwen_requests)]:
+                generations = [body for path, body in requests if path == '/v1/completions']
+                assert len(generations) == 3
+                assert generations[0]['watermark']['key'] == '42'*32
+                assert generations[1]['watermark']['key'] == '23'*32
+                assert 'watermark' not in generations[2]
+                assert ('<|im_start|>' in generations[0]['prompt']) == (family == 'qwen')
+    return {'status': 'passed', 'transport': 'real stdio', 'launcher': 'uvx', 'tool_count': len(tools),
+            'tools': sorted(tools), 'fixture': True, 'native_inference_proof': False,
+            'checked': ['empty-workspace no-download/no-start', 'Qwen catalog and saved selection',
+                        'generation and detector family routing', 'private keys and explicit key retrieval',
+                        'saved inheritance and unsaved override/disable', 'both stopped-backend launch instructions']}
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--executable', help='Exercise an installed ai-lab CLI and its packaged installer')
     args = parser.parse_args()
-    result = asyncio.run(check(args.executable))
-    print(json.dumps(result, indent=2))
+    print(json.dumps(asyncio.run(check(args.executable)), indent=2))
