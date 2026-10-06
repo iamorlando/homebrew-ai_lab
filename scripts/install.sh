@@ -1,6 +1,6 @@
 #!/bin/sh
-# Homebrew's formula hooks cannot prompt. This installer offers optional models
-# immediately after install/upgrade; bare brew installs offer them on first use.
+# Homebrew's formula hooks cannot prompt. This optional wrapper offers model
+# weights after install/upgrade; ordinary CLI screens never offer downloads.
 set -eu
 action=${1:-install}
 if [ "$#" -gt 0 ]; then shift; fi
@@ -22,6 +22,6 @@ if [ "$action" = update ]; then brew update; fi
 brew "$brew_action" iamorlando/ai_lab/ai_lab
 case "$model_option" in
   --no-models) ;;
-  --yes) ai-lab downloads offer --yes ;;
-  '') ai-lab downloads offer ;;
+  --yes) ai-lab weights offer --yes ;;
+  '') ai-lab weights offer ;;
 esac

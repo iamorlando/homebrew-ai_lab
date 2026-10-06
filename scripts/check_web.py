@@ -127,7 +127,7 @@ def main():
                     raise AssertionError('Stopped Qwen must require an explicit model start')
                 except urllib.error.HTTPError as error:
                     assert error.code == 503, error.code
-                    assert '--qwen' in error.read().decode()
+                    assert 'ai-lab services --action start --model qwen' in error.read().decode()
                 assert not (root / '.state/qwen-server.json').exists()
                 assert not (root / '.models/qwen3-8b').exists(), 'Website checks must not download Qwen'
                 assert not (root / '.models/deepseek-r1').exists(), 'Website checks must not download DeepSeek'

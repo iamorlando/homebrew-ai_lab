@@ -23,7 +23,7 @@ import threading
 # Only the verification scripts are source-loaded; application imports below
 # must come from the supplied installed wheel, including its bundled backend.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from check_cross_model_profiles import FAMILIES, installed_service, private_json, require
+from check_cross_model_profiles import FAMILIES, installed_service, private_json, require, require_stopped_api_guidance
 
 
 def decoded(result):
@@ -226,14 +226,15 @@ async def probe(root, phase):
             for family in FAMILIES:
                 failed = await client.call_tool(tools['generate_text']['name'], {
                     'model': family + ' marked', 'prompt': 'wrong readiness'})
-                require(failed['isError'] is True and '--' + family in json.dumps(failed),
+                require(failed['isError'] is True,
                         'Own MCP accepted a generic readiness alias')
+                require_stopped_api_guidance(json.dumps(failed), family)
                 adapter = NativeChat(root, model_name=family + ' marked')
                 try:
                     try:
                         await adapter.complete([{'role': 'user', 'content': 'wrong readiness'}], client.model_tools())
                     except ValueError as error:
-                        require('--' + family in str(error), 'Chat lost selected-family launch guidance')
+                        require_stopped_api_guidance(str(error), family)
                     else:
                         require(False, 'Chat accepted a generic readiness alias')
                 finally:
@@ -329,7 +330,7 @@ async def agent_probe(root, phase):
         family = name.split()[0]
         seed, watermark = effective(record, override)
         # Exercise the real public parser's exact-name and unsaved-file forms.
-        arguments = ['agent', '--name', name, '--self-mcp']
+        arguments = ['chat', '--name', name, '--self-mcp']
         if required_check:
             if family == 'qwen':
                 arguments.extend(['--tool-choice', 'required'])
@@ -369,6 +370,13 @@ async def agent_probe(root, phase):
                 discovery_hash = discovered_tools(await backend._connect())
                 from textual.widgets import Button, Input
                 choice_control = app.query_one('#agent-tool-choice', Button)
+                async def click_tool_choice():
+                    # Textual ignores another click during the pressed effect.
+                    # Wait for that real UI state, then exercise the next click.
+                    async with asyncio.timeout(5):
+                        while choice_control.has_class('-active'):
+                            await pilot.pause(.01)
+                    require(await pilot.click('#agent-tool-choice'), 'Tool mode button was not clickable')
                 require(app.tool_choice == args.tool_choice, 'UI lost CLI-selected/default tool mode')
                 history = []
                 approvals = 0
@@ -378,12 +386,12 @@ async def agent_probe(root, phase):
                         # DeepSeek starts at default auto; Qwen starts at the
                         # public CLI's required option. Exercise both controls.
                         if family == 'qwen' and index == 0:
-                            require(await pilot.click('#agent-tool-choice'), 'Tool mode button was not clickable')
+                            await click_tool_choice()
                             require(app.tool_choice == 'auto', 'Visible control did not select auto')
                         if (family == 'deepseek' and index == 0) or (family == 'qwen' and index == 1):
                             await pilot.press('ctrl+t')
                         else:
-                            require(await pilot.click('#agent-tool-choice'), 'Tool mode button was not clickable')
+                            await click_tool_choice()
                         require(app.tool_choice == chosen and chosen.title() in str(choice_control.label),
                                 'Visible mode did not match submitted tool choice')
                     prompt = 'first fixture turn' if index == 0 else 'second fixture turn'

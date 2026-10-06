@@ -1,11 +1,40 @@
 # AI Lab
 
-AI Lab puts the website's model profiles and raw-prefix Completion experiment in
-terminal panes. It uses the same pinned `iamorlando/mistral.rs` server, watermark
-validation, native logits, and verified production tournament traces. Pair
-conversations, detection, and Harbor experiments stay in the website.
+The public launcher lists exactly twelve surfaces: `weights`, `models`, `apis`,
+`chat`, `decisions`, `completion`, `services`, `decoder`, `skills`, `mcp`,
+`completions`, `web`. Bare `ai-lab` shows help; `ai-lab --json` returns discovery.
+`apis` is informational only, and `skills install --agent codex --scope project`
+installs the current advanced guide. Screens never offer weights automatically.
+For advanced session/trace/API flags, use `ai-lab --skill` for its complete flag reference.
 
-## Install and use 0.1.11
+AI Lab provides conversational DeepSeek/Qwen chat through `ai-lab chat` and the
+website's raw-prefix Completion experiment through `ai-lab completion`. They share saved
+generation profiles and the pinned `iamorlando/mistral.rs` server. Native logits
+and captured tournament traces support token inspection.
+
+For a saved model, use `ai-lab chat --name "Exact model name"`; names are
+case-sensitive and names with spaces need quotes. The saved backend, seed and
+watermark settings are inherited. Herdr lifecycle reporting is automatic in the
+current pane. MCP tools and a separate `--herdr-tab` are optional.
+
+The terminal apps open with these basic commands:
+
+```sh
+ai-lab decoder                        # generation-profile picker
+ai-lab decoder --name "Exact generation profile"
+ai-lab decisions                      # available-provider picker
+ai-lab decisions --model laya
+```
+
+The terminal decoder inherits the selected profile's saved watermark settings
+and allows a scheme override for decoding. Decisions supports typed ask/rank
+workflows. Its providers (`laya`, `contrastive`, `clm-upstream`, `jev`) have no
+saved profile names; select one in the picker or with `--model`. Opening Decisions
+does not start/download models; start local provider APIs separately with
+`ai-lab services`. The web decoder remains available through `ai-lab web` →
+sidebar **Watermark decoder** at `/decoder`.
+
+## Install and use
 
 Requires Apple Silicon and macOS 15 or newer. Homebrew installs the Python and
 `uv` dependencies; local model downloads remain optional.
@@ -14,7 +43,7 @@ Requires Apple Silicon and macOS 15 or newer. Homebrew installs the Python and
 brew tap iamorlando/ai_lab
 brew install iamorlando/ai_lab/ai_lab
 ai-lab --version                       # AI Lab 0.1.11
-ai-lab downloads offer                 # keyboard model picker
+ai-lab weights offer                 # keyboard model picker
 ai-lab web                            # opens the app in its own window
 ```
 
@@ -40,15 +69,15 @@ repository's existing models and saved key, set
 Local APIs are started explicitly in a separate terminal:
 
 ```sh
-ai-lab models status --json
-ai-lab downloads install laya          # asks before downloading
-ai-lab models run --laya               # local decisions
-ai-lab models run --deepseek           # DeepSeek generation and watermark detection
-ai-lab downloads install qwen --yes    # official Qwen3-8B Q4_K_M, verified SHA-256
+ai-lab services --action list --json
+ai-lab weights install laya          # asks before downloading
+ai-lab services --action start --model laya               # local decisions
+ai-lab services --action start --model deepseek           # DeepSeek generation and watermark detection
+ai-lab weights install qwen --yes    # official Qwen3-8B Q4_K_M, verified SHA-256
 ai-lab models create --name Qwen --underlying-model qwen --seed 42
-ai-lab models run --qwen               # separate owned API on 127.0.0.1:11439
-ai-lab downloads install clm --yes     # CLM/Qwen weights and both CLM servers
-ai-lab models run --contrastive        # native Contrastive decisions
+ai-lab services --action start --model qwen               # separate owned API on 127.0.0.1:11439
+ai-lab weights install clm --yes     # CLM/Qwen weights and both CLM servers
+ai-lab services --action start --model contrastive        # native Contrastive decisions
 ```
 
 Ask your agent to list models, answer decision questions, explain watermark
@@ -95,44 +124,40 @@ same workspace and on the same port. If the website is stopped, the installed
 app shows the launch command and reconnects when it starts. Workspace pages and
 API results are always fetched live; the app does not cache private model inputs.
 
-First use offers the normal inference setup if needed. The website's pinned
-OpenCode 1.18.32 helper downloads automatically (46 MB), with archive and binary
-checksum verification; no separate installation is needed. `--no-setup` skips
-inference checks/downloads when browsing saved results or configuring models.
-The existing UI assets ship with the package and are served directly from it;
-saved data stays outside Homebrew's Cellar.
+Opening AI Lab's managers/screens never offers weights or starts a model API.
+Bare `ai-lab` prints the canonical launcher. Ordinary `ai-lab web` skips inference
+setup; `--yes` or `--with-models` explicitly opts into provisioning. The existing
+website's pinned OpenCode helper may be installed by its launcher; it is separate
+from model weights/inference. UI assets ship with the package, and saved data
+stays outside Homebrew's Cellar.
 
-The first interactive launch after installing or updating also offers optional
-local models: **DeepSeek** (5.03 GB), **CLM** (16.47 GB, shared by native and upstream
-CLM), and **Laya** (1.69 GB). A keyboard picker shows missing weight sizes and
-server dependencies. Use **↑/↓** to move, **Space** to select any combination,
-**A** to select or clear all, **Enter** to download your selections, or **Esc**
-to skip. **Ctrl+C** cancels the command. The summary shows the selected models' combined missing weight size;
-dependencies use additional space. Leaving DeepSeek unselected does not trigger
-another DeepSeek setup prompt when the app opens.
+Open `ai-lab weights` to inspect downloaded and available models. Choose
+**Download / repair**, or run `ai-lab weights offer`, to open the explicit model
+picker. Use **↑/↓** to move, **Space** to select, **A** to select/clear all,
+**Enter** to download selections, **Esc** to skip, and **Ctrl+C** to cancel.
+The picker shows missing bytes and server dependencies for DeepSeek, Qwen, CLM
+and Laya. No other screen opens this offer automatically.
 
 Downloads use an overall bar and a current-file bar that update in place, with
 transfer speed and estimated time on wider terminals. Verification and dependency
 installation appear in the same display. Package-manager output is saved in
 `ROOT/.state/ai-lab/model-install.log`; failures point to that log. Existing files
 are checksum-verified and reused; interrupted model downloads resume. Your
-selection or skip is remembered for that release, and updates offer missing
-models again. Jev uses your API key and needs no model download.
+selection or skip is remembered; use weights offer to reopen it explicitly. Jev uses your API key and needs no model download.
 
 ```sh
-ai-lab downloads list --json
-ai-lab downloads install laya             # picker for this model
-ai-lab downloads install clm laya --yes    # explicitly accepts both
-ai-lab downloads install --yes            # explicitly accepts all missing models
-ai-lab downloads offer                    # reopen the model picker
+ai-lab weights list --json
+ai-lab weights install laya             # picker for this model
+ai-lab weights install clm laya --yes    # explicitly accepts both
+ai-lab weights install --yes            # explicitly accepts all missing models
+ai-lab weights offer                    # reopen the model picker
 ai-lab web --with-models --yes            # downloads optional models, then opens UI
-ai-lab web --no-models                    # skips this launch's optional model offer
+ai-lab web --no-models                    # opens without inference downloads
 ```
 
-`--no-setup` skips all inference/model offers. Automated or JSON launches leave
-the automatic offer pending; they require `downloads install ... --yes` or
-`--with-models` to download models. Inspect `downloads list --json`
-first. CLM's isolated PyTorch/Transformers environment needs roughly another
+`--no-setup` skips inference provisioning even when requested by another flag.
+Scripts require `weights install ... --yes` or explicit `web --with-models --yes`
+to download models. Inspect `weights list --json` first. CLM's isolated PyTorch/Transformers environment needs roughly another
 1 GB. Laya's npm packages need roughly 250 MB; AI Lab downloads a verified Node
 runtime for Apple Silicon if Node.js 20+ with npm is unavailable. Model files
 and dependencies remain in the workspace and survive CLI upgrades.
@@ -150,8 +175,8 @@ this browser. Shared links contain the state and questions.
 Install and start it with:
 
 ```sh
-ai-lab downloads install clm --yes
-ai-lab models run --contrastive
+ai-lab weights install clm --yes
+ai-lab services --action start --model contrastive
 ```
 
 CLM installation downloads and verifies three parts: the published CLM
@@ -162,8 +187,8 @@ and reused, and interrupted weight downloads resume. No Rust, Xcode, manual
 binary placement, or environment-variable configuration is required.
 
 After upgrading an older installation that already has the CLM/Qwen weights,
-`ai-lab models run --contrastive` automatically installs or updates the native
-server before starting the API. `ai-lab models status --json` reports
+`ai-lab services --action start --model contrastive` automatically installs or updates the native
+server before starting the API. `ai-lab services --action list --json` reports
 `weights_present` separately from `installed`, and includes the install command.
 
 The native server is installed at `.runtime/decisions/mistralrs`, with verified
@@ -192,7 +217,7 @@ probability calculation at revision `bb42c6c5bf914fd449bed2f6ca65be80602cb1f7`.
 Install its shared weights and isolated environment through the CLI:
 
 ```sh
-ai-lab downloads install clm
+ai-lab weights install clm
 ```
 
 An open Decisions page refreshes available models automatically. Select **CLM upstream**
@@ -225,7 +250,7 @@ the raw-embedding ablation and native Mistral server cannot substitute for it.
 0.1.2, in an independent local Node.js server. It loads the pinned English
 `receptron/laya-onnx` bundle at revision
 `68f27dfe5a27a54fb2b1fefc432f43f972e90868` through ONNX Runtime 1.22.0 on the CPU.
-Install with `ai-lab downloads install laya` or accept the CLI's model offer.
+Install explicitly with `ai-lab weights install laya` or choose it in `ai-lab weights`.
 The package, locked npm dependency graph, server code, and manifest live under
 `.runtime/decisions/laya/`; weights live under `.models/laya/`.
 
@@ -336,31 +361,33 @@ configuration; it does not fall back to a local model.
 Start local model APIs yourself in a separate terminal:
 
 ```sh
-ai-lab models status --json                 # includes undownloaded/stopped models
-ai-lab downloads install laya --yes
-ai-lab models run                           # starts all installed local APIs
-ai-lab models run --laya                     # one API
-ai-lab models run --deepseek --clm-upstream  # a selected subset
-ai-lab models run --contrastive             # native CLM; also accepts --clm-native
+ai-lab services --action list --json                 # includes undownloaded/stopped models
+ai-lab weights install laya --yes
+ai-lab services                           # opens the model-aware manager
+ai-lab services --action start --model laya                     # one API
+ai-lab services --action start --model deepseek                 # one shared API
+ai-lab services --action start --model contrastive             # native CLM
 ```
 
-The launcher stays in the foreground. Ctrl+C stops only APIs it started, leaving
-already running APIs alone. Without selection flags, missing models are reported
-and skipped. An explicitly selected missing model returns installation instructions.
+Explicit start/restart stays in the foreground. Ctrl+C stops only APIs it owns,
+leaving borrowed APIs alone. Opening the manager discovers services without
+starting or downloading them. Script mutations require one explicit target.
+Several saved profiles share one backend API. Stop/restart/interrupt require
+verified workspace identity; interrupt stops the entire owned service.
 
 DeepSeek and Qwen APIs started by another launcher are reused only when their
 saved launch settings, binary hash and loaded chat-template hash match the current
 version. After upgrading, an API with missing or older template identity is
 reported as unavailable even if it still responds as `default`. Stop that API
 through its original launcher (Ctrl+C in that terminal), then run
-`ai-lab models run --deepseek` or `ai-lab models run --qwen` again. Updating the
+`ai-lab services --action start --model deepseek` or `ai-lab services --action start --model qwen` again. Updating the
 template file alone cannot change a running model's in-memory template. AI Lab
 does not stop or restart another launcher's API to repair this mismatch.
 
 `--jev` needs no local process. Local inference uses the same pinned runtimes,
-weights, loopback endpoints and logs as the website. `downloads install clm`
+weights, loopback endpoints and logs as the website. `weights install clm`
 provisions both native and upstream CLM runtimes. When existing CLM weights are
-present, `models run --contrastive` repairs a missing native runtime automatically.
+present, `services --action start --model contrastive` repairs a missing native runtime automatically.
 
 MCP probes and calls already running model APIs. It never starts a local model
 or the CLI daemon, including during a download tool call. The website retains
@@ -433,7 +460,7 @@ only the current decode; it never saves profile changes. **Restore profile
 settings** clears overrides. Changing models resets the configuration and
 preserves the pasted text. For a plain profile, supply the original scheme and
 key; the decoder never creates one. Start the selected API manually with
-`ai-lab models run --deepseek` or `ai-lab models run --qwen` if the page asks.
+`ai-lab services --action start --model deepseek` or `ai-lab services --action start --model qwen` if the page asks.
 Results show the effective model/scheme, native statistics, known-key confidence
 and p-value, or insufficient evidence. Edited text/configuration marks previous
 results stale; an API failure leaves the inputs and last successful result
@@ -466,9 +493,9 @@ uv sync --frozen --extra mcp
 
 ```sh
 uv sync --frozen
-./ai-lab                        # first-run setup, then model configuration
+./ai-lab                        # canonical public launcher
 ./ai-lab models                 # interactive model configuration
-./ai-lab chat --model seed-1 --scheme synthid
+./ai-lab completion --model seed-1 --scheme synthid
 ```
 
 The workspace has a prompt/answer editor, probability bars, a scrollable native
@@ -478,7 +505,8 @@ and `Ctrl+Q` closes the pane. Use Tab, arrows, Enter, Page Up/Down and the mouse
 navigate. Small windows switch to one panel at a time with view buttons; short
 panes use the keyboard commands to preserve room for results. Closing a pane does not stop its session or the background service.
 
-A plain `ai-lab` starts setup on first interactive launch. Setup explains the
+A plain `ai-lab` prints the twelve canonical public surfaces. Explicit
+`ai-lab weights --setup` runs setup. Setup explains the
 5.03 GB weight download, downloads the pinned prebuilt Metal runtime,
 and verifies model, tokenizer, template, archive, and binary hashes. It needs
 Apple Silicon and macOS 15 or newer. Users do not need Xcode, the Metal developer
@@ -488,7 +516,7 @@ dependencies. A package installation does not silently download weights.
 Both public forks are compiled into the server at their exact `sources.json`
 commits. Metal kernels use the macOS Metal framework on first use; no developer
 tools run on the user's machine. The release binary links only to macOS system
-libraries. `ai-lab doctor --json` reports the supported OS and download size.
+libraries. `ai-lab weights --doctor --json` reports the supported OS and download size.
 The first server startup prepares Metal kernels and can take several minutes.
 
 ## Homebrew
@@ -514,10 +542,10 @@ sh packaging/install.sh update --yes
 sh packaging/install.sh update --no-models
 ```
 
-Bare `brew install` / `brew upgrade` and direct wheel installs use the automatic
-offer on the next interactive CLI launch. Homebrew's formula install hooks cannot
-run an interactive model prompt. The wrapper and first-launch fallback use the
-same CLI download catalog and remember the choice outside Homebrew's Cellar.
+Bare `brew install` / `brew upgrade`, direct wheel installation, and ordinary
+CLI launches do not offer model downloads. Open `ai-lab weights` or run
+`ai-lab weights offer` explicitly. The wrapper's `--yes` explicitly accepts the
+weights offer; its default prints the weights-manager instruction.
 
 For a direct package install, download the wheel from the
 [release](https://github.com/iamorlando/homebrew-ai_lab/releases/latest), then run:
@@ -526,7 +554,7 @@ For a direct package install, download the wheel from the
 uv tool install --force --python 3.13 ./ai_lab-0.1.11-py3-none-any.whl
 uv tool update-shell                  # if the executable directory is not on PATH
 ai-lab --version
-ai-lab downloads offer                # optional models; keyboard picker
+ai-lab weights offer                # optional models; keyboard picker
 ```
 
 Installed copies store data in `~/.local/share/ai-lab` (or `AI_LAB_HOME`). Source
@@ -534,23 +562,74 @@ runs default to this checkout. To share website models and the existing DeepSeek
 installation, pass `--root /path/to/deepseek` before the subcommand or export
 `AI_LAB_ROOT`. Runtime paths remain outside Homebrew's Cellar and survive upgrades.
 
+Root selection stays deterministic: global `--root` wins over `AI_LAB_ROOT`.
+Source runs otherwise use the checkout; installed runs use `AI_LAB_HOME` when set,
+then `~/.local/share/ai-lab`. An explicit root or either environment override never
+silently falls back to another root. Inspect the exact selected root and missing
+filenames with `ai-lab weights list --json`; normal list output also distinguishes
+verified weights from runtime setup.
+
+When files are absent at the installed default, the picker/status can point to
+size-matching files in the source checkout, `~/dev/deepseek`, `~/dev/ai_experiments`,
+or the installed default. These hints are **unverified** until their SHA matches.
+For another prior location, put at most eight absolute paths in a JSON array at
+`<selected-root>/.state/ai-lab/model-roots.json`. Discovery inspects these exact
+locations only. Choose a root with `ai-lab --root /path weights list --json`.
+Accepted setup at the default installed root can attach checksum-verified model
+files from a single known root using symlinks. Keep that source directory available.
+It never moves or deletes the source weights, imports its runtime metadata, or
+merges profiles/secrets. Existing target files/partials stay untouched by reuse;
+ambiguous roots and wrong hashes require an explicit choice. Custom manifests and
+templates remain user-owned and disable automatic attachment.
+Initialization and automatic repair reject links below the selected root in
+managed state/profile paths before writing files or changing directory modes.
+This includes `.state`, `.state/ai-lab`, `harness`, and `harness/models.json`, even
+when a link is dangling. Model startup/discovery use the same early boundary;
+foreign cache/profile trees stay untouched. An explicitly selected root may itself
+be a link to the workspace you chose.
+
+Verification uses private receipts in
+`<selected-root>/.state/ai-lab/weight-verification.json` (file mode `0600`, directory
+`0700`). Unchanged files reuse the prior checksum across CLI launches. Receipts
+include the resolved path, catalog digest, device/inode, size, and nanosecond
+mtime/ctime. A first check or changed file is hashed again; large checks announce
+the verification. These receipts trust the local cache owner, not arbitrary public
+or symlinked cache files. Removing the receipt triggers fresh verification.
+
 ## Update an existing installation
 
 ```sh
 brew update
 brew upgrade iamorlando/ai_lab/ai_lab
 ai-lab --version                      # AI Lab 0.1.11
-ai-lab server stop             # only if an idle private service is running
-ai-lab downloads offer                # choose missing models with Space and Enter
+ai-lab completion --service-action stop             # only if an idle private service is running
+ai-lab weights offer                # choose missing models with Space and Enter
 ai-lab mcp install --codex --force     # refresh this client's packaged tools
 ```
 
 Restart your MCP client after refreshing its entry. Stop an older website with
 Ctrl+C in its launch terminal, then start `ai-lab web` again. Homebrew upgrades
 preserve downloaded weights, saved profiles, watermark keys, and results outside
-its Cellar. An install/upgrade offers missing models on the next interactive
-launch, or immediately through `packaging/install.sh`; declining the offer keeps
-hosted Jev available. MCP never starts local model APIs automatically.
+its Cellar. Open `ai-lab weights` explicitly after installing/upgrading to
+inspect available models. Hosted Jev remains available with its configured key. MCP never starts local model APIs automatically.
+
+Verified weights with an outdated runtime are not missing downloads: status shows
+`weights_present: true`, `missing_bytes: 0`, and `dependencies_ready: false`.
+The automatic offer selects only missing/invalid weights and reports runtime setup
+separately. `ai-lab services --action start --model deepseek` (or `--model qwen`) can repair only their shared
+published, checksummed runtime before starting the owned API, with no weight or
+asset download and no compilation. Custom source/runtime overrides need explicit
+setup. A running borrowed API is left alone; port/process ownership checks remain
+in effect. Missing/corrupt weights produce a root-specific error listing files.
+The older CLM Qwen safetensors are encoder weights; Qwen completion still needs the
+distinct `Qwen3-8B-Q4_K_M.gguf` (5,027,783,488 bytes). Shared tokenizer/config files
+are reused.
+
+Release storage proof is self-contained for tap CI:
+`/installed/venv/bin/python -I packaging/check_storage.py` (or pass `--python` to
+the script). It exercises tiny scratch weights, an in-memory runtime artifact,
+bounded reuse, and fresh-interpreter receipts. It makes zero weight-download calls,
+real network requests, model starts, GPU or SDK calls, and imports no source tests.
 
 Normal setup downloads a verified prebuilt runtime instead of compiling on the
 user's machine and reuses existing verified files. Both public forks retain
@@ -560,7 +639,7 @@ preserving saved data. Custom source manifests remain under your control.
 Developers with custom runtime pins can opt into compilation:
 
 ```sh
-ai-lab setup --build-from-source --yes
+ai-lab weights --setup --build-from-source --yes
 ```
 
 Source builds require Rust via rustup and Apple's Command Line Tools. Full Xcode
@@ -572,7 +651,7 @@ source provenance. Normal setup never silently falls back to a source build.
 The interactive editor uses the website's field metadata: name, DeepSeekR1 or Qwen3-8B,
 optional decimal/hexadecimal seed, scheme, generated or supplied key, and each
 scheme's settings. Names are unique; seedless profiles remain seedless. Selecting
-a saved profile displays its settings; **Open** launches its completion workspace; change the name to make a copy. Deleting a
+a saved profile displays its settings; **Completion** launches its token workspace; **Save settings** updates backend/watermark settings while preserving its name and seed; change the name to make a copy. Deleting a
 profile preserves recorded sessions, but that profile cannot start new runs.
 See [model profiles and watermarking](model-profiles.md) for choosing either
 family, creating watermarked profiles, and an isolated installed-package check.
@@ -581,7 +660,7 @@ family, creating watermarked profiles, and an isolated installed-package check.
 ai-lab models list --json
 ai-lab models create --name seeded --seed 0x600D_C0FFEE --json
 ai-lab models create --name marked --watermark-file watermark.json --json
-ai-lab schemes --json
+ai-lab completion --schemes --json
 ```
 
 A session requires a saved profile. Use `--name 'My model'` to select its exact
@@ -601,20 +680,20 @@ configuration remains fixed; make a new session to change it.
 ## Separate tmux or Herdr panes
 
 ```sh
-ai-lab session create --name seeded --scheme synthid --session-name experiment --json
+ai-lab completion --session-action create --name seeded --scheme synthid --session-name experiment --json
 # Use the returned id for every pane:
-ai-lab view chat --session SESSION_ID
-ai-lab view tournament --session SESSION_ID
-ai-lab view probabilities --session SESSION_ID
-ai-lab view tokens --session SESSION_ID
+ai-lab completion --view chat --session SESSION_ID
+ai-lab completion --view tournament --session SESSION_ID
+ai-lab completion --view probabilities --session SESSION_ID
+ai-lab completion --view tokens --session SESSION_ID
 ```
 
 Or create the layout automatically:
 
 ```sh
-ai-lab layout tmux --name seeded --scheme synthid --launch --json
+ai-lab completion --layout tmux --name seeded --scheme synthid --launch --json
 # The result includes the tmux attach command.
-ai-lab layout herdr --name seeded --scheme synthid --launch --json
+ai-lab completion --layout herdr --name seeded --scheme synthid --launch --json
 ```
 
 Herdr must already have a running session. Both layout commands print their plan
@@ -633,29 +712,43 @@ updates, and the token table labels green/red or favored/unfavored membership. T
 
 ## Automation and API discovery
 
-For multi-turn local assistant chat, open an agent window:
+For multi-turn local assistant chat, launch an exact saved model name:
 
 ```bash
-ai-lab agent --model qwen
-ai-lab agent --name "My saved profile" --self-mcp
-ai-lab agent --model deepseek --self-mcp --tool-choice required
-ai-lab agent --model deepseek --self-mcp --herdr-tab --json
+ai-lab models list --json
+ai-lab chat --name "Exact model name"
+# Or select a built-in generation family:
+ai-lab chat --model qwen
+ai-lab chat --model deepseek
 ```
 
-Start the selected native API in another terminal with `ai-lab models run --qwen`
-or `--deepseek`. The agent reports an unavailable model with its launch command;
+Start the selected native API in another terminal with `ai-lab services --action start --model qwen`
+or `--model deepseek`. The agent reports an unavailable model with its launch command;
 it never starts/downloads a model or switches to a hosted service. `--name`
 selects an exact saved profile and inherits its seed and watermark settings.
+Use the name exactly as saved, including case, and choose either `--name` or
+`--model`. These generation families/profiles are separate from decision providers
+such as Laya, native/upstream Contrastive and Jev.
 `--scheme none` disables watermarking for this chat without changing the profile;
 `--seed`, `--watermark-file`, `--temperature` and `--max-tokens` are unsaved overrides.
 The window shows the selected profile, backend and watermark scheme. It displays
 progress while waiting for the native response and retains successful conversation
 history. Stop with Ctrl+C/Escape and exit with Ctrl+Q. Failed/canceled turns stay
-visible and are excluded from subsequent history. Existing `ai-lab chat` remains
+visible and are excluded from subsequent history. `ai-lab completion` provides
 the next-token inspection workspace.
 
-`--self-mcp` connects the shipped AI Lab MCP server without a config file. Its
-decision tools require an explicit local provider (`laya`, `contrastive` or
+In Herdr, the running agent automatically reports lifecycle state in the current
+pane. No flag is required. To open a separate tab instead, optionally use
+`ai-lab chat --name "Exact model name" --herdr-tab`; add `--json` only when you
+need the new tab/pane identifiers for automation.
+
+Optional `--self-mcp` connects the shipped AI Lab MCP server without a config file:
+
+```sh
+ai-lab chat --name "Exact model name" --self-mcp
+```
+
+Its decision tools require an explicit local provider (`laya`, `contrastive` or
 `clm-upstream`) and a separately running local API. The assistant requests real
 tools through native tool calls, receives actual MCP results and continues the
 answer. Each call asks Allow/Deny unless its exact own tool name was explicitly
@@ -676,15 +769,14 @@ results use auto so the assistant can answer. Empty discovery or a required
 response without genuine calls fails visibly without dispatch or automatic retry.
 Plain chat remains available with no MCP connection.
 
-One observed DeepSeek automatic request on the current runtime returned prose
-and unwrapped JSON without native tool calls. This does not establish that all
-DeepSeek requests fail. Explicit required mode is a separate user choice;
-its evidence must be assessed separately from automatic behavior.
+Native tool-call enforcement does not guarantee correct arguments or sound
+model reasoning. Inspect returned tool evidence and visible failures when
+assessing an answer.
 
 Custom AI Lab agent windows in Herdr use an explicit prompt bridge:
 
 ```bash
-ai-lab agent-prompt --pane PANE_ID --prompt "Your message" --wait --timeout 30 --json
+ai-lab chat --pane PANE_ID --prompt "Your message" --wait --timeout 30 --json
 ```
 
 Use `--session-id UUID` to require a known chat session, or `--prompt-file FILE`
@@ -707,13 +799,13 @@ Inspired by Herdr's [CLI](https://herdr.dev/docs/cli-reference/) and
 a versioned local API, persistent sessions, shell completion and an agent guide:
 
 ```sh
-ai-lab help --json
-ai-lab api schema
+ai-lab --json
+ai-lab completion --api-schema
 ai-lab --skill
-ai-lab completion zsh > ~/.zfunc/_ai-lab
+ai-lab completions zsh > ~/.zfunc/_ai-lab
 ```
 
-`api schema`, `--skill`, help, and completion generation work before setup and do
+`completion --api-schema`, `--skill`, help, and shell-script generation work before setup and do
 not launch a server. Dynamic shell completion suggests saved names for `--name`,
 model IDs for `--model`, and session IDs from a running service without starting
 one. Names with spaces complete as a single value. `models create --name` accepts
@@ -722,14 +814,14 @@ Dynamic lookups honor the global `--root PATH` or `--root=PATH`; quote workspace
 paths containing spaces to complete names and session IDs from that workspace.
 
 ```sh
-ai-lab complete --name seeded --scheme synthid \
+ai-lab completion --name seeded --scheme synthid \
   --prompt 'the quick brown fox jumps over the lazy' --json
-ai-lab complete --session SESSION_ID --prompt-file prefix.txt --no-wait --json
-ai-lab session wait SESSION_ID --timeout 1200 --json
-ai-lab session get SESSION_ID --json
-ai-lab session select SESSION_ID --step 0 --token-id 5562 --revision REV --json
-ai-lab session append SESSION_ID --revision REV --json
-ai-lab session stop SESSION_ID --json
+ai-lab completion --session SESSION_ID --prompt-file prefix.txt --no-wait --json
+ai-lab completion --session-action wait --session SESSION_ID --timeout 1200 --json
+ai-lab completion --session-action get --session SESSION_ID --json
+ai-lab completion --session-action select --session SESSION_ID --step 0 --token-id 5562 --revision REV --json
+ai-lab completion --session-action append --session SESSION_ID --revision REV --json
+ai-lab completion --session-action stop --session SESSION_ID --json
 ```
 
 An existing session keeps its profile, scheme, and temperature. Do not supply
@@ -748,8 +840,8 @@ goes to stdout; JSON errors go to stderr with exit 1 (invalid command syntax use
 exit 2). A wait timeout leaves generation running. Stop finishes the in-flight
 native decision before releasing the shared inference lock.
 
-`ai-lab api call METHOD /api/lab/... --body-file request.json` invokes the same
-endpoints as the TUI. `api snapshot` lists models and sessions. Session responses
+`ai-lab completion --api-call METHOD /api/lab/... --body-file request.json` invokes the same
+endpoints as the TUI. `completion --api-snapshot` lists models and sessions. Session responses
 omit watermark keys; model configuration responses include them for editing.
 To create a session directly, send either `{"model_name":"seeded"}` or
 `{"model":"MODEL_ID"}` to `POST /api/lab/sessions`. Exactly one selector is
@@ -770,9 +862,9 @@ services, and each workspace has its own socket. A long root path uses a private
 user-owned socket directory in `/tmp`. State remains under `ROOT/.state/ai-lab`.
 
 ```sh
-ai-lab doctor --json
-ai-lab server status --json
-ai-lab server stop
+ai-lab weights --doctor --json
+ai-lab completion --service-action status --json
+ai-lab completion --service-action stop
 ```
 
 Only an idle, private AI Lab service can be stopped this way. It leaves the

@@ -74,8 +74,8 @@ async def phase(root, entry, *, fixture=False):
             assert models['default_decision_model'] == 'jev'
             for family in ('deepseek', 'qwen'):
                 row = next(r for r in models['models'] if r['name'] == family)
-                assert row['run_command'].endswith('--'+family)
-                assert row['install_command'] == f'ai-lab downloads install {family} --yes'
+                assert row['run_command'] == f'ai-lab services --action start --model {family}'
+                assert row['install_command'] == f'ai-lab weights install {family} --yes'
             assert len((await call('explain_watermarks'))['schemes']) == 6
             seeded = await call('create_seeded_model', {'name': 'MCP seed', 'seed': '0x2A'})
             assert seeded['seed'] == 42 and seeded['underlying_model'] == 'DeepSeekR1'
@@ -110,9 +110,9 @@ async def phase(root, entry, *, fixture=False):
                     for name, args in [('generate_text', {'prompt': 'Hello', 'model': wm['key']}),
                                        ('detect_watermark', {'text': 'External text', 'model': wm['key']}),
                                        ('inspect_next_token', {'prompt': 'Exact prefix', 'model': wm['key']})]:
-                        assert 'models run --'+family in await call(name, args, error=True)
+                        assert 'services --action start --model '+family in await call(name, args, error=True)
             assert root.joinpath('harness/models.json').stat().st_mode & 0o777 == 0o600
-            assert 'models run --laya' in await call('answer_decisions', {'model': 'laya', 'state': 'test',
+            assert 'services --action start --model laya' in await call('answer_decisions', {'model': 'laya', 'state': 'test',
                      'questions': {'ok': {'type': 'noul'}}}, error=True)
             assert 'Jev needs' in await call('answer_decisions', {'state': 'test', 'questions': {'ok': {'type': 'noul'}}}, error=True)
             assert (await call('list_results'))['results'] == []

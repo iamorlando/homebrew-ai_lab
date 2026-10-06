@@ -24,9 +24,15 @@ from ai_lab.native_chat import NativeChat
 from ai_lab.cli import main
 assert pathlib.Path(__import__('ai_lab.agent_backend',fromlist=['']).__file__).is_relative_to(site)
 with contextlib.redirect_stdout(io.StringIO()) as out:
-    assert main(['help','--json'])==0
+    assert main(['--json'])==0
     commands=json.loads(out.getvalue())['commands']
-    assert 'agent' in commands and 'agent-prompt' in commands
+    assert isinstance(commands,dict)
+    assert set(commands)=={'weights','models','apis','chat','decisions','completion',
+                           'services','decoder','skills','mcp','completions','web'}
+    chat_flags={flag for option in commands['chat']['options'] for flag in option['flags']}
+    completion_flags={flag for option in commands['completion']['options'] for flag in option['flags']}
+    assert {'--name','--self-mcp','--pane','--tool-choice','--herdr-tab'} <= chat_flags
+    assert {'--prompt','--session-action','--view','--layout','--api-schema'} <= completion_flags
 async def check():
     results=[]
     for family,expected in [('deepseek','DeepSeekR1'),('qwen','Qwen3-8B')]:
