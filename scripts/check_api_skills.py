@@ -22,7 +22,7 @@ from unittest.mock import patch
 
 
 PUBLIC = {'weights', 'models', 'apis', 'chat', 'decisions', 'completion',
-          'services', 'decoder', 'skills', 'mcp', 'completions', 'web'}
+          'services', 'decoder', 'skills', 'mcp', 'completions', 'web', 'setup-python-experiments'}
 
 
 def require(condition, message):
@@ -132,7 +132,7 @@ def worker(canonical):
         canonical_examples = 0
         if canonical:
             discovery = capture(cli.main, ['--json'])
-            require(set(discovery['commands']) == PUBLIC, 'Public CLI surfaces do not match the exact twelve contract')
+            require(set(discovery['commands']) == PUBLIC, 'Public CLI surfaces do not match the exact thirteen contract')
             commands = set(re.findall(r'\bai-lab\s+([a-z][\w-]*)', cli.SKILL))
             require(commands == PUBLIC, 'Central guide contains stale commands or omits a canonical surface')
             for flag in ['--self-mcp', '--allow-tool', '--tool-choice', '--session-action', '--revision', '--view', '--layout', '--pane']:

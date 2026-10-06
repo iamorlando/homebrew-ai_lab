@@ -28,7 +28,7 @@ with contextlib.redirect_stdout(io.StringIO()) as out:
     commands=json.loads(out.getvalue())['commands']
     assert isinstance(commands,dict)
     assert set(commands)=={'weights','models','apis','chat','decisions','completion',
-                           'services','decoder','skills','mcp','completions','web'}
+                           'services','decoder','skills','mcp','completions','web','setup-python-experiments'}
     chat_flags={flag for option in commands['chat']['options'] for flag in option['flags']}
     completion_flags={flag for option in commands['completion']['options'] for flag in option['flags']}
     assert {'--name','--self-mcp','--pane','--tool-choice','--herdr-tab'} <= chat_flags

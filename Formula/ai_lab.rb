@@ -1,9 +1,9 @@
 class AiLab < Formula
   desc "AI Lab website, local DeepSeek/Qwen chat, decisions, and watermark tools"
   homepage "https://github.com/iamorlando/homebrew-ai_lab"
-  url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.12/ai_lab-0.1.12.tar.gz"
-  version "0.1.12"
-  sha256 "d4cb7233ac79a9af72826f92f267765aeb185748ac443eb531ee2f89559237dd"
+  url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.13/ai_lab-0.1.13.tar.gz"
+  version "0.1.13"
+  sha256 "9f679b5b5a9cc2f28128a885457eaee2ad54c8a4281762ab62b595d5a7bd673b"
 
 
   depends_on arch: :arm64
@@ -86,7 +86,7 @@ class AiLab < Formula
     assert schema.fetch("paths").key?("/api/lab/sessions/{session}/complete")
     assert schema.fetch("paths").fetch("/api/lab/models/{key}").key?("patch")
     discovery = JSON.parse(shell_output("#{bin}/ai-lab --json"))
-    public_commands = %w[weights models apis chat decisions completion services decoder skills mcp completions web]
+    public_commands = %w[weights models apis chat decisions completion services decoder skills mcp completions web setup-python-experiments]
     assert_equal public_commands.sort, discovery.fetch("commands").keys.sort
     assert_match "--codex", shell_output("#{bin}/ai-lab mcp install --help")
     chat_help = shell_output("#{bin}/ai-lab chat --help")

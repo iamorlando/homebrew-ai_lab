@@ -33,7 +33,7 @@ nonregular destination files and parent traversal. These checks also apply to
 operations. It does not modify client configuration, install MCP, launch models,
 download dependencies or message another agent.
 
-The final central guide uses the twelve canonical public surfaces. Conversation
+The final central guide uses the thirteen canonical public surfaces. Conversation
 uses `ai-lab chat --name "Exact saved name"`; optional `--self-mcp` enables AI
 Lab's own offline tools without a config file. Allow/Deny remains required
 unless an exact own tool is preauthorized through `--allow-tool`. Requiring a
