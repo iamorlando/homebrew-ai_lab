@@ -370,6 +370,13 @@ async def agent_probe(root, phase):
                 discovery_hash = discovered_tools(await backend._connect())
                 from textual.widgets import Button, Input
                 choice_control = app.query_one('#agent-tool-choice', Button)
+                async def click_tool_choice():
+                    # Textual ignores another click during the pressed effect.
+                    # Wait for that real UI state, then exercise the next click.
+                    async with asyncio.timeout(5):
+                        while choice_control.has_class('-active'):
+                            await pilot.pause(.01)
+                    require(await pilot.click('#agent-tool-choice'), 'Tool mode button was not clickable')
                 require(app.tool_choice == args.tool_choice, 'UI lost CLI-selected/default tool mode')
                 history = []
                 approvals = 0
@@ -379,12 +386,12 @@ async def agent_probe(root, phase):
                         # DeepSeek starts at default auto; Qwen starts at the
                         # public CLI's required option. Exercise both controls.
                         if family == 'qwen' and index == 0:
-                            require(await pilot.click('#agent-tool-choice'), 'Tool mode button was not clickable')
+                            await click_tool_choice()
                             require(app.tool_choice == 'auto', 'Visible control did not select auto')
                         if (family == 'deepseek' and index == 0) or (family == 'qwen' and index == 1):
                             await pilot.press('ctrl+t')
                         else:
-                            require(await pilot.click('#agent-tool-choice'), 'Tool mode button was not clickable')
+                            await click_tool_choice()
                         require(app.tool_choice == chosen and chosen.title() in str(choice_control.label),
                                 'Visible mode did not match submitted tool choice')
                     prompt = 'first fixture turn' if index == 0 else 'second fixture turn'
