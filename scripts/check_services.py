@@ -50,7 +50,7 @@ async def check(root, evidence=None):
     import inference
     import decisions
     import ai_lab.model_servers as servers
-    from ai_lab import downloads, runtime
+    from ai_lab import downloads, runtime, decision_processes
     from ai_lab.service import atomic_json
     from ai_lab.service_manager import NativeServices, ServicesApp, select_service, add_parser
     from model_profiles import ModelProfiles, profile_values
@@ -209,6 +209,7 @@ async def check(root, evidence=None):
         stack.enter_context(patch('inference.verify_installation', side_effect=lambda *_: json.loads(build_file.read_text())))
         stack.enter_context(patch('inference.api', side_effect=fake_native_api))
         stack.enter_context(patch('inference.port_available', side_effect=lambda model: inference.generation_backend(model).family not in occupied))
+        stack.enter_context(patch('ai_lab.decision_processes.port_available', side_effect=lambda url: port_names[urlsplit(url).port] not in occupied))
         stack.enter_context(patch('ai_lab.service_manager.endpoint_available', side_effect=lambda url: port_names[int(url.rsplit(':', 1)[1])] not in occupied))
         stack.enter_context(patch('ai_lab.model_servers.installed_models', side_effect=installed))
         stack.enter_context(patch('ai_lab.model_servers.download_status', side_effect=downloads.status))
@@ -219,12 +220,13 @@ async def check(root, evidence=None):
         stack.enter_context(patch('ai_lab.model_servers._upstream_ready', return_value=True))
         stack.enter_context(patch('decisions.upstream_installed', return_value=True))
         stack.enter_context(patch('decisions.laya_installed', return_value=True))
-        stack.enter_context(patch('decisions.laya_command', side_effect=lambda _, port: ['fixture-laya', '--port', str(port)]))
+        stack.enter_context(patch('ai_lab.laya.setup', return_value=None))
         # The real accepted repair/install path sees only tiny files and a memory
         # artifact. Model/weight installation and every real process remain forbidden.
         stack.enter_context(patch('ai_lab.downloads.install', side_effect=AssertionError('No weight download')))
         stack.enter_context(patch('ai_lab.downloads.download_file', side_effect=AssertionError('No weight transfer')))
         stack.enter_context(patch('ai_lab.runtime.descriptor', return_value=release))
+        stack.enter_context(patch('ai_lab.runtime.install_decisions', return_value={'distribution': 'inert fixture'}))
         stack.enter_context(patch('ai_lab.runtime.supported', return_value=True))
         stack.enter_context(patch('urllib.request.urlopen', side_effect=artifact))
         stack.enter_context(patch('subprocess.check_output', side_effect=version))
@@ -233,9 +235,13 @@ async def check(root, evidence=None):
         stack.enter_context(patch.object(servers, 'prime_generation_verification'))
 
         inventory = await backend.snapshot()
-        require(len(inventory['profiles']) == 3 and len(inventory['services']) == 6, 'Saved inventory missing')
+        require(len(inventory['profiles']) == 3 and len(inventory['services']) == 5, 'Saved inventory missing')
+        require({row['name'] for row in inventory['services']} == {'deepseek', 'qwen', 'contrastive', 'laya', 'jev'},
+                'Public Services included a legacy adapter or omitted an inference backend')
         require(select_service(inventory, name='[Marked] exact') == 'deepseek', 'Exact name mapping failed')
         require(key not in json.dumps(inventory) and 'seed_literal' not in json.dumps(inventory), 'Private settings leaked')
+        require(all(Path(row['log_path']).is_relative_to(root / '.state') for row in inventory['services']
+                    if row['ownership'] != 'hosted'), 'Local log paths missing or outside the workspace')
         require(not launches and not signals, 'Opening performed a lifecycle action')
         reporter = Reporter()
         app = ServicesApp(backend, name='[Marked] exact', reporter=reporter)
@@ -248,6 +254,9 @@ async def check(root, evidence=None):
                 raise RuntimeError('Mounted fixture did not settle')
             await settle()
             require(app.selected == 'deepseek', 'Mounted selection did not resolve exact name')
+            from textual.widgets import DataTable
+            require(app.query_one(DataTable).row_count == 5 and app.selected_key == 'service:deepseek',
+                    'Saved profiles created duplicate lifecycle rows instead of selecting their shared server')
             for action in ('start', 'restart', 'interrupt'):
                 await pilot.click('#' + action)
                 await settle()
@@ -261,8 +270,10 @@ async def check(root, evidence=None):
         require(reporter.closed and 'working' in reporter.states and 'idle' in reporter.states, 'Herdr lifecycle did not settle')
         await backend.perform('start', 'qwen')
         await backend.perform('stop', 'qwen')
-        for name in ('clm-upstream', 'laya'):
-            await backend.perform('start', name)
+        await backend.perform('start', 'laya')
+        require(decision_processes.owned_state(root, family='laya') == backend.created['laya'].state,
+                'Laya durable process identity missing')
+        await backend._launch('clm-upstream')  # Internal timeout isolation retains the legacy adapter.
         kept = {name: backend.created[name] for name in ('clm-upstream', 'laya')}
         before = len(signals)
         from ai_lab.service_manager import ServiceError
@@ -277,10 +288,15 @@ async def check(root, evidence=None):
         require(signals[before:] == [('contrastive', int(signal.SIGTERM))], 'Timeout stopped an unrelated provider')
         require(all(backend.created[name] == identity and identity.pid in live for name, identity in kept.items()),
                 'Contrastive timeout lost other providers or their ownership')
-        for name in ('clm-upstream', 'laya'):
-            await backend.perform('stop', name)
+        await backend.perform('stop', 'laya')
+        await backend._stop('clm-upstream', backend.created['clm-upstream'], signal.SIGTERM)
+        await backend.perform('start', 'contrastive')
+        require(decision_processes.owned_state(root) == backend.created['contrastive'].state, 'Native CLM durable identity missing')
+        await backend.perform('restart', 'contrastive')
+        await backend.perform('interrupt', 'contrastive')
         await backend.perform('start', 'contrastive')
         await backend.perform('stop', 'contrastive')
+        require(not decision_processes.state_path(root).exists(), 'Native CLM identity receipt leaked after Stop')
         require(not live and not backend.created, 'Fixture-owned service leaked')
         require(len(artifacts) == 1 and downloads.dependencies_ready(root, 'deepseek')
                 and downloads.dependencies_ready(root, 'qwen'), 'Accepted shared runtime repair did not verify/reuse')

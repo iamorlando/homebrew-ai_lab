@@ -131,3 +131,4 @@ jobs:
           "$ai_lab_python" -I scripts/check_services.py
           "$ai_lab_python" scripts/check_api_skills.py --python "$ai_lab_python" --canonical
           "$ai_lab_python" -I scripts/check_storage.py
+          "$ai_lab_python" -I scripts/check_python_experiments.py --python "$ai_lab_python"

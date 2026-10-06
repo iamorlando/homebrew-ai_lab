@@ -1,8 +1,8 @@
 # AI Lab
 
-The public launcher lists exactly twelve surfaces: `weights`, `models`, `apis`,
+The public launcher lists exactly thirteen surfaces: `weights`, `models`, `apis`,
 `chat`, `decisions`, `completion`, `services`, `decoder`, `skills`, `mcp`,
-`completions`, `web`. Bare `ai-lab` shows help; `ai-lab --json` returns discovery.
+`completions`, `web`, `setup-python-experiments`. Bare `ai-lab` shows help; `ai-lab --json` returns discovery.
 `apis` is informational only, and `skills install --agent codex --scope project`
 installs the current advanced guide. Screens never offer weights automatically.
 For advanced session/trace/API flags, use `ai-lab --skill` for its complete flag reference.
@@ -86,6 +86,37 @@ text. `detect_watermark` accepts a saved model name/key or explicit scheme, key,
 and settings. `update_watermarked_model` saves overrides for future sessions;
 `get_model_config` can retrieve the saved watermark key explicitly. See
 [MCP tools and examples](#mcp-for-agent-clients) for the full contract.
+
+## Set up Python experiment notebooks
+
+```sh
+ai-lab setup-python-experiments --location ~/dev/ai_experiments
+# Machine-readable result, containing key names and presence only:
+ai-lab setup-python-experiments --location ~/dev/ai_experiments --json
+```
+
+`--location` is the exact checkout directory, relative to the current directory
+when given a relative path. Setup clones `iamorlando/ai_experiments` using normal
+Git authentication, or reuses a verified matching clone without fetching or
+pulling. It refuses unrelated nonempty directories and linked/shared write files.
+Git and uv are required. The repository's Python requirement selects a compatible
+interpreter (currently Python 3.14), and Poetry installs its actual declared
+dependencies into that checkout's `.venv`. If Poetry is absent, an isolated uv
+tool supplies it. The caller's active environment and installer overrides cannot
+redirect the environment. Setup can download Python and Python dependencies.
+
+Available `TYPESAFE_API_KEY` is copied from the existing CLI credential helper,
+which also accepts `JEV_API_KEY`; optional `CLM_API_KEY` comes from the launch
+environment. Setup adds only missing names to `.env`, preserving existing values,
+empty assignments and comments. New `.env` files use mode 0600; existing private
+permissions are preserved, and group/world access is removed. `.env` and `.venv`
+must be untracked and locally excluded from Git before keys are written. The
+result reports key names/presence, never values. Missing keys do not block setup.
+
+Open and run the notebooks yourself, selecting this `.venv` as their Python
+kernel. Setup does not launch Jupyter, execute notebooks, call hosted providers,
+start model APIs or provision native runtimes. Rerun the same command to finish
+an interrupted install; existing notebooks and settings are preserved.
 
 ## Open the website
 
@@ -207,8 +238,10 @@ weights and precision; CPU offloading can increase latency. The full Qwen3-8B
 encoder still needs enough system memory to hold its weights and workspace.
 
 For an explicitly managed custom installation, `AI_LAB_DECISIONS_BINARY` selects
-another executable. To use an already running server on another port, set
-`AI_LAB_DECISIONS_URL` to its loopback HTTP origin. Optional
+another executable. `AI_LAB_DECISIONS_URL` selects the native runtime's loopback
+HTTP origin and port. Services can launch and manage native CLM there when the
+endpoint is free. An already running server without a verified workspace process
+receipt remains controlled by its original launcher. Optional
 `AI_LAB_DECISIONS_MODEL` selects a name from its decision-model list;
 `AI_LAB_DECISIONS_API_KEY` supplies local server authentication.
 
@@ -505,7 +538,7 @@ and `Ctrl+Q` closes the pane. Use Tab, arrows, Enter, Page Up/Down and the mouse
 navigate. Small windows switch to one panel at a time with view buttons; short
 panes use the keyboard commands to preserve room for results. Closing a pane does not stop its session or the background service.
 
-A plain `ai-lab` prints the twelve canonical public surfaces. Explicit
+A plain `ai-lab` prints the thirteen canonical public surfaces. Explicit
 `ai-lab weights --setup` runs setup. Setup explains the
 5.03 GB weight download, downloads the pinned prebuilt Metal runtime,
 and verifies model, tokenizer, template, archive, and binary hashes. It needs

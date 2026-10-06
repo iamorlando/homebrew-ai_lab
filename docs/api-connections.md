@@ -36,3 +36,9 @@ Connections are shared backend/provider routes. Saved named generation profiles
 belong to `ai-lab models`, with their own seed and watermark settings. Process
 lifecycle belongs to `ai-lab services`. A configured connection does not mean its
 model weights are installed or its API is running.
+
+Native CLM is the managed `contrastive` service. Its URL setting also selects the
+host and port used when Services launches the existing native Mistral runtime.
+A free supported loopback origin can be started locally; a running server is
+controllable only when its workspace PID receipt and live process identity are
+verified. `clm-upstream` remains a separate legacy backend.

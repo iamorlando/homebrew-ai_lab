@@ -1,6 +1,6 @@
 # AI Lab (`ai_lab`)
 
-AI Lab 0.1.12 provides local DeepSeek/Qwen chat, saved models, decision tools,
+AI Lab 0.1.13 provides local DeepSeek/Qwen chat, saved models, decision tools,
 watermark decoding, and token inspection. Requires Apple Silicon and macOS 15
 or newer. Homebrew installs Python and uv; normal setup needs no Xcode or Rust.
 
@@ -28,6 +28,7 @@ or start inference APIs.
 | `ai-lab mcp install` | Install AI Lab's MCP connection for agent clients. |
 | `ai-lab completions` | Generate Bash, Zsh, or Fish completion scripts. |
 | `ai-lab web` | Open the existing web application. |
+| `ai-lab setup-python-experiments --location PATH` | Clone and prepare the Python notebook experiments. |
 
 ## Saved models and chat
 
@@ -39,10 +40,11 @@ downloaded for CLM is used for decision inference.
 ```sh
 ai-lab weights install qwen --yes
 ai-lab models create --name "My Qwen" --underlying-model qwen
-ai-lab services --action start --name "My Qwen"
+ai-lab services --action start --model qwen
 ```
 
-Start keeps its terminal open until Ctrl+C. Open another terminal for chat:
+Start the Qwen server once; all Qwen profiles share it. Start keeps its terminal
+open until Ctrl+C. Open another terminal for chat:
 
 ```sh
 ai-lab chat --name "My Qwen"
@@ -53,10 +55,9 @@ retains its selected DeepSeek/Qwen backend, seed, and watermark settings. Create
 without a watermark file for an unwatermarked model, or use the model manager to
 configure watermarking. `ai-lab chat` without a name opens the model picker.
 
-Services start, stop, restart, and interrupt actions require a selected target.
+Services lists DeepSeek, Qwen, native CLM, Laya and hosted Jev. Start, stop, restart, and interrupt actions require a selected server.
 Saved profiles share one underlying API per family. Interrupt stops the selected
-owned service and affects every profile using it; foreign services remain
-read-only. See the shipped guide for scripted service actions.
+owned service and affects every profile using it; servers launched elsewhere remain usable for chat and read-only in this manager. See the shipped guide for scripted service actions.
 
 ## Decisions, decoder, and completion
 
@@ -122,6 +123,18 @@ generation, decision answers/ranking, token inspection, saved results,
 tournaments, and watermark detection. Keys remain private unless requested
 explicitly. MCP does not start local inference APIs.
 
+## Python experiments
+
+```sh
+ai-lab setup-python-experiments --location ~/dev/ai_experiments
+```
+
+Clones the experiments repository, creates its Python 3.14 or newer environment
+in `.venv`, and installs the dependencies declared by its Poetry project.
+Available relevant API keys are saved privately in `.env`; existing values are
+preserved. A matching existing checkout is reused without pulling changes.
+Open and run the notebooks yourself with that environment.
+
 ## Web and data
 
 ```sh
@@ -142,7 +155,7 @@ repository workspace. Upgrading the CLI preserves those files.
 ```sh
 brew update
 brew upgrade iamorlando/ai_lab/ai_lab
-ai-lab --version                       # AI Lab 0.1.12
+ai-lab --version                       # AI Lab 0.1.13
 ```
 
 After upgrading, refresh existing MCP entries or agent skills with `--force` and

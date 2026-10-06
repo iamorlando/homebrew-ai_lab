@@ -1,24 +1,30 @@
 # Inference services
 
-Run `ai-lab services` in a terminal to see saved generation models and available
-decision APIs. Select a row with the arrow keys. Opening the manager discovers
+Run `ai-lab services` in a terminal to see the five servers and providers:
+DeepSeek, Qwen, native CLM, Laya and hosted Jev. Select a server row with the arrow keys. Opening the manager discovers
 status; starting a service is an explicit action.
 
-Saved profiles show their exact name, underlying API, and whether a watermark
-scheme is enabled. Keys, seeds and private settings stay hidden. Several profiles
-can share the same DeepSeek or Qwen API. Starting a profile starts that shared API
-once. Existing chat and completion requests apply the selected profile's own
-generation settings; selecting a row here does not change those settings.
+Saved profile names and watermark summaries appear as information on their
+shared server row and in its details. Keys, seeds and private settings stay hidden.
+Several profiles share the same DeepSeek or Qwen server. Start launches that
+server once, regardless of how many profiles use it. Existing chat and completion
+requests apply the selected profile's own generation settings.
 
-Use `--name "Exact saved name"` to select a generation profile or `--model qwen`
-to select an API directly. Names are case-sensitive; a missing name never selects
+Use `--name "Exact saved name"` to select that profile's shared server row or
+`--model qwen` to select a server directly. Names are case-sensitive; a missing name never selects
 a different profile. Decision providers use `--model contrastive`,
-`--model clm-upstream`, `--model laya` or `--model jev`.
+`--model laya` or `--model jev`.
+
+Native CLM uses `--model contrastive` and the existing local Mistral runtime at
+`.runtime/decisions/mistralrs`. It is managed like DeepSeek and Qwen. Laya also
+runs locally and has the same service actions. Jev passes requests through to
+its hosted API. The separate legacy `clm-upstream` adapter retains its internal
+implementation and is omitted from Services.
 
 The manager offers:
 
-- **Start**: launch a stopped service with ready prerequisites. DeepSeek and Qwen
-  verify existing weights and repair only the published runtime when needed.
+- **Start**: launch a stopped service with ready prerequisites. DeepSeek, Qwen
+  and native CLM verify existing weights and repair only the published runtime when needed.
   Missing weights and custom runtime/source overrides require explicit setup.
 - **Stop**: stop the selected service after verifying workspace ownership.
 - **Restart**: stop the selected owned service, then launch it again.
@@ -41,11 +47,35 @@ The manager offers:
 Actions with missing prerequisites or unverified ownership are disabled. Missing
 weights and runtime setup are displayed separately; open `ai-lab weights` to
 inspect prerequisites. A hosted Jev connection has no local lifecycle. A decision
-API started by another launcher, including a custom endpoint, must be stopped
-through that launcher because this manager cannot verify its process identity.
-DeepSeek and Qwen workspace services have durable identity records; the manager
-checks them again before sending a signal. If identity changes or shutdown takes
+API without a verified workspace process receipt must be stopped through its
+original launcher. DeepSeek, Qwen, native CLM and Laya have durable identity records;
+the manager checks them again before sending a signal. If identity changes or shutdown takes
 too long, it reports the issue and sends no forced kill.
+
+A healthy API can be running and usable for inference even when it was launched
+from another root. Its ownership remains external and lifecycle actions stay
+disabled until a workspace process receipt verifies the actual process. Saved
+profiles sharing its backend use the same API.
+
+`AI_LAB_DECISIONS_URL` selects the native CLM loopback HTTP origin, including a
+custom port; it does not make native CLM unmanaged. `127.0.0.1`, `localhost`
+(bound as IPv4 loopback), and `[::1]` are supported. Start launches Mistral at that
+origin when it is free. An occupied endpoint with no verified workspace receipt
+stays external. A changed endpoint or binary leaves an existing owned launch
+stale; Stop remains available, and Restart uses the current settings when its
+prerequisites are ready. Native ownership is recorded in
+`.state/decisions-mistral.json`; its log is `.state/decisions-mistral.log`.
+JSON discovery includes an absolute `log_path` for every local service, without
+creating or reading the log. Hosted providers have no local log path.
+
+Laya records its verified local process in `.state/laya-server.json` and logs to
+`.state/laya.log`. A later manager in the same root can Stop, Restart or Interrupt
+that workspace-owned server while its original launcher remains open. When Laya
+weights are verified but its Node/ONNX installation is missing, Start uses the
+same local setup routine as the weights installer. Missing weights show the
+exact `ai-lab weights install laya --yes` command. Managed Laya accepts IPv4
+loopback origins (`127.0.0.1` or `localhost`) and configurable ports; its existing
+Node server binds IPv4 loopback.
 
 Script actions stay under the same public surface:
 
@@ -56,6 +86,8 @@ ai-lab services --action start --name "Exact saved name"
 ai-lab services --action stop --model qwen
 ai-lab services --action restart --model deepseek
 ai-lab services --action interrupt --model deepseek
+ai-lab services --action start --model contrastive
+ai-lab services --action restart --model contrastive
 ```
 
 Start and restart stay in the foreground. Keep that terminal open; Ctrl+C stops
