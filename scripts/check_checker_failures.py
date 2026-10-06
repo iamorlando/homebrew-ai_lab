@@ -112,6 +112,62 @@ class Regression:
             if check.api is not None:
                 check.stop_api()
 
+    def orderly_owner_loss(self):
+        variants = []
+        for via_cli in (True, False):
+            scratch = self.base / ('exited-cli' if via_cli else 'exited-signal')
+            scratch.mkdir(mode=0o700)
+            check = c.Check(SimpleNamespace(executable=self.args.executable), scratch)
+            try:
+                check.start_api()
+                owner, process = check.api_identity, check.api
+                command = [self.args.executable, '--root', str(check.root), 'completion',
+                           '--service-action', 'stop', '--json']
+                # A separate, unmodified public CLI ends the actual owner
+                # cleanly; this must not count as the checker's required stop.
+                result = subprocess.run(command, cwd=scratch,
+                                        env={k: v for k, v in check.env.items() if k != 'AI_LAB_SERVER'},
+                                        capture_output=True, text=True, timeout=40)
+                assert result.returncode == 0 and json.loads(result.stdout)['stopping'] is True
+                process.wait(timeout=10)
+                assert process.returncode == 0 and not check.socket.exists()
+                start = len(check.records)
+                rejected(lambda: check.stop_api(via_cli=via_cli), 'exited before checker shutdown')
+                records = check.records[start:]
+                assert not any(record['case'] == 'CPL-09.stop' for record in records)
+                cleanup = records[-1]
+                assert cleanup['exit'] == 0 and cleanup['cleanup_complete'] and cleanup['socket_removed']
+                assert not cleanup['live_on_entry'] and not cleanup['shutdown_initiated']
+                assert cleanup['public_stop_requested'] is via_cli and 'exited before' in cleanup['error']
+                assert check.api is None and check.api_log is None and u.process_identity(process.pid) is None
+                variants.append({'via_cli': via_cli, 'owner': owner, 'external_stop_command': command,
+                                 'external_stop_exit': result.returncode, 'cleanup': cleanup,
+                                 'checker_public_stop_case_absent': True})
+            finally:
+                if check.api is not None:
+                    check.stop_api()
+                u.create_file(scratch / 'records.json', (json.dumps(check.records, indent=2) + '\n').encode())
+        scratch = self.base / 'live-stop'
+        scratch.mkdir(mode=0o700)
+        check = c.Check(SimpleNamespace(executable=self.args.executable), scratch)
+        try:
+            check.start_api()
+            owner, process = check.api_identity, check.api
+            check.stop_api(via_cli=True)
+            stops = [record for record in check.records if record['case'] == 'CPL-09.stop']
+            assert len(stops) == 1 and stops[0]['exit'] == 0
+            assert stops[0]['command'] == [self.args.executable, '--root', str(check.root),
+                                           'completion', '--service-action', 'stop', '--json']
+            cleanup = check.records[-1]
+            assert cleanup['live_on_entry'] and cleanup['shutdown_initiated'] and cleanup['public_stop_requested']
+            assert cleanup['cleanup_complete'] and cleanup['exit'] == 0 and cleanup['socket_removed']
+            assert 'error' not in cleanup and check.api is None and u.process_identity(process.pid) is None
+            positive = {'owner': owner, 'public_stop': stops[0], 'cleanup': cleanup}
+        finally:
+            check.stop_api()
+            u.create_file(scratch / 'records.json', (json.dumps(check.records, indent=2) + '\n').encode())
+        self.passed('I6-R4CB-F1.unexpected-orderly-owner-loss', variants=variants, live_public_stop=positive)
+
     def stopped_api(self):
         scratch = self.base / 'stopped'
         scratch.mkdir(mode=0o700)
@@ -390,6 +446,7 @@ class Regression:
                   'checker_hashes': {Path(m.__file__).name: u.digest(Path(m.__file__).read_bytes()) for m in (c, u)}}
         try:
             self.cli_crash()
+            self.orderly_owner_loss()
             self.stopped_api()
             self.hung_ptys()
             self.readiness_timeout()

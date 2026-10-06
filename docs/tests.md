@@ -169,7 +169,11 @@ Keep `check_cli.py` and its sibling `check_upgrade.py` together; they share the
 stdlib ownership/transport helpers. CLI/PTY children use an explicit owned
 forwarding endpoint, so owner death cannot auto-start a replacement. The public
 stop command alone uses direct Unix discovery (`start=False`, then one shutdown
-POST). Record an abnormal owner exit as FAIL even when cleanup succeeds. Failed
+POST). Record any unexpected owner exit as FAIL even when cleanup succeeds,
+including an exit with code zero before checker shutdown begins. Record whether
+the owner was live on entry and the checker initiated shutdown; an already-exited
+owner cannot satisfy the required public stop case. Test this with a separate
+unmodified public stop command, for both public-stop and signal-cleanup modes. Failed
 CLI runs retain their private scratch/logs, and their 0600 JSON report identifies
 that directory. Scratch removal follows verified cleanup and report persistence.
 API shutdown waits 10 seconds, then 5 seconds after SIGTERM and 5 after SIGKILL;

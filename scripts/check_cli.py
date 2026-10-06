@@ -289,12 +289,15 @@ class Check:
             return
         process = self.api
         started = time.monotonic()
+        live_on_entry = process.poll() is None
         record = {'case': 'CPL-09.cleanup', 'owned_pid': process.pid,
-                  'log_path': self.api_log_path, 'timeouts': [], 'signals': []}
+                  'log_path': self.api_log_path, 'timeouts': [], 'signals': [],
+                  'live_on_entry': live_on_entry, 'public_stop_requested': via_cli,
+                  'shutdown_initiated': False}
         cleanup_complete = False
         shutdown_error = None
         try:
-            if process.poll() is None:
+            if live_on_entry:
                 if via_cli:
                     self.owner()
                     # Direct stop cannot auto-start: connect(start=False), then
@@ -303,12 +306,14 @@ class Check:
                         self.process([self.executable, '--root', str(self.root), 'completion',
                                       '--service-action', 'stop', '--json'],
                                      env={'AI_LAB_SERVER': ''}, structured=True, case='CPL-09.stop')
+                        record['shutdown_initiated'] = True
                     except (Exception, KeyboardInterrupt) as error:
                         shutdown_error = error
                         record['shutdown_error'] = self.redact(str(error))
                 else:
                     self.signal_api(signal.SIGINT)
                     record['signals'].append('SIGINT')
+                    record['shutdown_initiated'] = True
                 for seconds, next_signal in ((10, signal.SIGTERM), (5, signal.SIGKILL), (5, None)):
                     try:
                         process.wait(timeout=seconds)
@@ -331,6 +336,8 @@ class Check:
             if shutdown_error is not None:
                 raise shutdown_error
             require(process.returncode == 0, 'Owned API did not exit cleanly (owned resources cleaned).')
+            require(live_on_entry, 'Owned API exited before checker shutdown (owned resources cleaned).')
+            require(record['shutdown_initiated'], 'Checker did not initiate the owned API shutdown.')
             require(not record['timeouts'], 'Owned API shutdown timed out (owned resources cleaned).')
         except (Exception, KeyboardInterrupt) as error:
             record['error'] = self.redact(str(error))
