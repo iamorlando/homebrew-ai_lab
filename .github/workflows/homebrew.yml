@@ -55,8 +55,8 @@ jobs:
         run: |
           brew test iamorlando/ai_lab/ai_lab
           ai-lab --version
-          ai-lab api schema > "$RUNNER_TEMP/ai-lab-schema.json"
-          ai-lab help --json > "$RUNNER_TEMP/ai-lab-help.json"
+          ai-lab completion --api-schema > "$RUNNER_TEMP/ai-lab-schema.json"
+          ai-lab --json > "$RUNNER_TEMP/ai-lab-help.json"
       - name: Install the native runtime without developer tools
         run: |
           ai_lab_python="$(brew --prefix ai_lab)/libexec/venv/bin/python"
@@ -126,3 +126,8 @@ jobs:
           python3 scripts/check_cross_model_profiles.py --python "$ai_lab_python"
           python3 scripts/check_cross_model_chat.py --python "$ai_lab_python"
           python3 scripts/check_cross_model_chat.py --python "$ai_lab_python" --required-only
+          "$ai_lab_python" scripts/check_decisions.py --wheel "$ai_lab_wheel" --sdist "$ai_lab_source"
+          "$ai_lab_python" scripts/check_decoder.py --installed --wheel "$ai_lab_wheel" --sdist "$ai_lab_source"
+          "$ai_lab_python" -I scripts/check_services.py
+          "$ai_lab_python" scripts/check_api_skills.py --python "$ai_lab_python" --canonical
+          "$ai_lab_python" -I scripts/check_storage.py

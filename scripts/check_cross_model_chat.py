@@ -23,7 +23,7 @@ import threading
 # Only the verification scripts are source-loaded; application imports below
 # must come from the supplied installed wheel, including its bundled backend.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from check_cross_model_profiles import FAMILIES, installed_service, private_json, require
+from check_cross_model_profiles import FAMILIES, installed_service, private_json, require, require_stopped_api_guidance
 
 
 def decoded(result):
@@ -226,14 +226,15 @@ async def probe(root, phase):
             for family in FAMILIES:
                 failed = await client.call_tool(tools['generate_text']['name'], {
                     'model': family + ' marked', 'prompt': 'wrong readiness'})
-                require(failed['isError'] is True and '--' + family in json.dumps(failed),
+                require(failed['isError'] is True,
                         'Own MCP accepted a generic readiness alias')
+                require_stopped_api_guidance(json.dumps(failed), family)
                 adapter = NativeChat(root, model_name=family + ' marked')
                 try:
                     try:
                         await adapter.complete([{'role': 'user', 'content': 'wrong readiness'}], client.model_tools())
                     except ValueError as error:
-                        require('--' + family in str(error), 'Chat lost selected-family launch guidance')
+                        require_stopped_api_guidance(str(error), family)
                     else:
                         require(False, 'Chat accepted a generic readiness alias')
                 finally:
@@ -329,7 +330,7 @@ async def agent_probe(root, phase):
         family = name.split()[0]
         seed, watermark = effective(record, override)
         # Exercise the real public parser's exact-name and unsaved-file forms.
-        arguments = ['agent', '--name', name, '--self-mcp']
+        arguments = ['chat', '--name', name, '--self-mcp']
         if required_check:
             if family == 'qwen':
                 arguments.extend(['--tool-choice', 'required'])

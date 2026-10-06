@@ -18,8 +18,8 @@ async with ai_lab_client(data_root) as client:
 This launches the current source or installed application with its own Python
 interpreter and the explicitly chosen data root. It starts an MCP process, not
 a model API, and downloads no models. Start the local decision provider in its
-own terminal before calling it, for example `ai-lab models run --laya` or
-`ai-lab models run --contrastive`. The offline default requires an explicit
+own terminal before calling it, for example `ai-lab services --action start --model laya` or
+`ai-lab services --action start --model contrastive`. The offline default requires an explicit
 local provider (`laya`, `contrastive`, `clm-upstream`) in decision-tool arguments;
 omitted provider or `jev` is rejected before dispatch. No hosted key is needed.
 Decision-tool descriptions reflect this connection's local-only policy and
@@ -126,8 +126,8 @@ finally:
     await chat.aclose()
 ```
 
-Start the selected generation backend explicitly with `ai-lab models run --qwen`
-or `--deepseek`. `NativeChat.complete(messages, tools)` sends the discovery
+Start the selected generation backend explicitly with `ai-lab services --action start --model qwen`
+or `--model deepseek`. `NativeChat.complete(messages, tools)` sends the discovery
 schemas and actual call/result messages to its native `/v1/chat/completions` API,
 returning the server's assistant message. It does not extract tool calls from
 text. `selection` exposes backend, profile ID, seed and key-free effective
@@ -158,16 +158,16 @@ bundle. This includes the current F3 XML default and preserves the known 0.1.0
 migration. Custom manifests/templates and symlinks stay untouched, along with
 profiles and watermark keys. Preparation starts, stops and downloads nothing.
 For an API already running during an upgrade, stop it in its owning terminal
-and rerun `ai-lab models run --deepseek` or `--qwen` to load the updated runtime
+and rerun `ai-lab services --action start --model deepseek` or `--model qwen` to load the updated runtime
 and template. Readiness rejects an old launch; native chat reports this manual
 restart guidance before posting a completion.
 
 The terminal agent exposes automatic and explicitly required tool modes:
 
 ```sh
-ai-lab models run --deepseek
-ai-lab models run --laya
-ai-lab agent --model deepseek --self-mcp --tool-choice required
+ai-lab services --action start --model deepseek
+ai-lab services --action start --model laya
+ai-lab chat --model deepseek --self-mcp --tool-choice required
 ```
 
 Run each model API in its own terminal, then open the agent. The visible

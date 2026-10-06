@@ -33,6 +33,11 @@ def require(condition, message):
         raise RuntimeError(message)
 
 
+def require_stopped_api_guidance(message, family):
+    require(f'ai-lab services --action start --model {family}' in message,
+            'Wrong-family stopped API guidance')
+
+
 def private_json(path, value):
     with open(path, 'w', opener=lambda p, flags: os.open(p, flags, 0o600)) as stream:
         json.dump(value, stream)
@@ -195,8 +200,8 @@ def probe(root, phase):
 
         if phase == 'reject':
             for family in FAMILIES:
-                value = cli('complete', '--name', family + ' marked', '--prompt', 'probe', error=True)
-                require('--' + family in value['error']['message'], 'Wrong-family stopped API guidance')
+                value = cli('completion', '--name', family + ' marked', '--prompt', 'probe', error=True)
+                require_stopped_api_guidance(value['error']['message'], family)
             return {'phase': phase, 'package': package, 'checked': 'generic default alias rejected without generation'}
 
         # Interleave marked/plain/seeded requests across both endpoints and return to the first profile.
@@ -206,7 +211,7 @@ def probe(root, phase):
             record = records[name]
             family = name.split()[0]
             prompt = name + '  \n'
-            result = cli('complete', '--name', name, '--scheme', scheme, '--prompt', prompt, '--max-tokens', '2')
+            result = cli('completion', '--name', name, '--scheme', scheme, '--prompt', prompt, '--max-tokens', '2')
             require(result['status'] == 'complete' and result['model'] == record['key'], 'Completion lost selected identity')
             require(len(result['results']) == 2 and result['answer'] == ('D' if family == 'deepseek' else 'Q') * 2, 'Completion did not perform both fixture decisions')
             require(result['profile']['underlying_model'] == FAMILIES[family], 'Session snapshot lost backend')
@@ -223,7 +228,7 @@ def probe(root, phase):
         positional = {'scheme': 'exponential', 'key': records['qwen marked']['watermark']['key'],
                       'start_position': 7, 'sequence_len': 128}
         private_json(root / 'positional.json', positional)
-        result = cli('complete', '--name', 'qwen marked', '--scheme', 'exponential',
+        result = cli('completion', '--name', 'qwen marked', '--scheme', 'exponential',
                      '--watermark-file', str(root / 'positional.json'), '--prompt', 'position ', '--max-tokens', '2')
         require(result['status'] == 'complete' and result['profile']['underlying_model'] == 'Qwen3-8B', 'Positional override changed backend')
         require(len(result['results']) == 2 and result['answer'] == 'QQ', 'Positional override did not generate both decisions')
@@ -235,7 +240,7 @@ def probe(root, phase):
 
         before = stored()
         cli('models', 'create', '--name', 'invalid', '--underlying-model', 'unknown', error=True)
-        cli('complete', '--name', 'unknown profile', '--prompt', 'probe', error=True)
+        cli('completion', '--name', 'unknown profile', '--prompt', 'probe', error=True)
         require(stored() == before, 'Rejected input changed the profile catalog')
 
         # Backend edits must preserve stable ID, seed, key/settings and prior session snapshots.
@@ -243,9 +248,9 @@ def probe(root, phase):
         for family in ('qwen', 'deepseek'):
             updated = json_request(url + '/api/lab/models/' + record['key'], 'PATCH', {'underlying_model': family})
             require(updated == {**record, 'underlying_model': FAMILIES[family]}, 'Backend switch changed profile configuration')
-            snapshot = cli('session', 'get', session_id)
+            snapshot = cli('completion', '--session-action', 'get', '--session', session_id)
             require(snapshot['profile']['underlying_model'] == 'DeepSeekR1', 'Backend edit rewrote an existing session snapshot')
-            switched = cli('complete', '--name', record['name'], '--prompt', 'backend round trip ', '--max-tokens', '2')
+            switched = cli('completion', '--name', record['name'], '--prompt', 'backend round trip ', '--max-tokens', '2')
             require(switched['profile']['underlying_model'] == FAMILIES[family] and len(switched['results']) == 2,
                     'Backend edit did not route new sessions to selected family')
             for index, generated in enumerate(switched['results']):
@@ -254,7 +259,7 @@ def probe(root, phase):
                                  'seed': record['seed'], 'watermark': record['watermark']})
         require(stored() == before, 'Backend round trip affected other profiles')
         # Each public scheme update retains profile identity/key and can restore exact settings.
-        schemes = cli('schemes')
+        schemes = cli('completion', '--schemes')
         for family in FAMILIES:
             record = records[family + ' marked']
             for scheme in schemes:
