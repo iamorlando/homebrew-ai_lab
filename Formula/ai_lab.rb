@@ -1,9 +1,9 @@
 class AiLab < Formula
   desc "AI Lab website, local DeepSeek/Qwen chat, decisions, and watermark tools"
   homepage "https://github.com/iamorlando/homebrew-ai_lab"
-  url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.13/ai_lab-0.1.13.tar.gz"
-  version "0.1.13"
-  sha256 "9f679b5b5a9cc2f28128a885457eaee2ad54c8a4281762ab62b595d5a7bd673b"
+  url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.14/ai_lab-0.1.14.tar.gz"
+  version "0.1.14"
+  sha256 "b4e77e4b2949aefae0ae88338b46377eb84475a867aaea5232e72f29b461ecc6"
 
 
   depends_on arch: :arm64
@@ -40,7 +40,7 @@ class AiLab < Formula
         ai-lab weights install qwen --yes
         ai-lab services --action start --model qwen
       Start/restart runs in the foreground; keep that terminal open.
-      Create a saved model and open conversational chat by its exact name:
+      Create a saved model and open conversational chat by name:
         ai-lab models create --name "My Qwen" --underlying-model qwen
         ai-lab chat --name "My Qwen"
       Add AI Lab's own MCP tools and approval prompts with --self-mcp:
@@ -56,7 +56,8 @@ class AiLab < Formula
         ai-lab completion
         ai-lab decoder
       Decisions selects a provider with --model laya or its picker.
-      Completion and decoder select saved generation models with --name or a picker.
+      Completion opens with a model picker; --name or --model preselects a model.
+      Decoder selects a saved generation model with --name or its picker.
       Open the website:
         ai-lab web
       Connect agent clients through MCP, or install the advanced CLI skill:
@@ -94,9 +95,10 @@ class AiLab < Formula
       assert_match flag, chat_help
     end
     completion_help = shell_output("#{bin}/ai-lab completion --help")
-    %w[--name --prompt --view --layout --session-action --api-schema].each do |flag|
+    %w[--model --name --prompt --view --layout --session-action --api-schema].each do |flag|
       assert_match flag, completion_help
     end
+    assert_match "--name", shell_output("#{bin}/ai-lab models delete --help")
     decisions_help = shell_output("#{bin}/ai-lab decisions --help")
     assert_match "--model", decisions_help
     refute_match "--name", decisions_help

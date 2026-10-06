@@ -6,14 +6,27 @@ watermark configuration. Changing the selected profile changes the real model
 endpoint as well as the seed and watermark settings.
 
 For conversational chat with an existing saved model, use
-`ai-lab chat --name "Exact model name"`. The name is case-sensitive; quote spaces.
+`ai-lab chat --name "Model name"`. The name is case-sensitive; quote spaces.
 The agent inherits its saved backend, seed and watermark settings. List exact
 names with `ai-lab models list --json`. Built-in families use `--model deepseek`
 or `--model qwen`; choose either `--name` or `--model`.
 
 Herdr lifecycle reporting in the current pane is automatic. Tools via
 `--self-mcp` and a separate tab via `--herdr-tab` are optional.
-`ai-lab completion` is the token/completion workspace. The terminal decoder
+`ai-lab completion` opens the Completion workspace directly, with a model picker
+inside the screen. Use `--name "Model name"` or `--model ID_OR_NAME` to preselect a
+saved model. Names are case-sensitive; ambiguous IDs/names are rejected. Completion
+sessions require saved models; create one in `ai-lab models` if the list is empty,
+then use Refresh. Opening the empty screen creates no model or session.
+
+Choosing a model creates a session with its saved backend, seed and watermark.
+Switching back reuses that model's session in this screen. `--session ID` resumes
+its recorded settings and results. Refresh reloads the list without replacing the
+session or discarding an unsent prefix. A failed selection keeps the previous
+session; backend errors remain visible while the screen stays open. Closing a
+screen preserves its sessions. APIs must be started explicitly in `ai-lab services`.
+
+The terminal decoder
 opens a profile picker with `ai-lab decoder`, or selects an exact saved profile
 with `ai-lab decoder --name "Exact generation profile"`. It inherits saved
 watermark settings and allows a scheme override for decoding.

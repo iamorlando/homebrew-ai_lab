@@ -12,7 +12,7 @@ website's raw-prefix Completion experiment through `ai-lab completion`. They sha
 generation profiles and the pinned `iamorlando/mistral.rs` server. Native logits
 and captured tournament traces support token inspection.
 
-For a saved model, use `ai-lab chat --name "Exact model name"`; names are
+For a saved model, use `ai-lab chat --name "Model name"`; names are
 case-sensitive and names with spaces need quotes. The saved backend, seed and
 watermark settings are inherited. Herdr lifecycle reporting is automatic in the
 current pane. MCP tools and a separate `--herdr-tab` are optional.
@@ -42,7 +42,7 @@ Requires Apple Silicon and macOS 15 or newer. Homebrew installs the Python and
 ```sh
 brew tap iamorlando/ai_lab
 brew install iamorlando/ai_lab/ai_lab
-ai-lab --version                       # AI Lab 0.1.11
+ai-lab --version                       # target: AI Lab 0.1.14
 ai-lab weights offer                 # keyboard model picker
 ai-lab web                            # opens the app in its own window
 ```
@@ -51,6 +51,8 @@ For an existing installation, run `brew update` and
 `brew upgrade iamorlando/ai_lab/ai_lab`. Stop an older website with Ctrl+C in its
 launch terminal and start `ai-lab web` again to load this release. Profiles,
 watermark keys, models, and recordings remain in the workspace.
+See [Updating AI Lab](upgrading.md) for version checks, runtime repair, existing
+CLM server recovery, and cleanup that preserves your data.
 
 To use the agent tools, configure one client and restart that client:
 
@@ -165,9 +167,15 @@ stays outside Homebrew's Cellar.
 Open `ai-lab weights` to inspect downloaded and available models. Choose
 **Download / repair**, or run `ai-lab weights offer`, to open the explicit model
 picker. Use **↑/↓** to move, **Space** to select, **A** to select/clear all,
-**Enter** to download selections, **Esc** to skip, and **Ctrl+C** to cancel.
+**Enter** to set up selections, **Esc** to skip, and **Ctrl+C** to cancel.
 The picker shows missing bytes and server dependencies for DeepSeek, Qwen, CLM
-and Laya. No other screen opens this offer automatically.
+and Laya. After an upgrade, it also includes downloaded models whose runtime
+needs repair. Verified weights are reused; runtime-only repair downloads zero
+weight bytes; runtime binaries or dependency packages may still be downloaded.
+The inventory's **Weights** and **Runtime** columns are independent: a model can
+be **Downloaded** with **Repair required** and **0** missing weight bytes.
+No other screen opens this offer automatically. Missing or checksum-invalid
+weights still need replacement; inspect the reported data root before accepting.
 
 Downloads use an overall bar and a current-file bar that update in place, with
 transfer speed and estimated time on wider terminals. Verification and dependency
@@ -180,7 +188,7 @@ selection or skip is remembered; use weights offer to reopen it explicitly. Jev 
 ai-lab weights list --json
 ai-lab weights install laya             # picker for this model
 ai-lab weights install clm laya --yes    # explicitly accepts both
-ai-lab weights install --yes            # explicitly accepts all missing models
+ai-lab weights install --yes            # explicitly sets up all catalog models
 ai-lab weights offer                    # reopen the model picker
 ai-lab web --with-models --yes            # downloads optional models, then opens UI
 ai-lab web --no-models                    # opens without inference downloads
@@ -240,8 +248,10 @@ encoder still needs enough system memory to hold its weights and workspace.
 For an explicitly managed custom installation, `AI_LAB_DECISIONS_BINARY` selects
 another executable. `AI_LAB_DECISIONS_URL` selects the native runtime's loopback
 HTTP origin and port. Services can launch and manage native CLM there when the
-endpoint is free. An already running server without a verified workspace process
-receipt remains controlled by its original launcher. Optional
+endpoint is free. Services also recognizes verified older native CLM launches
+and ownership records in supported prior data folders. A process whose identity
+cannot be verified stays controlled by its original launcher. See
+[Updating AI Lab](upgrading.md) for upgrade and recovery steps. Optional
 `AI_LAB_DECISIONS_MODEL` selects a name from its decision-model list;
 `AI_LAB_DECISIONS_API_KEY` supplies local server authentication.
 
@@ -531,12 +541,31 @@ uv sync --frozen
 ./ai-lab completion --model seed-1 --scheme synthid
 ```
 
+Bare `ai-lab completion` opens Completion with an in-screen saved-model picker.
+`--name "Model name"` or `--model ID_OR_NAME` preselects a saved model; `--session ID`
+resumes an existing session. Switching back to a model reuses its session in this
+screen. Refresh preserves recorded results and the current unsent prefix. With
+no saved models, open `ai-lab models`, create one, and Refresh. Opening does not
+create a profile or generate tokens. Backend errors stay visible in the screen.
+
 The workspace has a prompt/answer editor, probability bars, a scrollable native
 bracket, and selectable tokens. `Ctrl+Enter` runs, `Ctrl+A` appends the selected
 token and inspects again, `Ctrl+S` stops after the current token, `F1` opens help,
-and `Ctrl+Q` closes the pane. Use Tab, arrows, Enter, Page Up/Down and the mouse to
-navigate. Small windows switch to one panel at a time with view buttons; short
-panes use the keyboard commands to preserve room for results. Closing a pane does not stop its session or the background service.
+`F2` focuses the model picker, `Ctrl+P` returns to Completion, `Ctrl+T` shows the
+bracket, `Ctrl+O` shows probabilities, and `Ctrl+K` shows tokens. `F3` and `F4`
+focus the captured-step and probability-layer selectors in every view, including
+standalone panes. `F5` focuses the current panel's scrollable details; use arrows,
+Page Up/Down, Home/End or the mouse to read them. `Ctrl+Q` closes the pane.
+Small windows switch to one panel at a time with view buttons; short panes retain
+compact Run, Append, Stop and token-count controls. Closing a pane does not stop
+its session or the background service.
+
+Selecting a match shows its recorded scores, winning draw, tie-break reason and
+input draw probabilities. Enter on a draw inspects its token; Append is a
+separate action. Inspection never changes the recorded winner. Token details
+show captured final log probabilities when available, explicitly labeled as final
+even while viewing a probability layer. Tournament sampling has no captured
+final marginal probability or log probability; unavailable values remain marked.
 
 A plain `ai-lab` prints the thirteen canonical public surfaces. Explicit
 `ai-lab weights --setup` runs setup. Setup explains the
@@ -584,7 +613,7 @@ For a direct package install, download the wheel from the
 [release](https://github.com/iamorlando/homebrew-ai_lab/releases/latest), then run:
 
 ```sh
-uv tool install --force --python 3.13 ./ai_lab-0.1.11-py3-none-any.whl
+uv tool install --force --python 3.13 ./ai_lab-0.1.14-py3-none-any.whl
 uv tool update-shell                  # if the executable directory is not on PATH
 ai-lab --version
 ai-lab weights offer                # optional models; keyboard picker
@@ -634,9 +663,8 @@ or symlinked cache files. Removing the receipt triggers fresh verification.
 ```sh
 brew update
 brew upgrade iamorlando/ai_lab/ai_lab
-ai-lab --version                      # AI Lab 0.1.11
-ai-lab completion --service-action stop             # only if an idle private service is running
-ai-lab weights offer                # choose missing models with Space and Enter
+ai-lab --version                      # target: AI Lab 0.1.14
+ai-lab weights offer                  # optional downloads / runtime repairs
 ai-lab mcp install --codex --force     # refresh this client's packaged tools
 ```
 
@@ -645,11 +673,15 @@ Ctrl+C in its launch terminal, then start `ai-lab web` again. Homebrew upgrades
 preserve downloaded weights, saved profiles, watermark keys, and results outside
 its Cellar. Open `ai-lab weights` explicitly after installing/upgrading to
 inspect available models. Hosted Jev remains available with its configured key. MCP never starts local model APIs automatically.
+Completion negotiates supported older same-owner application APIs automatically;
+routine updates do not require manually stopping that API or deleting its state.
+See [Updating AI Lab](upgrading.md) for the full recovery and cleanup steps.
 
 Verified weights with an outdated runtime are not missing downloads: status shows
 `weights_present: true`, `missing_bytes: 0`, and `dependencies_ready: false`.
-The automatic offer selects only missing/invalid weights and reports runtime setup
-separately. `ai-lab services --action start --model deepseek` (or `--model qwen`) can repair only their shared
+The explicit offer includes both missing/invalid weights and downloaded models
+that need runtime repair. Select only the models you want; verified files are
+reused unchanged. `ai-lab services --action start --model deepseek` (or `--model qwen`) can repair only their shared
 published, checksummed runtime before starting the owned API, with no weight or
 asset download and no compilation. Custom source/runtime overrides need explicit
 setup. A running borrowed API is left alone; port/process ownership checks remain
@@ -745,11 +777,11 @@ updates, and the token table labels green/red or favored/unfavored membership. T
 
 ## Automation and API discovery
 
-For multi-turn local assistant chat, launch an exact saved model name:
+For multi-turn local assistant chat, choose a saved model:
 
 ```bash
 ai-lab models list --json
-ai-lab chat --name "Exact model name"
+ai-lab chat --name "Model name"
 # Or select a built-in generation family:
 ai-lab chat --model qwen
 ai-lab chat --model deepseek
@@ -772,13 +804,13 @@ the next-token inspection workspace.
 
 In Herdr, the running agent automatically reports lifecycle state in the current
 pane. No flag is required. To open a separate tab instead, optionally use
-`ai-lab chat --name "Exact model name" --herdr-tab`; add `--json` only when you
+`ai-lab chat --name "Model name" --herdr-tab`; add `--json` only when you
 need the new tab/pane identifiers for automation.
 
 Optional `--self-mcp` connects the shipped AI Lab MCP server without a config file:
 
 ```sh
-ai-lab chat --name "Exact model name" --self-mcp
+ai-lab chat --name "Model name" --self-mcp
 ```
 
 Its decision tools require an explicit local provider (`laya`, `contrastive` or
@@ -940,7 +972,7 @@ uv sync --frozen
 uv run python -m unittest discover -s tests/ai_lab -v
 uv run python -m unittest discover -s harness/tests -p 'test_*.py'
 uv build
-python3 packaging/homebrew/generate.py dist/ai_lab-0.1.11.tar.gz --version 0.1.11
+python3 packaging/homebrew/generate.py dist/ai_lab-0.1.14.tar.gz --version 0.1.14
 ```
 
 The generator writes `dist/homebrew/ai_lab.rb` with the actual archive checksum and

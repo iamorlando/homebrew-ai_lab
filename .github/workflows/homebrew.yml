@@ -164,7 +164,7 @@ jobs:
           "$ai_lab_python" -I "$AI_LAB_CHECKS/check_storage.py"
           "$ai_lab_python" -I "$AI_LAB_CHECKS/check_python_experiments.py" --python "$ai_lab_python"
           "$ai_lab_python" -I "$AI_LAB_CHECKS/check_completion.py" --installed --report "$RUNNER_TEMP/completion.json" --evidence "$RUNNER_TEMP/completion-screens"
-          "$ai_lab_python" -I "$AI_LAB_CHECKS/check_completion_views.py" --installed --report "$RUNNER_TEMP/completion-views.json" --evidence "$RUNNER_TEMP/completion-view-screens"
+          "$ai_lab_python" "$AI_LAB_CHECKS/check_completion_views.py" --installed --report "$RUNNER_TEMP/completion-views.json" --evidence "$RUNNER_TEMP/completion-view-screens"
           brew install fish
           "$ai_lab_python" -I "$AI_LAB_CHECKS/check_cli.py" --executable "$(brew --prefix ai_lab)/bin/ai-lab" --source-sha "$(python3 -c 'import json,os; print(json.load(open(os.environ["GITHUB_WORKSPACE"] + "/release-binding.json"))["source_sha"])')" --wheel "$ai_lab_wheel" --output "$RUNNER_TEMP/public-cli.json"
 
@@ -239,6 +239,7 @@ jobs:
           brew info --json=v2 iamorlando/ai_lab/ai_lab > "$RUNNER_TEMP/prior-installation.json"
           ai_lab_old_venv="$(cd "$(brew --prefix ai_lab)/libexec/venv" && pwd -P)"
           "$ai_lab_old_venv/bin/ai-lab" --version
+          printf '%s\n' "$ai_lab_old_venv/bin/ai-lab" > "$RUNNER_TEMP/old-executable.txt"
           python3 "$AI_LAB_CHECKS/check_upgrade.py" --phase before --executable "$ai_lab_old_venv/bin/ai-lab" --root "$AI_LAB_UPGRADE_ROOT" --state "$AI_LAB_UPGRADE_STATE"
       - name: Preload exact sdist and install the unchanged candidate formula
         run: |
@@ -273,7 +274,16 @@ jobs:
           "$ai_lab_venv/bin/python" -I "$AI_LAB_CHECKS/check_candidate_binding.py" --manifest "$AI_LAB_CANDIDATE/candidate-binding.json" --wheel "$AI_LAB_CANDIDATE/ai_lab-0.1.14-py3-none-any.whl" --sdist "$AI_LAB_CANDIDATE/ai_lab-0.1.14.tar.gz" --output "$RUNNER_TEMP/installed-binding.json"
           "$ai_lab_venv/bin/python" -I "$AI_LAB_CHECKS/check_cli.py" --executable "$ai_lab_venv/bin/ai-lab" --source-sha "$SOURCE_SHA" --wheel "$AI_LAB_CANDIDATE/ai_lab-0.1.14-py3-none-any.whl" --output "$RUNNER_TEMP/public-cli.json"
           "$ai_lab_venv/bin/python" -I "$AI_LAB_CHECKS/check_completion.py" --installed --report "$RUNNER_TEMP/completion.json" --evidence "$RUNNER_TEMP/completion-screens"
-          "$ai_lab_venv/bin/python" -I "$AI_LAB_CHECKS/check_completion_views.py" --installed --report "$RUNNER_TEMP/completion-views.json" --evidence "$RUNNER_TEMP/completion-view-screens"
+          "$ai_lab_venv/bin/python" "$AI_LAB_CHECKS/check_completion_views.py" --installed --report "$RUNNER_TEMP/completion-views.json" --evidence "$RUNNER_TEMP/completion-view-screens"
+      - name: Independently exercise owned checker failure paths on both installed versions
+        if: matrix.installation == 'upgrade'
+        env:
+          SOURCE_SHA: ${{ inputs.source_sha }}
+        run: |
+          ai_lab_old_executable="$(cat "$RUNNER_TEMP/old-executable.txt")"
+          test -x "$ai_lab_old_executable"
+          ai_lab_venv="$(cd "$(brew --prefix ai_lab)/libexec/venv" && pwd -P)"
+          "$ai_lab_venv/bin/python" -I "$AI_LAB_CHECKS/check_checker_failures.py" --old-executable "$ai_lab_old_executable" --executable "$ai_lab_venv/bin/ai-lab" --source-sha "$SOURCE_SHA" --output-directory /private/tmp/ai-lab-i6-faults
       - name: Install verified prebuilt runtimes without developer tools
         run: |
           ai_lab_venv="$(cd "$(brew --prefix ai_lab)/libexec/venv" && pwd -P)"
@@ -317,6 +327,10 @@ jobs:
           if test -f "$AI_LAB_UPGRADE_STATE"; then
             python3 "$AI_LAB_CHECKS/check_upgrade.py" --phase cleanup --root "$AI_LAB_UPGRADE_ROOT" --state "$AI_LAB_UPGRADE_STATE"
           fi
+      - name: Export sanitized hidden timeout bodies as visible evidence
+        if: always() && matrix.installation == 'upgrade'
+        run: |
+          python3 "$AI_LAB_CHECKS/export_checker_diagnostics.py" --root /private/tmp/ai-lab-i6-faults --output "$RUNNER_TEMP/checker-timeout-evidence"
       - name: Preserve candidate install and upgrade evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -331,6 +345,8 @@ jobs:
             ${{ runner.temp }}/completion-views.json
             ${{ runner.temp }}/completion-view-screens
             ${{ runner.temp }}/upgrade.json
+            /private/tmp/ai-lab-i6-faults
+            ${{ runner.temp }}/checker-timeout-evidence
             ${{ runner.temp }}/prior-artifact.sha256
             ${{ runner.temp }}/prior-installation.json
             ${{ runner.temp }}/candidate-installation.json

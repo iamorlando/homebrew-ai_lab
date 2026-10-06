@@ -46,26 +46,41 @@ The manager offers:
 
 Actions with missing prerequisites or unverified ownership are disabled. Missing
 weights and runtime setup are displayed separately; open `ai-lab weights` to
-inspect prerequisites. A hosted Jev connection has no local lifecycle. A decision
-API without a verified workspace process receipt must be stopped through its
-original launcher. DeepSeek, Qwen, native CLM and Laya have durable identity records;
+inspect prerequisites. A hosted Jev connection has no local lifecycle. An API
+whose process ownership cannot be verified must be stopped through its original
+launcher. DeepSeek, Qwen, native CLM and Laya have durable identity records;
 the manager checks them again before sending a signal. If identity changes or shutdown takes
 too long, it reports the issue and sends no forced kill.
 
 A healthy API can be running and usable for inference even when it was launched
-from another root. Its ownership remains external and lifecycle actions stay
-disabled until a workspace process receipt verifies the actual process. Saved
-profiles sharing its backend use the same API.
+from another root. Native CLM also checks supported prior model roots for a
+verified process receipt. Its details and JSON `origin_root` show the proven
+launch root; Stop, Restart and Interrupt control that shared server. Restart uses
+the origin's weights and runtime. Stop followed by Start in the same manager
+keeps that verified origin. A new manager after shutdown uses its selected root;
+use `--root ORIGINAL_ROOT` when you want to start there again. Saved profiles
+sharing a backend still use one API.
+
+Native CLM launched by older AI Lab versions can be recovered automatically
+without restarting it or writing a receipt during discovery. Recovery requires
+the exact loopback listening PID, user, process group and start identity, the
+shipped native launch arguments and model path in a supported root, and verified
+published runtime bytes mapped by that process. Opening or exiting Services
+leaves this existing server running. Health alone never grants lifecycle control.
+If these checks cannot prove ownership, the row remains external with actions
+disabled. See [updating and preserving your existing setup](upgrading.md) for the
+update steps and original-launcher fallback; keep your weights and settings.
 
 `AI_LAB_DECISIONS_URL` selects the native CLM loopback HTTP origin, including a
 custom port; it does not make native CLM unmanaged. `127.0.0.1`, `localhost`
 (bound as IPv4 loopback), and `[::1]` are supported. Start launches Mistral at that
-origin when it is free. An occupied endpoint with no verified workspace receipt
-stays external. A changed endpoint or binary leaves an existing owned launch
+origin when it is free. An occupied endpoint without a verified receipt or
+verified legacy native identity stays external. A changed endpoint or binary leaves an existing owned launch
 stale; Stop remains available, and Restart uses the current settings when its
 prerequisites are ready. Native ownership is recorded in
 `.state/decisions-mistral.json`; its log is `.state/decisions-mistral.log`.
-JSON discovery includes an absolute `log_path` for every local service, without
+JSON discovery includes an absolute `log_path` for every local service, using
+native CLM's proven origin when it differs from the selected root, without
 creating or reading the log. Hosted providers have no local log path.
 
 Laya records its verified local process in `.state/laya-server.json` and logs to
@@ -102,6 +117,9 @@ always shown. Existing Herdr lifecycle reporting is automatic.
 fake API inventories, launch handles and signals. `packaging/check_services.py`
 is a standalone scratch checker for an installed package. Neither proof starts a
 model, uses a GPU, downloads weights, compiles a runtime or calls an SDK.
+`tests/ai_lab/test_clm_ownership.py` verifies legacy and supported-root discovery,
+origin lifecycle control, and rejection of foreign or replaced process identities
+using scratch files and fake OS observations.
 
 The support module exports `add_parser(subparsers)` and `run(args, root)`; the
 CLI lane owns central registration and dispatch. Runtime-only repair uses the
