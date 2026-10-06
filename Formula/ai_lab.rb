@@ -3,7 +3,7 @@ class AiLab < Formula
   homepage "https://github.com/iamorlando/homebrew-ai_lab"
   url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.13/ai_lab-0.1.13.tar.gz"
   version "0.1.13"
-  sha256 "9a88b8bb605b7fdd732824724e4bfb0dca13135e84083d673bf506b3893ad0b8"
+  sha256 "aed983028c68b4c1b245b2fc7c35198a3a2de51d84959e7140c33113ad9fad05"
 
 
   depends_on arch: :arm64
