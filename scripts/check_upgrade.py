@@ -29,6 +29,8 @@ import uuid
 
 FORMAT = 'ai-lab-owned-upgrade-v1'
 MARKER = '.upgrade-checker/owner.json'
+OWNER_MOMENTS = ('primary_before_cleanup', 'internal_cleanup', 'explicit_cleanup', 'late_observation')
+OWNER_FIELDS = ('pid', 'uid', 'pgid', 'started', 'command')
 
 
 def require(value, message):
@@ -223,6 +225,37 @@ def package_record(executable):
     return {'path': str(package), 'sha256': object_hash(entries), 'files': len(entries)}
 
 
+def interpreter_binding(executable):
+    """Bind this retained venv's launcher and its concrete Framework exec target.
+
+    This is not a prefix allowlist: every accepted complete command is derived
+    from these existing files before Popen and includes the exact launch argv.
+    """
+    first = executable.read_bytes().splitlines()[0].decode()
+    launcher = executable.parent / 'python'
+    require(first == '#!' + str(launcher), 'Retained entrypoint must use its own venv/bin/python shebang.')
+    resolved = launcher.resolve(strict=True)
+    paths = [str(launcher), str(resolved)]
+    physical = {str(resolved): file_record(resolved)}
+    # CPython's macOS framework launcher execs this sibling binary. Derive
+    # only from the physical launcher path, never from observed ps text.
+    if (resolved.parent.name == 'bin' and resolved.parent.parent.parent.name == 'Versions'
+            and resolved.parent.parent.parent.parent.name == 'Python.framework'):
+        framework = resolved.parent.parent / 'Resources/Python.app/Contents/MacOS/Python'
+        require(framework == framework.resolve(strict=True), 'Framework interpreter must have a physical path.')
+        physical[str(framework)] = file_record(framework)
+        paths.append(str(framework))
+    return {'launcher': str(launcher), 'resolved_launcher': str(resolved),
+            'command_interpreters': list(dict.fromkeys(paths)), 'files': physical}
+
+
+def startup_identity_matches(saved, observed, argv, binding):
+    if (not isinstance(observed, dict) or set(observed) != set(OWNER_FIELDS)
+            or any(observed[key] != saved[key] for key in ('pid', 'uid', 'pgid', 'started'))):
+        return False
+    return observed['command'] in [path + ' ' + ' '.join(argv) for path in binding['command_interpreters']]
+
+
 def keg(executable, version):
     parts = executable.parts
     require('Cellar' in parts, 'Homebrew context requires a stable versioned Cellar path; supplemental envs use --context isolated-env.')
@@ -283,6 +316,13 @@ class Upgrade:
         self.bridge_url = None
         self.child = None
         self.records = []
+        self.owner_diagnostics = copy.deepcopy(state.get('owner_diagnostics', {'schema': 1, 'events': []}))
+        require(isinstance(self.owner_diagnostics, dict) and self.owner_diagnostics.get('schema') == 1
+                and isinstance(self.owner_diagnostics.get('events'), list) and len(self.owner_diagnostics['events']) <= 4
+                and len(json.dumps(self.owner_diagnostics).encode()) <= 65536,
+                'Invalid private owner diagnostic structure.')
+        self.diagnostic_started = time.monotonic()
+        self.phase = getattr(args, 'phase', 'cleanup')
         self.validate_paths()
         self.env = minimal_environment(self.root)
 
@@ -304,13 +344,154 @@ class Upgrade:
                 'Ownership marker does not match the original state.')
         require(s.get('socket_path') == str(self.socket), 'Refusing a substituted API socket path.')
 
-    def ownership_receipt(self):
+    def early_ownership_receipt(self):
         path = self.root / '.upgrade-checker/process-owner.json'
         regular(path, private=True)
         require(json.loads(path.read_text()) == {
-            'nonce': self.state['nonce'], 'owner': self.state['owner'],
+            'nonce': self.state['nonce'], 'owner': self.state.get('startup_owner', self.state['owner']),
             'server_argv': self.state['server_argv'], 'root': str(self.root),
             'state_path': str(self.state_path)}, 'Process receipt refuses a substituted PID/state/command.')
+        if 'startup_owner' in self.state:
+            self.interpreter_receipt()
+
+    def ownership_receipt(self):
+        self.early_ownership_receipt()
+        if 'startup_owner' in self.state:
+            ready = self.root / '.upgrade-checker/ready-owner.json'
+            require(type(self.state.get('ready_owner_bound')) is bool
+                    and self.state['ready_owner_bound'] == (ready.exists() or ready.is_symlink()),
+                    'Ready binding phase disagrees with its immutable receipt.')
+            if self.state.get('ready_owner_bound'):
+                regular(ready, private=True)
+                require(json.loads(ready.read_text()) == {'nonce': self.state['nonce'], 'owner': self.state['owner'],
+                        'startup_owner': self.state['startup_owner'], 'server_argv': self.state['server_argv']},
+                        'Ready receipt refuses a substituted owner.')
+            else:
+                require(self.state['owner'] == self.state['startup_owner'], 'Unready owner must match its early receipt.')
+
+    def recover_ready_publication(self):
+        """Resolve only our recorded publication transaction, before owner checks.
+
+        A receipt/flag disagreement without this exact journal still fails.
+        This method never probes, signals or adopts a process.
+        """
+        folder = self.root / '.upgrade-checker'
+        journal_path = folder / 'ready-publication.json'
+        if not journal_path.exists() and not journal_path.is_symlink():
+            return
+        self.validate_paths()
+        self.early_ownership_receipt()
+        journal_identity = file_record(journal_path)
+        regular(journal_path, private=True)
+        require(journal_identity['bytes'] <= 65536, 'Readiness publication journal exceeds its limit.')
+        journal = json.loads(journal_path.read_text())
+        require(set(journal) == {'binding_sha256', 'prior_state_sha256', 'ready_state_sha256', 'stage', 'files'}
+                and journal['binding_sha256'] == object_hash({key: self.state[key]
+                    for key in ('nonce', 'root', 'state_path', 'startup_owner', 'server_argv')}),
+                'Readiness publication journal binding changed.')
+        require(set(journal['stage']) == {'name', 'identity'}
+                and re.fullmatch(r'ready-stage-[0-9a-f]{32}', journal['stage']['name']),
+                'Readiness publication stage is not an owned child path.')
+        stage = folder / journal['stage']['name']
+        require(directory(stage) == journal['stage']['identity'], 'Readiness publication stage was replaced.')
+        require(set(journal['files']) == {'ready-owner.json', 'socket-owner.json'},
+                'Readiness publication receipt names changed.')
+        persisted = read_state(self.state_path)
+        committed = object_hash(persisted) == journal['ready_state_sha256']
+        require(committed or object_hash(persisted) == journal['prior_state_sha256'],
+                'Readiness publication state is neither the recorded prior nor ready state.')
+
+        def verify(path, record):
+            info = path.lstat()
+            require(stat.S_ISREG(info.st_mode) and info.st_nlink in (1, 2)
+                    and (info.st_dev, info.st_ino, info.st_uid, stat.S_IMODE(info.st_mode))
+                    == (record['dev'], record['ino'], os.getuid(), 0o600)
+                    and info.st_size == record['bytes'] and digest(path.read_bytes()) == record['sha256'],
+                    'Readiness publication refuses an unverified or replaced receipt.')
+
+        # Validate every path before removing any exact-owned alias. Linking
+        # uses exclusive destination creation; a foreign receipt is never replaced.
+        removals = []
+        for name, record in journal['files'].items():
+            staged, published = stage / name, folder / name
+            if staged.exists() or staged.is_symlink():
+                verify(staged, record)
+                if committed:
+                    removals.append((staged, record))
+            if published.exists() or published.is_symlink():
+                verify(published, record)
+                if not committed:
+                    removals.append((published, record))
+            else:
+                require(not committed, 'Committed readiness receipt is missing.')
+        for path, record in removals:
+            verify(path, record)
+            path.unlink()
+        self.state.clear()
+        self.state.update(persisted)
+        self.ownership_receipt()  # The original strict flag/receipt rules apply.
+        require(file_record(journal_path) == journal_identity, 'Readiness publication journal was replaced.')
+        journal_path.unlink()
+
+    def publish_ready_owner(self, ready):
+        """Stage receipts, publish exclusively, then atomically commit state."""
+        folder = self.root / '.upgrade-checker'
+        journal_path = folder / 'ready-publication.json'
+        require(not journal_path.exists() and not journal_path.is_symlink(),
+                'A readiness publication transaction already exists.')
+        prior = read_state(self.state_path)
+        require(prior == self.state and self.state['ready_owner_bound'] is False,
+                'Readiness publication requires the exact persisted early state.')
+        following = copy.deepcopy(prior)
+        following.update(owner=ready, ready_owner_bound=True, socket_identity=socket_record(self.socket))
+        receipts = {
+            'ready-owner.json': {'nonce': self.state['nonce'], 'owner': ready,
+                                'startup_owner': self.state['startup_owner'], 'server_argv': self.state['server_argv']},
+            'socket-owner.json': {'nonce': self.state['nonce'], 'pid': ready['pid'],
+                                 'socket_identity': following['socket_identity']}}
+        stage = folder / ('ready-stage-' + uuid.uuid4().hex)
+        stage.mkdir(mode=0o700)
+        step = 'stage_receipts'
+        try:
+            for name, receipt in receipts.items():
+                create_file(stage / name, json.dumps(receipt).encode())
+            journal = {'binding_sha256': object_hash({key: self.state[key]
+                       for key in ('nonce', 'root', 'state_path', 'startup_owner', 'server_argv')})}
+            journal.update(prior_state_sha256=object_hash(prior), ready_state_sha256=object_hash(following),
+                           stage={'name': stage.name, 'identity': directory(stage)},
+                           files={name: file_record(stage / name) for name in receipts})
+            step = 'write_journal'
+            write_json(journal_path, journal)
+            step = 'publish_receipts'
+            for name in receipts:
+                os.link(stage / name, folder / name)  # Never overwrite an existing receipt.
+                (stage / name).unlink()
+            step = 'commit_state'
+            self.state.update(following)
+            self.save()
+            step = 'finish_journal'
+            self.recover_ready_publication()
+        except (Exception, KeyboardInterrupt) as error:
+            record = {'case': 'before.ready-publication', 'status': 'FAIL', 'stage': step,
+                      'error': type(error).__name__}
+            try:
+                self.recover_ready_publication()
+            except (Exception, KeyboardInterrupt) as cleanup_error:
+                record['cleanup_error'] = type(cleanup_error).__name__
+            self.records.append(record)
+            raise  # Preserve the actual publication error, independently of recovery.
+
+    def interpreter_receipt(self):
+        path = self.root / '.upgrade-checker/interpreter-owner.json'
+        regular(path, private=True)
+        require(json.loads(path.read_text()) == {'nonce': self.state['nonce'],
+                'binding': self.state['interpreter_binding'], 'server_argv': self.state['server_argv']},
+                'Interpreter receipt refuses substituted startup paths.')
+        binding = self.state['interpreter_binding']
+        require(str(Path(binding['launcher']).resolve(strict=True)) == binding['resolved_launcher'],
+                'Retained interpreter launcher changed.')
+        require(all(file_record(Path(path)) == record for path, record in binding['files'].items()),
+                'Bound interpreter files changed.')
 
     def socket_receipt(self):
         saved = self.state['owner']
@@ -319,12 +500,89 @@ class Upgrade:
         require(json.loads(receipt.read_text()) == {'nonce': self.state['nonce'], 'pid': saved['pid'],
                 'socket_identity': self.state['socket_identity']}, 'Socket receipt does not match state.')
 
+    def owner_evidence(self, moment, observed, *, inspection='PRESENT', socket_receipt_validated=False,
+                       reason=None):
+        """Private failure-time observations; never authorize a process action.
+
+        The first event for each of four moments survives later phase reports.
+        Only private state/--output reports contain these raw owner identities;
+        the separate CI exporter must allowlist and hash commands before upload.
+        """
+        try:
+            require(moment in OWNER_MOMENTS, 'Unknown owner diagnostic moment.')
+            events = self.owner_diagnostics['events']
+            if any(event.get('moment') == moment for event in events):
+                return
+            saved = self.state.get('owner')
+            present = matches = None
+            try:
+                info = self.socket.lstat()
+                present = True
+                matches = (stat.S_ISSOCK(info.st_mode) and
+                           {'dev': info.st_dev, 'ino': info.st_ino, 'uid': info.st_uid}
+                           == self.state.get('socket_identity'))
+            except FileNotFoundError:
+                present = False
+            except OSError:
+                pass
+            differing = ([key for key in OWNER_FIELDS if saved.get(key) != observed.get(key)]
+                         if isinstance(saved, dict) and isinstance(observed, dict) else [])
+            if isinstance(observed, dict) and set(observed) != set(OWNER_FIELDS):
+                differing.append('unexpected_fields')
+            cleanup = self.state.get('cleanup') or {}
+            event = {'moment': moment, 'observation': 'late' if moment == 'late_observation' else 'at_failure',
+                     'phase': self.phase,
+                     'captured_at': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
+                     'elapsed_seconds': round(time.monotonic() - self.diagnostic_started, 6),
+                     'process_status': inspection,
+                     'reason': reason or ('IDENTITY_MISMATCH' if inspection == 'PRESENT' else
+                                          'PROCESS_ABSENT' if inspection == 'ABSENT' else 'INSPECTION_ERROR'),
+                     'expected': {key: saved.get(key) for key in OWNER_FIELDS} if saved is not None else None,
+                     'observed': {key: observed.get(key) for key in OWNER_FIELDS} if observed is not None else None,
+                     'differing_keys': differing, 'process_receipt_validated': True,
+                     'socket_receipt_validated': socket_receipt_validated,
+                     'socket_present': present, 'socket_identity_matches': matches,
+                     'after_verified': self.state.get('after_verified') is True,
+                     'state_phase': self.state.get('phase') if self.state.get('phase') in ('preparing', 'before_ready', 'cleaned') else 'UNKNOWN',
+                     'process_exited': cleanup.get('process_exited') if type(cleanup.get('process_exited')) is bool else None,
+                     'socket_removed': cleanup.get('socket_removed') if type(cleanup.get('socket_removed')) is bool else None,
+                     'child_exit': self.child.poll() if self.child is not None else None}
+            require(len(events) < 4 and len(json.dumps({'schema': 1, 'events': [*events, event]}).encode()) <= 65536,
+                    'Private owner diagnostics exceed the bounded envelope.')
+            events.append(copy.deepcopy(event))
+            self.state['owner_diagnostics'] = copy.deepcopy(self.owner_diagnostics)
+        except Exception:
+            self.owner_diagnostics['capture_error'] = 'CAPTURE_ERROR'
+            return
+        try:
+            self.save()
+        except Exception:
+            self.owner_diagnostics['capture_error'] = 'PERSISTENCE_ERROR'
+            # The phase report still receives the captured event. Diagnostics
+            # must not mask the original guard or skip its cleanup attempt.
+
+    def observed_owner(self, moment, *, socket_receipt_validated=False, allow_startup=False):
+        saved = self.state['owner']
+        try:
+            observed = process_identity(saved['pid'])
+        except Exception:
+            self.owner_evidence(moment, None, inspection='INSPECTION_ERROR',
+                                socket_receipt_validated=socket_receipt_validated)
+            raise
+        matches = (startup_identity_matches(saved, observed, self.state['server_argv'], self.state['interpreter_binding'])
+                   if allow_startup else observed == saved)
+        if not matches:
+            self.owner_evidence(moment, observed, inspection='PRESENT' if observed is not None else 'ABSENT',
+                                socket_receipt_validated=socket_receipt_validated)
+        return observed
+
     def owner(self, *, inspect_socket=True):
         self.validate_paths()
         self.ownership_receipt()
         self.socket_receipt()
         saved = self.state['owner']
-        require(process_identity(saved['pid']) == saved, 'Old API process identity changed or exited; never restart it to pass.')
+        require(self.observed_owner('primary_before_cleanup', socket_receipt_validated=True) == saved,
+                'Old API process identity changed or exited; never restart it to pass.')
         require(saved['uid'] == os.getuid() and saved['pgid'] == saved['pid']
                 and saved['command'].endswith(' '.join(self.state['server_argv'])), 'Refusing an unverified PID/command.')
         require(socket_record(self.socket) == self.state['socket_identity'], 'Retained API socket was replaced.')
@@ -380,6 +638,10 @@ class Upgrade:
     def start_old(self, executable):
         argv = [str(executable), '--root', str(self.root), 'completion', '--service-action', 'run']
         self.state['server_argv'] = argv
+        self.state['ready_owner_bound'] = False
+        self.state['interpreter_binding'] = interpreter_binding(executable)
+        create_file(self.root / '.upgrade-checker/interpreter-owner.json', json.dumps({
+            'nonce': self.state['nonce'], 'binding': self.state['interpreter_binding'], 'server_argv': argv}).encode())
         self.save()
         log = self.root / '.upgrade-checker/old-api.log'
         create_file(log, b'')
@@ -388,30 +650,44 @@ class Upgrade:
                                           stdout=stream, stderr=subprocess.STDOUT, start_new_session=True)
         deadline = time.monotonic() + 30
         while time.monotonic() < deadline and self.child.poll() is None:
-            identity = process_identity(self.child.pid)
-            if identity and identity['command'].endswith(' '.join(argv)):
+            identity = (self.observed_owner('primary_before_cleanup', allow_startup=True)
+                        if self.state.get('owner') else process_identity(self.child.pid))
+            if self.state.get('owner'):
+                if not startup_identity_matches(self.state['owner'], identity, argv, self.state['interpreter_binding']):
+                    self.owner_evidence('primary_before_cleanup', identity,
+                                        inspection='PRESENT' if identity is not None else 'ABSENT')
+                    raise RuntimeError('Old API startup identity changed unexpectedly; refusing an unbound interpreter or process.')
+            if identity and identity['command'] in [path + ' ' + ' '.join(argv)
+                                                   for path in self.state['interpreter_binding']['command_interpreters']]:
                 require(identity['uid'] == os.getuid() and identity['pgid'] == identity['pid'], 'Unexpected helper ownership.')
                 if not self.state.get('owner'):
                     create_file(self.root / '.upgrade-checker/process-owner.json', json.dumps({
                         'nonce': self.state['nonce'], 'owner': identity, 'server_argv': argv,
                         'root': str(self.root), 'state_path': str(self.state_path)}).encode())
                     self.state['owner'] = identity
+                    self.state['startup_owner'] = copy.deepcopy(identity)
                     self.save()  # Persist ownership before waiting for API readiness.
                 if self.socket.exists():
                     try:
                         status, body = api_request(self.socket, 'GET', '/api/lab/health')
                         health = json.loads(body)
-                        if status == 200 and health == {'application': 'ai-lab', 'api_version': 1, 'root': str(self.root)}:
-                            self.state['socket_identity'] = socket_record(self.socket)
-                            create_file(self.root / '.upgrade-checker/socket-owner.json', json.dumps({
-                                'nonce': self.state['nonce'], 'pid': self.child.pid,
-                                'socket_identity': self.state['socket_identity']}).encode())
-                            self.save()
-                            self.owner()
-                            return
                     except (OSError, ValueError):
-                        pass
+                        status, health = None, None
+                    if status == 200 and health == {'application': 'ai-lab', 'api_version': 1, 'root': str(self.root)}:
+                        self.ownership_receipt()
+                        socket_owner(self.child.pid, self.socket)
+                        ready = self.observed_owner('primary_before_cleanup', allow_startup=True)
+                        require(startup_identity_matches(self.state['owner'], ready, argv, self.state['interpreter_binding']),
+                                'Old API ready identity is not the bound startup process.')
+                        self.publish_ready_owner(ready)
+                        self.owner()
+                        return
             time.sleep(.1)
+        if self.state.get('owner'):
+            observed = self.observed_owner('primary_before_cleanup', allow_startup=True)
+            self.owner_evidence('primary_before_cleanup', observed,
+                                inspection='PRESENT' if observed is not None else 'ABSENT',
+                                reason='READINESS_TIMEOUT' if self.child.poll() is None else 'PROCESS_ABSENT')
         raise RuntimeError('Owned 0.1.13 API failed to start; raw log remains private in owned root.')
 
     def before(self, executable):
@@ -542,6 +818,7 @@ class Upgrade:
 
     def cleanup(self):
         self.validate_paths()
+        self.recover_ready_publication()
         saved = self.state.get('owner')
         if saved is None and 'server_argv' not in self.state:
             require(not self.socket.exists(), 'No recorded helper; refusing an unexpected socket.')
@@ -550,9 +827,12 @@ class Upgrade:
             return
         require(saved is not None, 'No recorded owned helper; no process action authorized.')
         self.ownership_receipt()
-        observed = process_identity(saved['pid'])
+        startup = 'startup_owner' in self.state and not self.state.get('ready_owner_bound')
+        observed = self.observed_owner('explicit_cleanup' if self.phase == 'cleanup' else 'internal_cleanup',
+                                       allow_startup=startup)
         if observed is not None:
-            require(observed == saved, 'Cleanup refuses changed/foreign PID identity.')
+            require(startup_identity_matches(saved, observed, self.state['server_argv'], self.state['interpreter_binding'])
+                    if startup else observed == saved, 'Cleanup refuses changed/foreign PID identity.')
             require(saved['uid'] == os.getuid() and saved['pgid'] == saved['pid'] and
                     saved['command'].endswith(' '.join(self.state['server_argv'])), 'Cleanup refuses unverified owner command.')
             if self.socket.exists():
@@ -565,9 +845,15 @@ class Upgrade:
             else:
                 os.kill(saved['pid'], signal.SIGINT)
             deadline = time.monotonic() + 12
-            while time.monotonic() < deadline and process_identity(saved['pid']) == saved:
+            while time.monotonic() < deadline:
                 if self.child:
                     self.child.poll()
+                current = self.observed_owner('explicit_cleanup' if self.phase == 'cleanup' else 'internal_cleanup',
+                                              allow_startup=startup)
+                if current is None:
+                    break
+                require(startup_identity_matches(saved, current, self.state['server_argv'], self.state['interpreter_binding'])
+                        if startup else current == saved, 'Old API changed identity during cleanup.')
                 time.sleep(.1)
             require(process_identity(saved['pid']) is None, 'Old API did not exit; refusing a replacement owner.')
         stale_removed = False
@@ -580,6 +866,8 @@ class Upgrade:
                                  'stale_socket_removed': stale_removed}
         self.state['phase'] = 'cleaned'
         self.save()
+        self.owner_evidence('late_observation', None, inspection='ABSENT', reason='CLEANUP_COMPLETE',
+                            socket_receipt_validated=stale_removed)
 
 
 def main():
@@ -684,13 +972,19 @@ def main():
     finally:
         if upgrade:
             report['checks'] = upgrade.records
+            report['owner_diagnostics'] = upgrade.owner_diagnostics
             report.setdefault('cleanup', upgrade.state.get('cleanup'))
             report.setdefault('after_verified', upgrade.state.get('after_verified', False))
         if lock_fd is not None:
             os.close(lock_fd)
     if output is not None:
-        create_file(output, (json.dumps(report, indent=2) + '\n').encode())
-    print(json.dumps({k: report.get(k) for k in ('phase', 'status', 'context', 'after_verified', 'error', 'cleanup_error')} |
+        try:
+            create_file(output, (json.dumps(report, indent=2) + '\n').encode())
+        except Exception:
+            report['output_error'] = 'WRITE_ERROR'
+            if report['status'] == 'PASS':
+                report.update(status='FAIL', error='Private phase report could not be written; use retained state for cleanup.')
+    print(json.dumps({k: report.get(k) for k in ('phase', 'status', 'context', 'after_verified', 'error', 'cleanup_error', 'output_error')} |
                      {'checks': len(report.get('checks', [])), 'state': args.state, 'output': str(output) if output else None}))
     return 0 if report['status'] == 'PASS' else 1
 

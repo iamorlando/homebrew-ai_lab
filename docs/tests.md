@@ -110,6 +110,7 @@ Run each applicable row on both clean and upgraded installed packages.
 | SVC-01 | `services`, `services --action list [--json]`, `--name NAME`, `--model deepseek/qwen/contrastive/laya/jev` | One backend row/process per family regardless of saved model count; exact selection maps correctly; known foreign/current/prior-root ownership status truthful; opening has no starts. |
 | SVC-02 | `services --action start/stop/restart/interrupt` for each local backend, via name and model; corresponding buttons; refresh/logs/Exit | CPU process fixtures exercise every action and foreground cleanup. LIVE lane proves bounded actual DeepSeek/Qwen/native CLM/Laya; Start/Restart no duplicates, Stop/Interrupt stop genuine managed API, Exit preserves externally owned service. Jev is informational and cannot become local process. |
 | SVC-03 | Old CLM listener without receipt; prior-data-root registration; foreign/custom listener; stale/PID-reused receipt; rapid cancellation | Item 1 installed ownership guards plus attributed existing checkpoint; serialized LIVE reproduction of managed legacy adoption/restart/stop. Never kill unrelated Laya or unverified foreign processes. Before/after identities and receipts required. |
+| SVC-04 | Services terminal at 80×24 and 120×40, resize, details/status scrolling, refresh, cancel and action errors | Wrapped missing-weight details preserve the table, every action button and readable completion/error/cancel feedback above the footer. Long details and status messages remain keyboard-scrollable; new status resets to its beginning. Mounted screen assertions supplement actual installed `services --model deepseek` PTY evidence. |
 | SKL-01 | `skills install --agent codex/claude --scope project/user`; explicit `--project`, `--path`, `--force` | All 2×2 target/scope pairs in private paths; actual CLI creates shipped SKILL.md with metadata and canonical guide. Reinstall unchanged, conflicting file preserved, explicit force replaces only target. Invalid args/symlink/hardlink hazards fail unchanged; no real client config. |
 | MCP-01 | `mcp config` and `mcp install`, each `--codex/--claude/--claude-desktop/--cursor/--opencode`, user/project scope, explicit config-file/package/force | Actual CLI for all 5×2×2 variants (including documented unsupported scopes as safe errors). Config preview no writes; install uses private target, preserves unrelated settings, handles identical/conflicting/forced entry, private package snapshot/explicit package correctly. Never edit user's config. |
 | MCP-02 | `mcp serve` and installed `ai-lab-mcp`; client-launched generated config | Real initialize/initialized/tools-list/tools-call/close over stdio; stdout JSON-RPC only; local tools and schema failures checked. Fixture generation/detection/decisions labelled; no implicit local native start. Wheel/sdist private snapshot matches supplied package. An uninstalled external client is an honest optional integration limit, not a release blocker; own stdio transport remains required. |
@@ -134,6 +135,7 @@ These commands do not grant native/network work. Use the exact `python`,
 | `packaging/check_upgrade.py` | `--phase before/after/cleanup --root ROOT --state STATE` (details below) | Actual old installed API survives external upgrade; profile/session settings and tiny file-preservation mechanics. No Homebrew execution, package installation, native/model or SDK proof inside checker. |
 | `packaging/check_cli.py` | `--executable EXE --expected-version 0.1.14 --source-sha SHA --output FILE` | Public subprocess discovery, actual private CPU API CRUD/session lifecycle, install/config paths and PTY entrypoint smoke. Reports its bounded coverage; detailed feature and LIVE rows remain separate. |
 | `packaging/check_checker_failures.py` | `--old-executable OLD --executable NEW --source-sha SHA --output-directory NEW_DIRECTORY` | Actual owned CPU owner-crash and timeout regressions, foreign/replaced socket guards, primary/cleanup error separation, and positive retained-owner phases. Supplemental checker reliability evidence; no Homebrew/native proof. |
+| `packaging/check_upgrade_owner.py` | `--old-executable OLD --executable NEW --source-sha SHA --output-directory NEW_DIRECTORY` | Bound Framework interpreter transition, strict ready identity, failure-time private diagnostics and report-write failures. Actual retained13 CPU BEFORE/AFTER/CLEANUP plus owned early timeout/crash and injected identity changes; supplemental, no Homebrew/native proof. |
 | `packaging/check_completion.py` (item 3/4) | `--installed --report FILE --evidence DIRECTORY` | Joined public Completion/current/legacy API, picker and original dog recording (`completion-native-fixture.json`); require actual old installed API in PKG-06 as well. |
 | `packaging/check_completion_views.py` (item 4) | `--installed --report FILE --evidence DIRECTORY` | Joined/standalone views, match/draw/token choice, step/layer controls, scheme-specific availability and Stop persistence at wide/compact sizes. Keep adjacent `check_completion.py`, `completion-views-fixture.json` and the distinct original dog `completion-native-fixture.json`; historical replay is not fresh generation. |
 | Item 5 accepted deletion checker/tests | Read handoff and exact checker `--help` | Actual public picker and Models deletion/current-highlight/busy persistence; fixture-only tests do not close native state preservation alone. |
@@ -212,6 +214,22 @@ It retains failed and successful evidence. Its phase context is explicitly
 `isolated-env`: checker regression proof is separate from the job's literal
 same-install Homebrew transaction, even when it uses installed keg executables.
 
+Run `check_upgrade_owner.py` with the same two installed inputs and a separate
+new short 0700 output directory. Use a retained literal13 macOS Framework venv
+to exercise its launcher transition; record the interpreter version and whether
+the early and ready commands actually differed. This checker requires adjacent
+`check_upgrade.py` and no fixture assets. It creates its own private roots,
+receipts and inert sentinels, never uses the job's persistent upgrade state,
+and cleans its own real CPU API processes. Allow the real 30-second readiness
+timeout. UID/start/argv and diagnostic failure cases inject observations; label
+them separately from the real process launch, transport, crash and cleanup.
+Readiness publication cases inject only private filesystem failures while the
+actual published13 CPU API is alive. Cover staged ready/socket writes after
+creation, journal publication, exclusive receipt linking, state writes before
+and after commit, deferred explicit recovery, and refusal of a substituted
+receipt. Record the primary write error separately from any recovery failure;
+prove actual internal/explicit cleanup leaves no owned PID or socket.
+
 ## Retained-owner upgrade checker: CI contract
 
 Run the checker by absolute path from `RUNNER_TEMP` (or another detached directory).
@@ -240,7 +258,7 @@ foreign owners and substituted PIDs. A short root keeps the Unix socket under
 # OLD_EXE is the retained versioned Cellar/.../libexec/venv/bin/ai-lab itself,
 # never an opt/bin link that brew upgrade can retarget.
 python3 "$CHECKER" --phase before --executable "$OLD_EXE" \
-  --root "$UPGRADE_ROOT" --state "$UPGRADE_STATE"
+  --root "$UPGRADE_ROOT" --state "$UPGRADE_STATE" --output "$BEFORE_REPORT"
 
 # Root/CI performs and records the actual same-install brew upgrade here.
 # Keep the old keg and its interpreter/dependencies intact until proof completes.
@@ -251,7 +269,7 @@ python3 "$CHECKER" --phase after --executable "$NEW_EXE" \
 
 # Invoke from CI's failure/finally cleanup as well; no executable is required.
 python3 "$CHECKER" --phase cleanup \
-  --root "$UPGRADE_ROOT" --state "$UPGRADE_STATE"
+  --root "$UPGRADE_ROOT" --state "$UPGRADE_STATE" --output "$CLEANUP_REPORT"
 ```
 
 BEFORE verifies literal `AI Lab 0.1.13`, requires a stable installed entrypoint,
@@ -263,6 +281,71 @@ Tiny inert `.models/upgrade-checker` and `.runtime/upgrade-checker` files have
 explicit mechanics-only hash receipts. They are never advertised as valid native
 models or executables. File hashes, size, permissions, ownership, inode and mtime
 are snapshotted, together with actual saved state and pinned resource files.
+
+Before launching, bind the retained entrypoint's exact venv Python shebang,
+physical interpreter and, for a macOS Framework launcher, its derived physical
+`Resources/Python.app/Contents/MacOS/Python` executable. Record their file hashes
+and identities in `state.interpreter_binding` and the immutable private
+`.upgrade-checker/interpreter-owner.json` receipt. Only before readiness may the
+command use one of these complete interpreter paths followed by the entire
+unchanged launch argv. PID, UID, process group and start identity must remain
+equal; no arbitrary prefix or PID-reuse relaxation is allowed.
+
+The first attested identity is immutable `state.startup_owner`. The original
+`.upgrade-checker/process-owner.json` remains bound to this early identity,
+`nonce`, `server_argv`, `root` and `state_path`. Until readiness,
+`state.owner == state.startup_owner` and `state.ready_owner_bound` is false.
+After exact health/root and socket ownership checks, record the full ready
+identity in `state.owner` and create `.upgrade-checker/ready-owner.json` with
+exact keys `nonce`, `owner`, `startup_owner`, `server_argv`. Then set
+`ready_owner_bound` true. This flag must agree with the ready receipt; all five
+ready identity fields, including the full command, are strict thereafter.
+Legacy state without `startup_owner` retains its original exact process receipt
+binding to `state.owner`; its readiness is not inferred.
+
+Publish readiness through private staged receipts and a bounded
+`.upgrade-checker/ready-publication.json` transaction journal. The journal binds
+the original nonce/root/state/early-owner/argv by hash, the exact prior and ready
+state hashes, and the staged directory and file identities. Create final
+receipt names exclusively, then atomically write the ready state. A failed or
+interrupted publication can roll back only matching files created by that
+transaction when the original state remains intact; a completed state write
+keeps its exact ready receipts. Validate every affected file before removing
+any alias, then reapply the original strict flag/receipt rules. A mismatching
+receipt without a valid transaction remains an error. A foreign or replaced
+file is never removed. Partial staged files remain private evidence. Journal
+recovery itself neither probes nor signals a process; cleanup still validates
+the live owner and socket through the original guards.
+
+Filesystem publication errors propagate outside the health-transport retry
+loop and remain the primary failure. The private phase checks separately record
+the publication stage, error type and any recovery error. The exporter needs no
+new input path or identity/schema field: the existing final state/receipt
+contract is unchanged, and raw staging/journal files are not uploaded.
+
+Private state and private phase reports carry `owner_diagnostics` schema 1,
+with at most four events: `primary_before_cleanup`, `internal_cleanup`,
+`explicit_cleanup`, `late_observation`. Preserve the first observation for each
+moment. A failing comparison records its exact expected/observed five-field
+identity (`pid`, `uid`, `pgid`, `started`, `command`) before internal cleanup;
+diagnostics never reread the process to reconstruct that failure. Events include
+phase, UTC time, phase-local elapsed time, process status/reason, differing keys,
+receipt/socket booleans and cleanup outcome. A live helper that never becomes
+ready records `READINESS_TIMEOUT`. Cleanup observations and later absence cannot
+substitute for the original failure; clocks from separate phases are not
+comparable.
+
+Raw commands stay in private state and private phase reports. CI must export
+only the allowlisted sanitized evidence: command hash/length, fixed interpreter
+role, exact recorded-launch suffix and ownership/cleanup comparisons. The
+exporter reads the exact private paths, validates receipt bindings, accepts
+identical duplicate moments and rejects conflicting duplicates; it performs no
+process or HTTP probes and uploads no raw state, argv, logs or keys. Retain
+BEFORE and explicit CLEANUP private reports even on failure. A diagnostic save
+error is secondary (`capture_error`); it cannot replace the primary failure or
+skip cleanup. Failure to create a private phase report gives fixed
+`output_error=WRITE_ERROR`, keeps any existing primary/cleanup errors and changes
+an otherwise successful phase to FAIL. Use retained original state for cleanup.
 
 AFTER verifies literal `AI Lab 0.1.14` and the unchanged old owner/package/socket
 before any data mutation. Homebrew context additionally requires versioned

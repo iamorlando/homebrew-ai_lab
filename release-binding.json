@@ -1,6 +1,6 @@
 {
   "dependency_lock_unchanged_except_app_version": true,
-  "git_archive_sha256": "9b2c7fd6c2c057e65a2bd43bbc031cba67639d1bd05dff58bd3017b6303960c4",
+  "git_archive_sha256": "2afb6b19c5b93c0ce0e9b6fe0de47592ea04063cfae8011e6e8d84e575f8bc44",
   "native_pins_unchanged": true,
   "package_binding": {
     "runtime_files": 132,
@@ -128,7 +128,7 @@
       "ai_lab/runtime.py": "671b6b6a46cc874b93e2ec99d9dfb7b7b0831b421688fb020281facafed27271",
       "ai_lab/server.py": "e6616991c1e3ca7167890fe833ec713bfab6479c913ac1eaf07605da58b42299",
       "ai_lab/service.py": "77ce7a4fa05c8e6011ec7a828134383677b11baee03a8fa6d63829ea865b72ce",
-      "ai_lab/service_manager.py": "d44de6c7a376553ff1f4096e83cc478fe4dc145deb3cb10a408074181ff13b66",
+      "ai_lab/service_manager.py": "09c00c1215265951afe41914152a9214a18b0905f4e8b51d6aee3c18dc389e07",
       "ai_lab/session_compat.py": "e83d8e7ba93305be3698a4b1d9d6d7cae8a6dd64a7a1aa732b7b97d4c080d099",
       "ai_lab/setup.py": "a0e4b9ea7c6e2d02145f98b09ebd50399172d2d2c6e3d39836980a979b9e561b",
       "ai_lab/skill_metadata.md": "ac3c3d029e2dbd33c98165a1ab4d657830328560a495906aa7ab8ab636ba1af2",
@@ -275,9 +275,9 @@
     "sdist_automatic_source_files": [
       ".gitignore"
     ],
-    "sdist_bytes": 673395,
-    "sdist_files": 176,
-    "sdist_sha256": "380145e01e9860cdb9273f37c42a73548b5aa63e9473f00b0e62fccda9056833",
+    "sdist_bytes": 684873,
+    "sdist_files": 177,
+    "sdist_sha256": "a5fac52ead8f46709e74a0f19edae6a36e533c78600b85b1fc415ef5e7421301",
     "sdist_sha256_by_file": {
       ".gitignore": "1c1935ed295a92e6d8d920bf0182eaf2b9ea01beff5c787b506ebdbb0449ab97",
       "AGENTS.md": "19966dbdad4ef663b9ce342e3da08ecb396fd56a217c005e192d05bc572861ae",
@@ -324,7 +324,7 @@
       "ai_lab/runtime.py": "671b6b6a46cc874b93e2ec99d9dfb7b7b0831b421688fb020281facafed27271",
       "ai_lab/server.py": "e6616991c1e3ca7167890fe833ec713bfab6479c913ac1eaf07605da58b42299",
       "ai_lab/service.py": "77ce7a4fa05c8e6011ec7a828134383677b11baee03a8fa6d63829ea865b72ce",
-      "ai_lab/service_manager.py": "d44de6c7a376553ff1f4096e83cc478fe4dc145deb3cb10a408074181ff13b66",
+      "ai_lab/service_manager.py": "09c00c1215265951afe41914152a9214a18b0905f4e8b51d6aee3c18dc389e07",
       "ai_lab/session_compat.py": "e83d8e7ba93305be3698a4b1d9d6d7cae8a6dd64a7a1aa732b7b97d4c080d099",
       "ai_lab/setup.py": "a0e4b9ea7c6e2d02145f98b09ebd50399172d2d2c6e3d39836980a979b9e561b",
       "ai_lab/skill_metadata.md": "ac3c3d029e2dbd33c98165a1ab4d657830328560a495906aa7ab8ab636ba1af2",
@@ -344,7 +344,7 @@
       "docs/ai-lab/services.md": "8f081af31ef090140d13312179b42c542f099dbdb8acebdc124225549dd9c02d",
       "docs/ai-lab/skills.md": "2891e319dc76fb9424c8d302ea2e8238f279d55d99b51d417ef87a41d4a1b1e3",
       "docs/ai-lab/upgrading.md": "6352976e3812fd7e73450f5733c9d28d121a9b2a8704d72e9b9f866e58c0dca3",
-      "docs/tests.md": "3317197180c5afe08a0802fcd29458260015ce3a5dfb6527e1550e404925fd66",
+      "docs/tests.md": "ba5e684c4549aab75fc0e9951853b0346eeaadf5945e1af50273a45c90adcbff",
       "harness/clm_encoder.py": "7b523fae70da6266b1aef2961093e6fe5922201a882c19ca1b1f94087fab30d5",
       "harness/clm_upstream.py": "128f15e34aebbd7276c1ddf9ad280971cbdfd2ca5991fd03d04deab733098dcb",
       "harness/common.py": "8346a4ab41733b43fa889e2d02a0e713d2b828cd8299c3e0adf63f380e9dadf9",
@@ -436,7 +436,8 @@
       "packaging/check_python_experiments.py": "e6c79c3add793bf19ed90ccf0594f3417951ca1567f453c1f59284a4486b8853",
       "packaging/check_services.py": "352bf298b966ca4b7d09b2eed2504105e279ccf6796e22b4f7079f1e7e24dec4",
       "packaging/check_storage.py": "177bc68dd632988ec094dbe2f87cf1c85a02cc306062afb5df45e5576f5f35d9",
-      "packaging/check_upgrade.py": "f0da3609b2c0542659478c761b28379ee6f5560691448abeea019490e40350a6",
+      "packaging/check_upgrade.py": "e4d0766268e92e69c4240ea0eeff70fc01e2e9a28e41149404236642623d1366",
+      "packaging/check_upgrade_owner.py": "6869878101f55bc72de90a192aa8c343317b2f619ff90af30a9f34628370b2ca",
       "packaging/completion-native-fixture.json": "d4d581c4f2dd824762787606bfd7d297bc5af0c326acb1f6d271c31c00172d3a",
       "packaging/completion-views-fixture.json": "e0b5d9219b9b3b22d8bca173b8ea0eb0bce017bd8a3d9d22a630cf498152fdda",
       "packaging/decoder_proof.py": "55433522271a292bfe2d34d67a9e79fa9dab2c0f28a35dacfaf21525ea443ebb",
@@ -456,24 +457,24 @@
       "sources.json": "cf2fd351f8ce61a731eb6e745a378cfd85c03ffa9aab476c0cf1fdb01b70d446",
       "uv.lock": "a11b2ccb50a8ac0c792704a4725428279247a2d5e20186ba280543ee0803475c"
     },
-    "wheel_bytes": 465883,
+    "wheel_bytes": 465919,
     "wheel_generator": "hatchling 1.32.4",
-    "wheel_sha256": "01d4ee85d6e2926d3beafad0b3d657211d87ebf916a6b378027c32da24c4d8c5"
+    "wheel_sha256": "9f90d359c420aad9bbc3e95bd98ffbe969cda7e95c1b47785f514e5cb2d865fa"
   },
   "schema_version": 1,
   "scope": "Immutable source/package binding; execution results are recorded separately.",
-  "source_files": 612,
+  "source_files": 613,
   "source_provenance": {
     "AGENTS.md": "19966dbdad4ef663b9ce342e3da08ecb396fd56a217c005e192d05bc572861ae",
     "ai_lab/decisions-runtime.json": "ba0174dc0e46b22afafe3f092ec96a741447bbb3b7d2b24dbd6dc67a138160cc",
     "ai_lab/runtime.json": "eae14cd1b42f6ad62bee4b8569e52c655f22e98def5754fe08e22f8afc002ee9",
-    "docs/tests.md": "3317197180c5afe08a0802fcd29458260015ce3a5dfb6527e1550e404925fd66",
+    "docs/tests.md": "ba5e684c4549aab75fc0e9951853b0346eeaadf5945e1af50273a45c90adcbff",
     "packaging/runtime/contrastive-sources.json": "9bd39c3eb04a4f23e23486165029689b746619be2accb1da3b5d84ab8f5acdf9",
     "pyproject.toml": "4f0edcb374932a9990e8e45d42df82681a2f2b5da6ea438d2818ff84e876ac3f",
     "sources.json": "cf2fd351f8ce61a731eb6e745a378cfd85c03ffa9aab476c0cf1fdb01b70d446",
     "uv.lock": "a11b2ccb50a8ac0c792704a4725428279247a2d5e20186ba280543ee0803475c"
   },
   "source_repository": "https://github.com/iamorlando/deepseek",
-  "source_sha": "4e44f31900807a863e0b2eb8ad402a7cd793593e",
+  "source_sha": "55d84b9ccc0c6425d7ef311ba704ea4349a65a9b",
   "version": "0.1.14"
 }
