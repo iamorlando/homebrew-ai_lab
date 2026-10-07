@@ -235,6 +235,7 @@ jobs:
             exit 1
           fi
       - name: Install literal published 0.1.13 and retain its owned API and data
+        id: upgrade_before
         if: matrix.installation == 'upgrade'
         working-directory: ${{ runner.temp }}
         run: |
@@ -248,7 +249,7 @@ jobs:
           ai_lab_old_venv="$(cd "$(brew --prefix ai_lab)/libexec/venv" && pwd -P)"
           "$ai_lab_old_venv/bin/ai-lab" --version
           printf '%s\n' "$ai_lab_old_venv/bin/ai-lab" > "$RUNNER_TEMP/old-executable.txt"
-          python3 "$AI_LAB_CHECKS/check_upgrade.py" --phase before --executable "$ai_lab_old_venv/bin/ai-lab" --root "$AI_LAB_UPGRADE_ROOT" --state "$AI_LAB_UPGRADE_STATE"
+          python3 "$AI_LAB_CHECKS/check_upgrade.py" --phase before --executable "$ai_lab_old_venv/bin/ai-lab" --root "$AI_LAB_UPGRADE_ROOT" --state "$AI_LAB_UPGRADE_STATE" --output "$RUNNER_TEMP/ai-lab-upgrade-proof/before.json"
       - name: Preload exact sdist and install the unchanged candidate formula
         working-directory: ${{ runner.temp }}
         run: |
@@ -270,6 +271,7 @@ jobs:
           test "$(ai-lab --version)" = "AI Lab 0.1.14"
           brew info --json=v2 iamorlando/ai_lab/ai_lab > "$RUNNER_TEMP/candidate-installation.json"
       - name: Verify literal upgrade persistence and the retained old API owner
+        id: upgrade_after
         if: matrix.installation == 'upgrade'
         env:
           SOURCE_SHA: ${{ inputs.source_sha }}
@@ -336,17 +338,35 @@ jobs:
           "$ai_lab_python" -I "$AI_LAB_CHECKS/check_storage.py"
           "$ai_lab_python" -I "$AI_LAB_CHECKS/check_python_experiments.py" --python "$ai_lab_python"
       - name: Clean owned retained API after interrupted upgrade checks
+        id: upgrade_cleanup
         if: always() && matrix.installation == 'upgrade'
         working-directory: ${{ runner.temp }}
         run: |
           if test -f "$AI_LAB_UPGRADE_STATE"; then
-            python3 "$AI_LAB_CHECKS/check_upgrade.py" --phase cleanup --root "$AI_LAB_UPGRADE_ROOT" --state "$AI_LAB_UPGRADE_STATE"
+            python3 "$AI_LAB_CHECKS/check_upgrade.py" --phase cleanup --root "$AI_LAB_UPGRADE_ROOT" --state "$AI_LAB_UPGRADE_STATE" --output "$RUNNER_TEMP/ai-lab-upgrade-proof/cleanup.json"
           fi
       - name: Export sanitized hidden timeout bodies as visible evidence
         if: always() && matrix.installation == 'upgrade'
         working-directory: ${{ runner.temp }}
         run: |
           python3 "$AI_LAB_CHECKS/export_checker_diagnostics.py" --root /private/tmp/ai-lab-i6-faults --output "$RUNNER_TEMP/checker-timeout-evidence"
+      - name: Export private owner comparisons as bounded visible evidence
+        if: always() && matrix.installation == 'upgrade'
+        env:
+          SOURCE_SHA: ${{ inputs.source_sha }}
+          BEFORE_OUTCOME: ${{ steps.upgrade_before.outcome }}
+          AFTER_OUTCOME: ${{ steps.upgrade_after.outcome }}
+          CLEANUP_OUTCOME: ${{ steps.upgrade_cleanup.outcome }}
+        working-directory: ${{ runner.temp }}
+        run: |
+          python3 "$AI_LAB_CHECKS/export_upgrade_owner_evidence.py" \
+            --root "$RUNNER_TEMP/ai-lab-upgrade-root" --state "$RUNNER_TEMP/ai-lab-upgrade-proof/state.json" \
+            --before-report "$RUNNER_TEMP/ai-lab-upgrade-proof/before.json" \
+            --after-report "$RUNNER_TEMP/upgrade.json" --cleanup-report "$RUNNER_TEMP/ai-lab-upgrade-proof/cleanup.json" \
+            --checker "$AI_LAB_CHECKS/check_upgrade.py" --tap-sha "$GITHUB_SHA" --source-sha "$SOURCE_SHA" \
+            --run-id "$GITHUB_RUN_ID" --run-attempt "$GITHUB_RUN_ATTEMPT" \
+            --before-outcome "${BEFORE_OUTCOME:-UNKNOWN}" --after-outcome "${AFTER_OUTCOME:-UNKNOWN}" \
+            --cleanup-outcome "${CLEANUP_OUTCOME:-UNKNOWN}" --output "$RUNNER_TEMP/upgrade-owner-evidence"
       - name: Preserve candidate install and upgrade evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -360,7 +380,7 @@ jobs:
             ${{ runner.temp }}/completion-screens
             ${{ runner.temp }}/completion-views.json
             ${{ runner.temp }}/completion-view-screens
-            ${{ runner.temp }}/upgrade.json
+            ${{ runner.temp }}/upgrade-owner-evidence
             /private/tmp/ai-lab-i6-faults
             ${{ runner.temp }}/checker-timeout-evidence
             ${{ runner.temp }}/prior-artifact.sha256
