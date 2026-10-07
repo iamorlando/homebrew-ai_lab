@@ -1,7 +1,7 @@
 class AiLab < Formula
   desc "AI Lab web app for DeepSeek, CLM decisions, and watermark decoding"
   homepage "https://github.com/iamorlando/homebrew-ai_lab"
-  url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.15/ai_lab-0.1.15.tar.gz"
+  url "https://raw.githubusercontent.com/iamorlando/homebrew-ai_lab/352a7378c6007ff73d1203febc5e067761f8d38b/artifacts/0.1.15/ai_lab-0.1.15.tar.gz"
   version "0.1.15"
   sha256 "1c67efd69159aaa0d583599accf5b8831496876fb57adcfc092e909854baa4a4"
 

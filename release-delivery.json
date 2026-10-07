@@ -1,0 +1,14 @@
+{
+  "version": "0.1.15",
+  "source_sha": "d1bcd6aacb1bab805c2eb100b09484794e95aeba",
+  "artifact_commit": "352a7378c6007ff73d1203febc5e067761f8d38b",
+  "artifact_branch": "release-artifacts/0.1.15",
+  "delivery": "Immutable Git-hosted artifacts; no GitHub Releases API required",
+  "assets": {
+    "ai_lab-0.1.15-py3-none-any.whl": "https://raw.githubusercontent.com/iamorlando/homebrew-ai_lab/352a7378c6007ff73d1203febc5e067761f8d38b/artifacts/0.1.15/ai_lab-0.1.15-py3-none-any.whl",
+    "ai_lab-0.1.15.tar.gz": "https://raw.githubusercontent.com/iamorlando/homebrew-ai_lab/352a7378c6007ff73d1203febc5e067761f8d38b/artifacts/0.1.15/ai_lab-0.1.15.tar.gz",
+    "candidate-binding.json": "https://raw.githubusercontent.com/iamorlando/homebrew-ai_lab/352a7378c6007ff73d1203febc5e067761f8d38b/artifacts/0.1.15/candidate-binding.json"
+  },
+  "checksums": "release-binding.json",
+  "validation": "Identical bytes from accepted source package; local clean/sdist/literal-upgrade installs, actual Chrome, native DeepSeek+CLM clean/upgrade, preservation, and formula recipe passed. Physical Homebrew/hosted CI exceptions remain as documented in docs/tests.md."
+}
