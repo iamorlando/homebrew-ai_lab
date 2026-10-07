@@ -1,6 +1,6 @@
 {
   "dependency_lock_unchanged_except_app_version": true,
-  "git_archive_sha256": "7c0cd90ebbe90e206791dd866de8d7f3a0b8369811e4288a94e6ce082f38d013",
+  "git_archive_sha256": "8168d1056de2b10b13ac255eea3ab78c4d9fd1f500e18263c2580f2219b0e181",
   "native_pins_unchanged": true,
   "package_binding": {
     "runtime_files": 122,
@@ -255,9 +255,9 @@
     "sdist_automatic_source_files": [
       ".gitignore"
     ],
-    "sdist_bytes": 536410,
+    "sdist_bytes": 536407,
     "sdist_files": 159,
-    "sdist_sha256": "1c07333d2170bdcb3507f971af0679160ff561339a2dbac8ce9830601b66edf4",
+    "sdist_sha256": "1c67efd69159aaa0d583599accf5b8831496876fb57adcfc092e909854baa4a4",
     "sdist_sha256_by_file": {
       ".gitignore": "1c1935ed295a92e6d8d920bf0182eaf2b9ea01beff5c787b506ebdbb0449ab97",
       "AGENTS.md": "19966dbdad4ef663b9ce342e3da08ecb396fd56a217c005e192d05bc572861ae",
@@ -311,7 +311,7 @@
       "deepseek-chat.jinja": "f3ee548562d647b506a7b60a4cf0a955d1aab29a3f358a625ce721f325d06d44",
       "docs/ai-lab/README.md": "99347be1a7a3efa54fed96cdb3c634bbccc0edde29a8ad20b96d0617d5f2cb39",
       "docs/ai-lab/api-connections.md": "ee96cd944c5d11b0cf9c86fa04fb30d14a38a45b1fb03955362928e4af5e54cb",
-      "docs/ai-lab/decisions-terminal.md": "be2d45343c8e189ca9d1dce9d28c0fc77853dc67a0a12cd9e141e359900d49cb",
+      "docs/ai-lab/decisions-terminal.md": "65a5ea9f821116ba116a9ab377efa2eedc80123e5a085fb756a016b20c3e4be9",
       "docs/ai-lab/decoder.md": "5a0cce6d4abcc0151c7335b31c80b648346d35426222471923ba900d49fcaea4",
       "docs/ai-lab/mcp-client.md": "e2c3d0cea53c506de741c3d367fe4e948aeadaef76ce72028d27845e0b9a2a8c",
       "docs/ai-lab/model-profiles.md": "c46fcdfdd978b65e6f67834451731b95cf3e58857e5b04ca9a2cd596b6c76194",
@@ -406,7 +406,7 @@
       "packaging/homebrew/ai_lab.rb.in": "cea5fbe805c40bf6b0a60a8ae3a16b901ac258b935e782a9ef9eb7f2a8e8ccfe",
       "packaging/homebrew/check_web.py": "79a144fbc1b4d69b37d18a8d686a3f3cc2f63de1ff64b4d776aabefaaab82413",
       "packaging/homebrew/generate.py": "ac669849943217f71c33da17c22333ae7e0a76664cd5ade51202c32fc0bc8540",
-      "packaging/install.sh": "e363d0f1f9754c78867203b1d13104c33ff55cede9f94438b24580de176a81ef",
+      "packaging/install.sh": "8967dc62cdceceb345aee6ee72afe0f2e5af6ad9edb06b011e34b7262bebc498",
       "packaging/python_experiments_fixture.py": "be173d477fa27b10996c2eeb76d1a8c71bf53c1a82ea6e187b5f8847483ee21e",
       "packaging/runtime/build.py": "ab066160ae92164212b37f6ddf4fab40b26ed2bd162e9b79aa9672c7679e8938",
       "packaging/runtime/build.yml": "bf4d07ffade946b41ce8ec312efc31b656d9a659a62d29bada49afd3be1e587a",
@@ -421,7 +421,7 @@
     },
     "wheel_bytes": 392621,
     "wheel_generator": "hatchling 1.32.4",
-    "wheel_sha256": "206b188d7a1516804a3d97b31e9a44613741b6b78724d67d7385770d385094bd"
+    "wheel_sha256": "8d0e91c4064a62743cfb0f5ff772b1d53e6f30b74673aafa0f57297599fb07e1"
   },
   "schema_version": 1,
   "scope": "Immutable source/package binding; execution results are recorded separately.",
@@ -437,6 +437,6 @@
     "uv.lock": "47d9a0e09ac94f0a15484c95e2a9116f04201ff9335b8d5685b1ab38efb0c382"
   },
   "source_repository": "https://github.com/iamorlando/deepseek",
-  "source_sha": "33ba24fad8bedddcc74f1272feb187b954a02805",
+  "source_sha": "d1bcd6aacb1bab805c2eb100b09484794e95aeba",
   "version": "0.1.15"
 }

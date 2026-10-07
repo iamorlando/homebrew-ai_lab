@@ -22,6 +22,6 @@ if [ "$action" = update ]; then brew update; fi
 brew "$brew_action" iamorlando/ai_lab/ai_lab
 case "$model_option" in
   --no-models) ;;
-  --yes) ai-lab setup install deepseek qwen clm --yes ;;
+  --yes) ai-lab setup install deepseek clm --yes ;;
   '') ai-lab setup ;;
 esac
