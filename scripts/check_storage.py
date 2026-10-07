@@ -183,14 +183,17 @@ def probe(root, phase):
             with patch.object(downloads, 'dependencies_ready', side_effect=readiness), \
                     patch.object(runtime, 'descriptor', return_value=release), \
                     patch.object(runtime, 'supported', return_value=True), \
-                    patch.object(downloads, 'install', side_effect=RuntimeError('Stale runtime became a download offer')):
+                    patch.object(downloads, 'install', return_value={'installed': [], 'reason': 'declined'}) as install:
                 rows = downloads.status(root)
                 require(all(r['weights_present'] and r['missing_bytes'] == 0 and not r['installed'] for r in rows),
                         'Verified weights and stale runtime are conflated')
                 require(all('weights verified; runtime setup required' in r['status'] for r in rows), 'Status label is misleading')
-                offer = downloads.offer(root, yes=True)
-                require(offer['installed'] == [] and set(offer['runtime_setup_required']) == set(catalog),
-                        'Offer treats stale runtimes as missing weight candidates')
+                with patch('sys.stdin.isatty', return_value=True):
+                    offer = downloads.offer(root)
+                install.assert_called_once_with(root, list(catalog), yes=False)
+                require(offer['reason'] == 'declined' and offer['installed'] == []
+                        and set(offer['runtime_setup_required']) == set(catalog),
+                        'Explicit offer must include runtime repairs and preserve unselected repairs')
                 with patch('urllib.request.urlopen', side_effect=fake_artifact), \
                         patch('subprocess.check_output', return_value=release['version']):
                     require(setup.repair_generation_runtime(root, 'deepseek')['repaired'], 'Stale runtime did not repair')

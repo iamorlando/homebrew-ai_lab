@@ -13,18 +13,48 @@ on:
       - scripts/**
       - .github/workflows/homebrew.yml
   workflow_dispatch:
+    inputs:
+      staging_release_id:
+        description: Draft candidate release ID; empty runs published install checks
+        type: string
+        required: false
+      tap_sha:
+        description: Exact pushed tap candidate commit
+        type: string
+        required: false
+      source_sha:
+        description: Exact accepted source commit
+        type: string
+        required: false
+      wheel_sha256:
+        description: Immutable candidate wheel SHA256
+        type: string
+        required: false
+      sdist_sha256:
+        description: Immutable candidate sdist SHA256
+        type: string
+        required: false
+      manifest_sha256:
+        description: Immutable candidate-binding.json SHA256
+        type: string
+        required: false
 
 permissions:
   contents: read
 
 jobs:
   install:
+    # The release branch is validated by the privileged, exact-SHA candidate
+    # dispatch below while its assets remain private drafts. Main/published
+    # checks run again after publication and never infer PASS from a skipped job.
+    if: (github.event_name != 'workflow_dispatch' || inputs.staging_release_id == '') && !(github.event_name == 'pull_request' && github.head_ref == 'ai-lab/0.1.14-release-20261006')
     runs-on: macos-15
-    timeout-minutes: 20
+    timeout-minutes: 45
     defaults:
       run:
         shell: bash
     env:
+      AI_LAB_CHECKS: ${{ github.workspace }}/scripts
       HOMEBREW_NO_AUTO_UPDATE: "1"
       HOMEBREW_NO_INSTALL_CLEANUP: "1"
     steps:
@@ -32,6 +62,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Prepare Apple Silicon Homebrew
+        working-directory: ${{ runner.temp }}
         run: |
           test "$(uname -m)" = arm64
           brew update
@@ -42,9 +73,10 @@ jobs:
             unlink "$ai_lab_openssl_link"
           fi
           brew tap iamorlando/ai_lab
-          cp Formula/ai_lab.rb "$(brew --repository iamorlando/ai_lab)/Formula/ai_lab.rb"
+          cp "$GITHUB_WORKSPACE/Formula/ai_lab.rb" "$(brew --repository iamorlando/ai_lab)/Formula/ai_lab.rb"
           brew trust --formula iamorlando/ai_lab/ai_lab
       - name: Install and check post-install linkage
+        working-directory: ${{ runner.temp }}
         run: |
           brew install iamorlando/ai_lab/ai_lab 2>&1 | tee "$RUNNER_TEMP/ai-lab-install.log"
           if /usr/bin/grep -E 'HeaderPadError|Failed to fix install linkage|did not complete successfully|Could not symlink|Error:' "$RUNNER_TEMP/ai-lab-install.log"; then
@@ -52,12 +84,14 @@ jobs:
           fi
           brew linkage --test iamorlando/ai_lab/ai_lab
       - name: Test the installed application
+        working-directory: ${{ runner.temp }}
         run: |
           brew test iamorlando/ai_lab/ai_lab
           ai-lab --version
           ai-lab completion --api-schema > "$RUNNER_TEMP/ai-lab-schema.json"
           ai-lab --json > "$RUNNER_TEMP/ai-lab-help.json"
       - name: Install the native runtime without developer tools
+        working-directory: ${{ runner.temp }}
         run: |
           ai_lab_python="$(brew --prefix ai_lab)/libexec/venv/bin/python"
           env DEVELOPER_DIR=/nonexistent PATH=/usr/bin:/bin "$ai_lab_python" - <<'PYCODE'
@@ -80,13 +114,16 @@ jobs:
               print(json.dumps(native))
           PYCODE
       - name: Exercise the installed website and model editor
+        working-directory: ${{ runner.temp }}
         run: |
-          python3 scripts/check_web.py "$(brew --prefix ai_lab)/bin/ai-lab"
-          python3 scripts/check_web.py "$(brew --prefix ai_lab)/bin/ai-lab" --jev-configured
+          python3 "$AI_LAB_CHECKS/check_web.py" "$(brew --prefix ai_lab)/bin/ai-lab"
+          python3 "$AI_LAB_CHECKS/check_web.py" "$(brew --prefix ai_lab)/bin/ai-lab" --jev-configured
       - name: Exercise client-launched MCP and persistent watermark configuration
+        working-directory: ${{ runner.temp }}
         run: |
-          uv run --python 3.13 --with 'mcp==1.30.0' python scripts/check_mcp.py --executable "$(brew --prefix ai_lab)/bin/ai-lab"
+          uv run --python 3.13 --with 'mcp==1.30.0' python "$AI_LAB_CHECKS/check_mcp.py" --executable "$(brew --prefix ai_lab)/bin/ai-lab"
       - name: Verify installed release bytes and local agent fixtures
+        working-directory: ${{ runner.temp }}
         run: |
           ai_lab_python="$(brew --prefix ai_lab)/libexec/venv/bin/python"
           ai_lab_version="$(ai-lab --version | awk '{print $3}')"
@@ -121,14 +158,259 @@ jobs:
           assert checked > 100, checked
           print(f'Verified {checked} installed application files against the published wheel')
           PYCODE
-          "$ai_lab_python" scripts/check_mcp_client.py --installed --wheel "$ai_lab_wheel" --sdist "$ai_lab_source"
-          "$ai_lab_python" scripts/check_agent.py --wheel "$ai_lab_wheel" --sdist "$ai_lab_source"
-          python3 scripts/check_cross_model_profiles.py --python "$ai_lab_python"
-          python3 scripts/check_cross_model_chat.py --python "$ai_lab_python"
-          python3 scripts/check_cross_model_chat.py --python "$ai_lab_python" --required-only
-          "$ai_lab_python" scripts/check_decisions.py --wheel "$ai_lab_wheel" --sdist "$ai_lab_source"
-          "$ai_lab_python" scripts/check_decoder.py --installed --wheel "$ai_lab_wheel" --sdist "$ai_lab_source"
-          "$ai_lab_python" -I scripts/check_services.py
-          "$ai_lab_python" scripts/check_api_skills.py --python "$ai_lab_python" --canonical
-          "$ai_lab_python" -I scripts/check_storage.py
-          "$ai_lab_python" -I scripts/check_python_experiments.py --python "$ai_lab_python"
+          "$ai_lab_python" "$AI_LAB_CHECKS/check_mcp_client.py" --installed --wheel "$ai_lab_wheel" --sdist "$ai_lab_source"
+          "$ai_lab_python" "$AI_LAB_CHECKS/check_agent.py" --wheel "$ai_lab_wheel" --sdist "$ai_lab_source"
+          python3 "$AI_LAB_CHECKS/check_cross_model_profiles.py" --python "$ai_lab_python"
+          python3 "$AI_LAB_CHECKS/check_cross_model_chat.py" --python "$ai_lab_python"
+          python3 "$AI_LAB_CHECKS/check_cross_model_chat.py" --python "$ai_lab_python" --required-only
+          "$ai_lab_python" "$AI_LAB_CHECKS/check_decisions.py" --wheel "$ai_lab_wheel" --sdist "$ai_lab_source"
+          "$ai_lab_python" "$AI_LAB_CHECKS/check_decoder.py" --installed --wheel "$ai_lab_wheel" --sdist "$ai_lab_source"
+          "$ai_lab_python" -I "$AI_LAB_CHECKS/check_services.py" --evidence "$RUNNER_TEMP/services-evidence" > "$RUNNER_TEMP/services.json" 2> "$RUNNER_TEMP/services.stderr.log"
+          "$ai_lab_python" "$AI_LAB_CHECKS/check_api_skills.py" --python "$ai_lab_python" --canonical
+          "$ai_lab_python" -I "$AI_LAB_CHECKS/check_storage.py"
+          "$ai_lab_python" -I "$AI_LAB_CHECKS/check_python_experiments.py" --python "$ai_lab_python"
+          "$ai_lab_python" -I "$AI_LAB_CHECKS/check_completion.py" --installed --report "$RUNNER_TEMP/completion.json" --evidence "$RUNNER_TEMP/completion-screens"
+          "$ai_lab_python" "$AI_LAB_CHECKS/check_completion_views.py" --installed --report "$RUNNER_TEMP/completion-views.json" --evidence "$RUNNER_TEMP/completion-view-screens"
+          brew install fish
+          "$ai_lab_python" -I "$AI_LAB_CHECKS/check_cli.py" --executable "$(brew --prefix ai_lab)/bin/ai-lab" --source-sha "$(python3 -c 'import json,os; print(json.load(open(os.environ["GITHUB_WORKSPACE"] + "/release-binding.json"))["source_sha"])')" --wheel "$ai_lab_wheel" --output "$RUNNER_TEMP/public-cli.json"
+      - name: Preserve installed Services CPU evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: published-services-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/services.json
+            ${{ runner.temp }}/services.stderr.log
+            ${{ runner.temp }}/services-evidence
+
+  candidate:
+    if: github.event_name == 'workflow_dispatch' && inputs.staging_release_id != '' && github.repository == 'iamorlando/homebrew-ai_lab' && github.ref == 'refs/heads/ai-lab/0.1.14-release-20261006'
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        installation: [clean, upgrade]
+    runs-on: macos-15
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: bash
+    env:
+      AI_LAB_CHECKS: ${{ github.workspace }}/scripts
+      HOMEBREW_NO_AUTO_UPDATE: "1"
+      HOMEBREW_NO_INSTALL_CLEANUP: "1"
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Initialize private runner paths
+        working-directory: ${{ runner.temp }}
+        run: |
+          printf '%s\n' "HOMEBREW_CACHE=$RUNNER_TEMP/ai-lab-brew-cache" "AI_LAB_CANDIDATE=$RUNNER_TEMP/ai-lab-candidate" "AI_LAB_UPGRADE_ROOT=$RUNNER_TEMP/ai-lab-upgrade-root" "AI_LAB_UPGRADE_STATE=$RUNNER_TEMP/ai-lab-upgrade-proof/state.json" >> "$GITHUB_ENV"
+      - name: Verify exact candidate and stage authenticated immutable assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAP_SHA: ${{ inputs.tap_sha }}
+          SOURCE_SHA: ${{ inputs.source_sha }}
+          RELEASE_ID: ${{ inputs.staging_release_id }}
+          WHEEL_SHA: ${{ inputs.wheel_sha256 }}
+          SDIST_SHA: ${{ inputs.sdist_sha256 }}
+          MANIFEST_SHA: ${{ inputs.manifest_sha256 }}
+        working-directory: ${{ runner.temp }}
+        run: |
+          test "$GITHUB_SHA" = "$TAP_SHA"
+          test "$(git -C "$GITHUB_WORKSPACE" rev-parse HEAD)" = "$TAP_SHA"
+          test -z "$(git -C "$GITHUB_WORKSPACE" status --porcelain)"
+          python3 "$AI_LAB_CHECKS/stage_candidate.py" --release-id "$RELEASE_ID" --tap-sha "$TAP_SHA" --source-sha "$SOURCE_SHA" --wheel-sha256 "$WHEEL_SHA" --sdist-sha256 "$SDIST_SHA" --manifest-sha256 "$MANIFEST_SHA" --output "$AI_LAB_CANDIDATE"
+          cmp "$GITHUB_WORKSPACE/release-binding.json" "$AI_LAB_CANDIDATE/candidate-binding.json"
+      - name: Prepare isolated Apple Silicon Homebrew cache and test tools
+        working-directory: ${{ runner.temp }}
+        run: |
+          test "$(uname -m)" = arm64
+          brew update
+          ai_lab_openssl_link="$(brew --prefix)/bin/openssl"
+          if test -L "$ai_lab_openssl_link" && test "$(readlink "$ai_lab_openssl_link")" = "$(brew --prefix)/opt/openssl@1.1/bin/openssl"; then
+            unlink "$ai_lab_openssl_link"
+          fi
+          brew tap iamorlando/ai_lab
+          brew install fish
+          mkdir -p "$HOMEBREW_CACHE"
+          mkdir -m 700 "$RUNNER_TEMP/ai-lab-upgrade-proof"
+          if brew list --versions ai_lab; then
+            echo 'Candidate clean and upgrade jobs require an empty AI Lab installation.'
+            exit 1
+          fi
+      - name: Install literal published 0.1.13 and retain its owned API and data
+        id: upgrade_before
+        if: matrix.installation == 'upgrade'
+        working-directory: ${{ runner.temp }}
+        run: |
+          git -C "$GITHUB_WORKSPACE" show b0b435a3e03a0156981769289e1e6e3f5fd2bfa9:Formula/ai_lab.rb > "$(brew --repository iamorlando/ai_lab)/Formula/ai_lab.rb"
+          brew trust --formula iamorlando/ai_lab/ai_lab
+          brew install --build-from-source iamorlando/ai_lab/ai_lab
+          ai_lab_old_archive="$(brew --cache --build-from-source iamorlando/ai_lab/ai_lab)"
+          test "$(shasum -a 256 "$ai_lab_old_archive" | awk '{print $1}')" = 9f679b5b5a9cc2f28128a885457eaee2ad54c8a4281762ab62b595d5a7bd673b
+          shasum -a 256 "$ai_lab_old_archive" > "$RUNNER_TEMP/prior-artifact.sha256"
+          brew info --json=v2 iamorlando/ai_lab/ai_lab > "$RUNNER_TEMP/prior-installation.json"
+          ai_lab_old_venv="$(cd "$(brew --prefix ai_lab)/libexec/venv" && pwd -P)"
+          "$ai_lab_old_venv/bin/ai-lab" --version
+          printf '%s\n' "$ai_lab_old_venv/bin/ai-lab" > "$RUNNER_TEMP/old-executable.txt"
+          python3 "$AI_LAB_CHECKS/check_upgrade.py" --phase before --executable "$ai_lab_old_venv/bin/ai-lab" --root "$AI_LAB_UPGRADE_ROOT" --state "$AI_LAB_UPGRADE_STATE" --output "$RUNNER_TEMP/ai-lab-upgrade-proof/before.json"
+      - name: Preload exact sdist and install the unchanged candidate formula
+        working-directory: ${{ runner.temp }}
+        run: |
+          cp "$GITHUB_WORKSPACE/Formula/ai_lab.rb" "$(brew --repository iamorlando/ai_lab)/Formula/ai_lab.rb"
+          brew trust --formula iamorlando/ai_lab/ai_lab
+          ai_lab_cache_file="$(brew --cache --build-from-source iamorlando/ai_lab/ai_lab)"
+          mkdir -p "$(dirname "$ai_lab_cache_file")"
+          cp "$AI_LAB_CANDIDATE/ai_lab-0.1.14.tar.gz" "$ai_lab_cache_file"
+          cmp "$AI_LAB_CANDIDATE/ai_lab-0.1.14.tar.gz" "$ai_lab_cache_file"
+          if test "${{ matrix.installation }}" = upgrade; then
+            brew upgrade --build-from-source iamorlando/ai_lab/ai_lab 2>&1 | tee "$RUNNER_TEMP/ai-lab-install.log"
+          else
+            brew install --build-from-source iamorlando/ai_lab/ai_lab 2>&1 | tee "$RUNNER_TEMP/ai-lab-install.log"
+          fi
+          if /usr/bin/grep -E 'HeaderPadError|Failed to fix install linkage|did not complete successfully|Could not symlink|Error:' "$RUNNER_TEMP/ai-lab-install.log"; then exit 1; fi
+          cmp "$GITHUB_WORKSPACE/Formula/ai_lab.rb" "$(brew --repository iamorlando/ai_lab)/Formula/ai_lab.rb"
+          brew linkage --test iamorlando/ai_lab/ai_lab
+          brew test iamorlando/ai_lab/ai_lab
+          test "$(ai-lab --version)" = "AI Lab 0.1.14"
+          brew info --json=v2 iamorlando/ai_lab/ai_lab > "$RUNNER_TEMP/candidate-installation.json"
+      - name: Verify literal upgrade persistence and the retained old API owner
+        id: upgrade_after
+        if: matrix.installation == 'upgrade'
+        env:
+          SOURCE_SHA: ${{ inputs.source_sha }}
+        working-directory: ${{ runner.temp }}
+        run: |
+          python3 "$AI_LAB_CHECKS/check_upgrade.py" --phase after --executable "$(brew --prefix ai_lab)/bin/ai-lab" --root "$AI_LAB_UPGRADE_ROOT" --state "$AI_LAB_UPGRADE_STATE" --source-sha "$SOURCE_SHA" --output "$RUNNER_TEMP/upgrade.json"
+      - name: Verify installed package binding and every public CLI entrypoint
+        env:
+          SOURCE_SHA: ${{ inputs.source_sha }}
+        working-directory: ${{ runner.temp }}
+        run: |
+          ai_lab_venv="$(cd "$(brew --prefix ai_lab)/libexec/venv" && pwd -P)"
+          "$ai_lab_venv/bin/python" -I "$AI_LAB_CHECKS/check_candidate_binding.py" --manifest "$AI_LAB_CANDIDATE/candidate-binding.json" --wheel "$AI_LAB_CANDIDATE/ai_lab-0.1.14-py3-none-any.whl" --sdist "$AI_LAB_CANDIDATE/ai_lab-0.1.14.tar.gz" --output "$RUNNER_TEMP/installed-binding.json"
+          "$ai_lab_venv/bin/python" -I "$AI_LAB_CHECKS/check_cli.py" --executable "$ai_lab_venv/bin/ai-lab" --source-sha "$SOURCE_SHA" --wheel "$AI_LAB_CANDIDATE/ai_lab-0.1.14-py3-none-any.whl" --output "$RUNNER_TEMP/public-cli.json"
+          "$ai_lab_venv/bin/python" -I "$AI_LAB_CHECKS/check_completion.py" --installed --report "$RUNNER_TEMP/completion.json" --evidence "$RUNNER_TEMP/completion-screens"
+          "$ai_lab_venv/bin/python" "$AI_LAB_CHECKS/check_completion_views.py" --installed --report "$RUNNER_TEMP/completion-views.json" --evidence "$RUNNER_TEMP/completion-view-screens"
+      - name: Independently exercise owned checker failure paths on both installed versions
+        if: matrix.installation == 'upgrade'
+        env:
+          SOURCE_SHA: ${{ inputs.source_sha }}
+        working-directory: ${{ runner.temp }}
+        run: |
+          ai_lab_old_executable="$(cat "$RUNNER_TEMP/old-executable.txt")"
+          test -x "$ai_lab_old_executable"
+          ai_lab_venv="$(cd "$(brew --prefix ai_lab)/libexec/venv" && pwd -P)"
+          "$ai_lab_venv/bin/python" -I "$AI_LAB_CHECKS/check_checker_failures.py" --old-executable "$ai_lab_old_executable" --executable "$ai_lab_venv/bin/ai-lab" --source-sha "$SOURCE_SHA" --output-directory /private/tmp/ai-lab-i6-faults
+      - name: Exercise focused retained-owner Framework regressions
+        if: matrix.installation == 'upgrade'
+        env:
+          SOURCE_SHA: ${{ inputs.source_sha }}
+        working-directory: ${{ runner.temp }}
+        run: |
+          ai_lab_old_executable="$(cat "$RUNNER_TEMP/old-executable.txt")"
+          test -x "$ai_lab_old_executable"
+          ai_lab_venv="$(cd "$(brew --prefix ai_lab)/libexec/venv" && pwd -P)"
+          # Keep raw identity reports private; the checker creates a new 0700 child.
+          # The short canonical parent leaves room for the checker's Unix sockets.
+          ai_lab_owner_parent="$(mktemp -d /private/tmp/i6ow.XXXXXX)"
+          ai_lab_owner_output="$ai_lab_owner_parent/proof"
+          test "${#ai_lab_owner_output}" -le 62
+          "$ai_lab_venv/bin/python" -I "$AI_LAB_CHECKS/check_upgrade_owner.py" --old-executable "$ai_lab_old_executable" --executable "$ai_lab_venv/bin/ai-lab" --source-sha "$SOURCE_SHA" --output-directory "$ai_lab_owner_output"
+      - name: Install verified prebuilt runtimes without developer tools
+        working-directory: ${{ runner.temp }}
+        run: |
+          ai_lab_venv="$(cd "$(brew --prefix ai_lab)/libexec/venv" && pwd -P)"
+          env DEVELOPER_DIR=/nonexistent PATH=/usr/bin:/bin "$ai_lab_venv/bin/python" -I - <<'PYCODE'
+          from pathlib import Path
+          import tempfile
+          from ai_lab.setup import prepare, doctor
+          from ai_lab.runtime import install, install_decisions, decisions_ready
+          with tempfile.TemporaryDirectory() as directory:
+              root = Path(directory)
+              prepare(root)
+              assert doctor(root)['prerequisites'] == {}
+              assert install(root)['distribution'] == 'prebuilt'
+              native = install_decisions(root)
+              assert native['distribution'] == 'prebuilt' and native['decision_support'] is True
+              assert decisions_ready(root)
+          PYCODE
+      - name: Exercise installed web, own MCP, terminal managers and storage fixtures
+        working-directory: ${{ runner.temp }}
+        run: |
+          ai_lab_venv="$(cd "$(brew --prefix ai_lab)/libexec/venv" && pwd -P)"
+          ai_lab_python="$ai_lab_venv/bin/python"
+          ai_lab_wheel="$AI_LAB_CANDIDATE/ai_lab-0.1.14-py3-none-any.whl"
+          ai_lab_source="$AI_LAB_CANDIDATE/ai_lab-0.1.14.tar.gz"
+          python3 "$AI_LAB_CHECKS/check_web.py" "$ai_lab_venv/bin/ai-lab"
+          python3 "$AI_LAB_CHECKS/check_web.py" "$ai_lab_venv/bin/ai-lab" --jev-configured
+          uv run --python 3.13 --with 'mcp==1.30.0' python "$AI_LAB_CHECKS/check_mcp.py" --executable "$ai_lab_venv/bin/ai-lab"
+          "$ai_lab_python" "$AI_LAB_CHECKS/check_mcp_client.py" --installed --wheel "$ai_lab_wheel" --sdist "$ai_lab_source"
+          "$ai_lab_python" "$AI_LAB_CHECKS/check_agent.py" --wheel "$ai_lab_wheel" --sdist "$ai_lab_source"
+          python3 "$AI_LAB_CHECKS/check_cross_model_profiles.py" --python "$ai_lab_python"
+          python3 "$AI_LAB_CHECKS/check_cross_model_chat.py" --python "$ai_lab_python"
+          python3 "$AI_LAB_CHECKS/check_cross_model_chat.py" --python "$ai_lab_python" --required-only
+          "$ai_lab_python" "$AI_LAB_CHECKS/check_decisions.py" --wheel "$ai_lab_wheel" --sdist "$ai_lab_source"
+          "$ai_lab_python" "$AI_LAB_CHECKS/check_decoder.py" --installed --wheel "$ai_lab_wheel" --sdist "$ai_lab_source"
+          "$ai_lab_python" -I "$AI_LAB_CHECKS/check_services.py" --evidence "$RUNNER_TEMP/services-evidence" > "$RUNNER_TEMP/services.json" 2> "$RUNNER_TEMP/services.stderr.log"
+          "$ai_lab_python" "$AI_LAB_CHECKS/check_api_skills.py" --python "$ai_lab_python" --canonical
+          "$ai_lab_python" -I "$AI_LAB_CHECKS/check_storage.py"
+          "$ai_lab_python" -I "$AI_LAB_CHECKS/check_python_experiments.py" --python "$ai_lab_python"
+      - name: Clean owned retained API after interrupted upgrade checks
+        id: upgrade_cleanup
+        if: always() && matrix.installation == 'upgrade'
+        working-directory: ${{ runner.temp }}
+        run: |
+          if test -f "$AI_LAB_UPGRADE_STATE"; then
+            python3 "$AI_LAB_CHECKS/check_upgrade.py" --phase cleanup --root "$AI_LAB_UPGRADE_ROOT" --state "$AI_LAB_UPGRADE_STATE" --output "$RUNNER_TEMP/ai-lab-upgrade-proof/cleanup.json"
+          fi
+      - name: Export sanitized hidden timeout bodies as visible evidence
+        if: always() && matrix.installation == 'upgrade'
+        working-directory: ${{ runner.temp }}
+        run: |
+          python3 "$AI_LAB_CHECKS/export_checker_diagnostics.py" --root /private/tmp/ai-lab-i6-faults --output "$RUNNER_TEMP/checker-timeout-evidence"
+      - name: Export private owner comparisons as bounded visible evidence
+        if: always() && matrix.installation == 'upgrade'
+        env:
+          SOURCE_SHA: ${{ inputs.source_sha }}
+          BEFORE_OUTCOME: ${{ steps.upgrade_before.outcome }}
+          AFTER_OUTCOME: ${{ steps.upgrade_after.outcome }}
+          CLEANUP_OUTCOME: ${{ steps.upgrade_cleanup.outcome }}
+        working-directory: ${{ runner.temp }}
+        run: |
+          python3 "$AI_LAB_CHECKS/export_upgrade_owner_evidence.py" \
+            --root "$RUNNER_TEMP/ai-lab-upgrade-root" --state "$RUNNER_TEMP/ai-lab-upgrade-proof/state.json" \
+            --before-report "$RUNNER_TEMP/ai-lab-upgrade-proof/before.json" \
+            --after-report "$RUNNER_TEMP/upgrade.json" --cleanup-report "$RUNNER_TEMP/ai-lab-upgrade-proof/cleanup.json" \
+            --checker "$AI_LAB_CHECKS/check_upgrade.py" --tap-sha "$GITHUB_SHA" --source-sha "$SOURCE_SHA" \
+            --run-id "$GITHUB_RUN_ID" --run-attempt "$GITHUB_RUN_ATTEMPT" \
+            --before-outcome "${BEFORE_OUTCOME:-UNKNOWN}" --after-outcome "${AFTER_OUTCOME:-UNKNOWN}" \
+            --cleanup-outcome "${CLEANUP_OUTCOME:-UNKNOWN}" --output "$RUNNER_TEMP/upgrade-owner-evidence"
+      - name: Preserve candidate install and upgrade evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: candidate-${{ matrix.installation }}-${{ inputs.tap_sha }}
+          path: |
+            ${{ runner.temp }}/ai-lab-install.log
+            ${{ runner.temp }}/installed-binding.json
+            ${{ runner.temp }}/public-cli.json
+            ${{ runner.temp }}/completion.json
+            ${{ runner.temp }}/completion-screens
+            ${{ runner.temp }}/completion-views.json
+            ${{ runner.temp }}/completion-view-screens
+            ${{ runner.temp }}/services.json
+            ${{ runner.temp }}/services.stderr.log
+            ${{ runner.temp }}/services-evidence
+            ${{ runner.temp }}/upgrade-owner-evidence
+            /private/tmp/ai-lab-i6-faults
+            ${{ runner.temp }}/checker-timeout-evidence
+            ${{ runner.temp }}/prior-artifact.sha256
+            ${{ runner.temp }}/prior-installation.json
+            ${{ runner.temp }}/candidate-installation.json
+            ${{ runner.temp }}/ai-lab-candidate/staging-evidence.json

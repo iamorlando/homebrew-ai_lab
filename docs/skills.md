@@ -34,7 +34,7 @@ operations. It does not modify client configuration, install MCP, launch models,
 download dependencies or message another agent.
 
 The final central guide uses the thirteen canonical public surfaces. Conversation
-uses `ai-lab chat --name "Exact saved name"`; optional `--self-mcp` enables AI
+uses `ai-lab chat --name "Saved model"`; optional `--self-mcp` enables AI
 Lab's own offline tools without a config file. Allow/Deny remains required
 unless an exact own tool is preauthorized through `--allow-tool`. Requiring a
 tool call with `--tool-choice required` does not bypass approval. Start the
@@ -44,7 +44,7 @@ current-pane reporting is automatic; `--herdr-tab` optionally opens a new tab.
 Advanced examples from the CLI builder's canonical contract:
 
 ```sh
-ai-lab completion --session-action create --name "Exact saved name" --scheme synthid --json
+ai-lab completion --session-action create --name "Saved model" --scheme synthid --json
 ai-lab completion --session SESSION --prompt "the quick brown" --no-wait --json
 ai-lab completion --session-action wait --session SESSION --json
 ai-lab completion --session-action get --session SESSION --json
