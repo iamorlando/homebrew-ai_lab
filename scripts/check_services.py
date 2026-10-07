@@ -1,9 +1,10 @@
-"""Standalone installed-package services proof with fake local APIs/processes only."""
+"""Installed services proof: mounted fixtures and real owned CPU foreground processes."""
 import argparse
 import asyncio
 from contextlib import ExitStack
 import json
 import hashlib
+import importlib.util
 import io
 from pathlib import Path
 import signal
@@ -376,11 +377,18 @@ async def check(root, evidence=None):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--evidence', type=Path, help='Write mounted fixture SVG evidence')
+    parser.add_argument('--evidence', type=Path, help='Write mounted fixture SVG and real CPU foreground CLI JSON/process evidence')
     args = parser.parse_args()
     try:
         with tempfile.TemporaryDirectory(prefix='ai-lab-services-fixture-') as folder:
             value = asyncio.run(check(Path(folder), args.evidence))
+        # Homebrew invokes this copied checker with python -I, which excludes
+        # its directory from sys.path. Load only the bound adjacent helper.
+        spec = importlib.util.spec_from_file_location(
+            'services_foreground_support', Path(__file__).with_name('check_services_foreground.py'))
+        foreground = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(foreground)
+        value['foreground_cpu'] = foreground.check(args.evidence)
         print(json.dumps(value, indent=2))
     except Exception as error:
         # Do not render native/HTTP exception payloads or private profiles.

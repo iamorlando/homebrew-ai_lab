@@ -165,7 +165,7 @@ jobs:
           python3 "$AI_LAB_CHECKS/check_cross_model_chat.py" --python "$ai_lab_python" --required-only
           "$ai_lab_python" "$AI_LAB_CHECKS/check_decisions.py" --wheel "$ai_lab_wheel" --sdist "$ai_lab_source"
           "$ai_lab_python" "$AI_LAB_CHECKS/check_decoder.py" --installed --wheel "$ai_lab_wheel" --sdist "$ai_lab_source"
-          "$ai_lab_python" -I "$AI_LAB_CHECKS/check_services.py"
+          "$ai_lab_python" -I "$AI_LAB_CHECKS/check_services.py" --evidence "$RUNNER_TEMP/services-evidence" > "$RUNNER_TEMP/services.json" 2> "$RUNNER_TEMP/services.stderr.log"
           "$ai_lab_python" "$AI_LAB_CHECKS/check_api_skills.py" --python "$ai_lab_python" --canonical
           "$ai_lab_python" -I "$AI_LAB_CHECKS/check_storage.py"
           "$ai_lab_python" -I "$AI_LAB_CHECKS/check_python_experiments.py" --python "$ai_lab_python"
@@ -173,6 +173,15 @@ jobs:
           "$ai_lab_python" "$AI_LAB_CHECKS/check_completion_views.py" --installed --report "$RUNNER_TEMP/completion-views.json" --evidence "$RUNNER_TEMP/completion-view-screens"
           brew install fish
           "$ai_lab_python" -I "$AI_LAB_CHECKS/check_cli.py" --executable "$(brew --prefix ai_lab)/bin/ai-lab" --source-sha "$(python3 -c 'import json,os; print(json.load(open(os.environ["GITHUB_WORKSPACE"] + "/release-binding.json"))["source_sha"])')" --wheel "$ai_lab_wheel" --output "$RUNNER_TEMP/public-cli.json"
+      - name: Preserve installed Services CPU evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: published-services-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/services.json
+            ${{ runner.temp }}/services.stderr.log
+            ${{ runner.temp }}/services-evidence
 
   candidate:
     if: github.event_name == 'workflow_dispatch' && inputs.staging_release_id != '' && github.repository == 'iamorlando/homebrew-ai_lab' && github.ref == 'refs/heads/ai-lab/0.1.14-release-20261006'
@@ -348,7 +357,7 @@ jobs:
           python3 "$AI_LAB_CHECKS/check_cross_model_chat.py" --python "$ai_lab_python" --required-only
           "$ai_lab_python" "$AI_LAB_CHECKS/check_decisions.py" --wheel "$ai_lab_wheel" --sdist "$ai_lab_source"
           "$ai_lab_python" "$AI_LAB_CHECKS/check_decoder.py" --installed --wheel "$ai_lab_wheel" --sdist "$ai_lab_source"
-          "$ai_lab_python" -I "$AI_LAB_CHECKS/check_services.py"
+          "$ai_lab_python" -I "$AI_LAB_CHECKS/check_services.py" --evidence "$RUNNER_TEMP/services-evidence" > "$RUNNER_TEMP/services.json" 2> "$RUNNER_TEMP/services.stderr.log"
           "$ai_lab_python" "$AI_LAB_CHECKS/check_api_skills.py" --python "$ai_lab_python" --canonical
           "$ai_lab_python" -I "$AI_LAB_CHECKS/check_storage.py"
           "$ai_lab_python" -I "$AI_LAB_CHECKS/check_python_experiments.py" --python "$ai_lab_python"
@@ -395,6 +404,9 @@ jobs:
             ${{ runner.temp }}/completion-screens
             ${{ runner.temp }}/completion-views.json
             ${{ runner.temp }}/completion-view-screens
+            ${{ runner.temp }}/services.json
+            ${{ runner.temp }}/services.stderr.log
+            ${{ runner.temp }}/services-evidence
             ${{ runner.temp }}/upgrade-owner-evidence
             /private/tmp/ai-lab-i6-faults
             ${{ runner.temp }}/checker-timeout-evidence
