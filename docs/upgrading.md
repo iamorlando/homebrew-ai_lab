@@ -1,6 +1,6 @@
 # Updating AI Lab
 
-The upgrade target is **AI Lab 0.1.14**. Once this release is published to the
+The upgrade target is **AI Lab 0.1.15**. Once this release is published to the
 Homebrew tap, update the formula metadata and upgrade AI Lab:
 
 ```sh
@@ -9,10 +9,18 @@ brew upgrade iamorlando/ai_lab/ai_lab
 ai-lab --version
 ```
 
-The last command should print `AI Lab 0.1.14` for this release. If it still shows
+The last command should print `AI Lab 0.1.15` for this release. If it still shows
 an older version, check `brew list --versions iamorlando/ai_lab/ai_lab` and
 `command -v ai-lab` to confirm which installation your shell is running. If the
 tap still provides the older version, keep your data and retry after publication.
+
+For the Completion tournament, open `ai-lab completion` and choose a model.
+Use **New Tournament · depth 4** to create a temporary SynthID tournament session,
+enter a prefix, and choose **Run**. Captured matches open in **Tournament**
+automatically. The **Completion** tab returns to the prefix editor. The saved
+model's settings stay intact; **Back to prior session** restores the earlier
+session and draft. Existing SynthID models using **Probability updates** retain
+that policy until you explicitly choose a tournament session.
 
 Homebrew updates the application. The installed application's default data
 folder is `~/.local/share/ai-lab`; `--root`, `AI_LAB_ROOT`, or `AI_LAB_HOME` can

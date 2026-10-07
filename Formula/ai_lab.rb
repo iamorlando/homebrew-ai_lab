@@ -1,9 +1,9 @@
 class AiLab < Formula
   desc "AI Lab website, local DeepSeek/Qwen chat, decisions, and watermark tools"
   homepage "https://github.com/iamorlando/homebrew-ai_lab"
-  url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.14/ai_lab-0.1.14.tar.gz"
-  version "0.1.14"
-  sha256 "885eba200e6633154d5ce5a89f72d62e3f79e0644479bcf40ff5edfb6d531441"
+  url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.15/ai_lab-0.1.15.tar.gz"
+  version "0.1.15"
+  sha256 "e0e8801e4aca1e425347e1c6b38fafd02bef17273c4bdc8efd9bd94a8043e871"
 
 
   depends_on arch: :arm64

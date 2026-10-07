@@ -569,7 +569,7 @@ class Check:
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--executable', required=True, help='Absolute installed ai-lab console script')
-    parser.add_argument('--expected-version', default='0.1.14')
+    parser.add_argument('--expected-version', default='0.1.15')
     parser.add_argument('--source-sha', required=True, help='Caller-supplied exact source SHA; artifact provenance is verified separately')
     parser.add_argument('--wheel', type=Path, help='Optional immutable artifact to hash; this checker does not install it')
     parser.add_argument('--mode', choices=('discovery', 'cpu'), default='cpu')
