@@ -1,6 +1,6 @@
 {
   "dependency_lock_unchanged_except_app_version": true,
-  "git_archive_sha256": "8e7b8a8363b5b92858593eebe7f5fe472843bf6d3102c0b0f7347d83a7ccb73b",
+  "git_archive_sha256": "ed8302f20a362935c59249232c32937abcfa43fe9eaeebf10d44c3dc220d8f69",
   "native_pins_unchanged": true,
   "package_binding": {
     "runtime_files": 132,
@@ -275,9 +275,9 @@
     "sdist_automatic_source_files": [
       ".gitignore"
     ],
-    "sdist_bytes": 698914,
+    "sdist_bytes": 700055,
     "sdist_files": 178,
-    "sdist_sha256": "92c07ff32e0293f2dbfb1a2ceebbf671b7539f254e7c01fa2114b9179308ba8d",
+    "sdist_sha256": "885eba200e6633154d5ce5a89f72d62e3f79e0644479bcf40ff5edfb6d531441",
     "sdist_sha256_by_file": {
       ".gitignore": "1c1935ed295a92e6d8d920bf0182eaf2b9ea01beff5c787b506ebdbb0449ab97",
       "AGENTS.md": "19966dbdad4ef663b9ce342e3da08ecb396fd56a217c005e192d05bc572861ae",
@@ -435,7 +435,7 @@
       "packaging/check_mcp_client.py": "f7444809d9e8dd9b11e4eac28aa63c7e237dc41017adf5f3694dc288740969f6",
       "packaging/check_python_experiments.py": "e6c79c3add793bf19ed90ccf0594f3417951ca1567f453c1f59284a4486b8853",
       "packaging/check_services.py": "d3de95df37561bbdab4110743c95d73d1c9cbf38107f96ba9e278d6f5c142e64",
-      "packaging/check_services_foreground.py": "401a1eca11f4864e689179a0fec1e822ed5003f400d0aa44e0fe22126706efe8",
+      "packaging/check_services_foreground.py": "837227fbd6ae46fd25c5332b7833d78d05bfd7cd8f1f710c8f01e72ce4861c2f",
       "packaging/check_storage.py": "177bc68dd632988ec094dbe2f87cf1c85a02cc306062afb5df45e5576f5f35d9",
       "packaging/check_upgrade.py": "e4d0766268e92e69c4240ea0eeff70fc01e2e9a28e41149404236642623d1366",
       "packaging/check_upgrade_owner.py": "6869878101f55bc72de90a192aa8c343317b2f619ff90af30a9f34628370b2ca",
@@ -460,11 +460,11 @@
     },
     "wheel_bytes": 468923,
     "wheel_generator": "hatchling 1.32.4",
-    "wheel_sha256": "a70a783cda7e6d75c3357ec3ebdc76a9372e88c4fbdaeb161e5178c2eb31a62c"
+    "wheel_sha256": "8baeda916a473be340e5d1f452820c217ae55bfb50ebcfedf0bbe594d144f981"
   },
   "schema_version": 1,
   "scope": "Immutable source/package binding; execution results are recorded separately.",
-  "source_files": 616,
+  "source_files": 617,
   "source_provenance": {
     "AGENTS.md": "19966dbdad4ef663b9ce342e3da08ecb396fd56a217c005e192d05bc572861ae",
     "ai_lab/decisions-runtime.json": "ba0174dc0e46b22afafe3f092ec96a741447bbb3b7d2b24dbd6dc67a138160cc",
@@ -476,6 +476,6 @@
     "uv.lock": "a11b2ccb50a8ac0c792704a4725428279247a2d5e20186ba280543ee0803475c"
   },
   "source_repository": "https://github.com/iamorlando/deepseek",
-  "source_sha": "153cfdf729d761c0b620248bb1e98bd3ae9f07d8",
+  "source_sha": "de05f4159fc70c630e86cf6faf3b9e4e4cd06a84",
   "version": "0.1.14"
 }

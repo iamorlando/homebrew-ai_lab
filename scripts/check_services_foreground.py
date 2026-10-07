@@ -64,6 +64,16 @@ def require(value, message):
         raise RuntimeError(message)
 
 
+def note_failure(primary, message):
+    primary.add_note(message)
+    # The main checker catches exceptions and prints only their message. Keep
+    # cleanup diagnostics visible there too, without risking the primary error.
+    try:
+        print(message, file=sys.stderr)
+    except BaseException as error:
+        primary.add_note('CPU fixture diagnostic output failed: ' + type(error).__name__)
+
+
 def atomic(path, value):
     from ai_lab.service import atomic_json
     atomic_json(path, value)
@@ -360,6 +370,7 @@ class ForegroundProof:
         self.root = root.resolve()
         self.children = []
         self.results = []
+        self.cleanup_results = []
         self.environment = {key: value for key, value in os.environ.items()
                             if not key.startswith(('HERDR_', 'AI_LAB_', 'DEEPSEEK_', 'QWEN_'))}
         self.environment.update(AI_LAB_DECISIONS_BINARY=str(Path(sys.executable).resolve()),
@@ -382,10 +393,10 @@ class ForegroundProof:
                                       str(root), str(port), role, action, mode],
                                      cwd=root, env=environment, stdin=subprocess.DEVNULL,
                                      stdout=log, stderr=error, start_new_session=True)
+            self.children.append(child)
         finally:
             log.close()
             error.close()
-        self.children.append(child)
         return child
 
     def ready(self, child, root, role):
@@ -416,23 +427,108 @@ class ForegroundProof:
                         f'{root.name}: unexpected exit was hidden')
         return data
 
-    def cleanup(self, root):
+    def cleanup(self, root, *, release=()):
+        """Attempt every owned cleanup, then report failures without masking proof."""
         from ai_lab.decision_processes import process_fingerprint
-        for path in root.glob('*.launch.json'):
-            state = json.loads(path.read_text())
-            current = process_fingerprint(state['pid'])
-            marker = root / 'exec-marker'
-            known_exec = (marker.exists() and current and marker.read_text() in current
-                          and current.split(None, 6)[:6] == state['fingerprint'].split(None, 6)[:6])
-            if current == state['fingerprint'] or known_exec:
+        primary = sys.exception()
+        report = {'status': 'PASS', 'primary_error_type': type(primary).__name__ if primary else None,
+                  'outcomes': [], 'failures': [], 'unreaped_pids': []}
+
+        def attempt(operation, target, call):
+            try:
+                value = call()
+            except BaseException as error:
+                failure = {'operation': operation, 'target': target, 'error_type': type(error).__name__}
+                report['failures'].append(failure)
+                report['outcomes'].append({**failure, 'status': 'error'})
+                return False, None
+            report['outcomes'].append({'operation': operation, 'target': target, 'status': 'ok'})
+            return True, value
+
+        for name in release:
+            attempt('release', name, lambda: (root / name).touch())
+        _, paths = attempt('receipts', root.name, lambda: sorted(root.glob('*.launch.json')))
+        for path in paths or []:
+            def receipt():
+                state = json.loads(path.read_text())
+                require(type(state['pid']) is int and state['pid'] > 1
+                        and type(state['fingerprint']) is str and bool(state['fingerprint']),
+                        'Invalid cleanup identity')
+                return state
+            valid, state = attempt('receipt', path.name, receipt)
+            if not valid:
+                continue
+            inspected, current = attempt('inspect', state['pid'], lambda: process_fingerprint(state['pid']))
+            if not inspected:
+                continue
+            if current != state['fingerprint']:
+                report['outcomes'].append({'operation': 'signal', 'target': state['pid'], 'status': 'skipped',
+                                           'reason': 'changed_or_absent_identity'})
+                if current is None:
+                    # ps can lose inspection as well as observe an absent PID.
+                    # This probe never grants signalling authority.
+                    try:
+                        os.kill(state['pid'], 0)
+                    except ProcessLookupError:
+                        report['outcomes'].append({'operation': 'existence', 'target': state['pid'],
+                                                   'status': 'ok', 'absent': True})
+                        continue
+                    except BaseException as error:
+                        report['failures'].append({'operation': 'existence', 'target': state['pid'],
+                                                   'error_type': type(error).__name__})
+                    else:
+                        report['failures'].append({'operation': 'identity', 'target': state['pid'],
+                                                   'error_type': 'UnverifiedIdentity'})
+                if current is not None:
+                    report['failures'].append({'operation': 'identity', 'target': state['pid'],
+                                               'error_type': 'UnverifiedIdentity'})
+                continue
+            def signal_owned():
                 os.killpg(state['pid'], signal.SIGKILL)
+            attempt('signal', state['pid'], signal_owned)
+
+        remaining = []
         for child in self.children:
             try:
-                child.wait(timeout=3)  # Let its real asyncio handle reap the CPU child.
+                code = child.wait(timeout=3)  # Let its real asyncio handle reap the CPU child.
             except subprocess.TimeoutExpired:
-                child.kill()
-                child.wait(timeout=5)
-        self.children.clear()
+                report['outcomes'].append({'operation': 'wait', 'target': child.pid, 'status': 'timeout'})
+                attempt('kill', child.pid, child.kill)  # Retained Popen owns this lifetime.
+            except BaseException as error:
+                failure = {'operation': 'wait', 'target': child.pid, 'error_type': type(error).__name__}
+                report['failures'].append(failure)
+                report['outcomes'].append({**failure, 'status': 'error'})
+            else:
+                report['outcomes'].append({'operation': 'wait', 'target': child.pid, 'status': 'ok',
+                                           'returncode': code})
+                continue
+            # A failed kill or wait must not skip this wait or any sibling.
+            reaped, code = attempt('final_wait', child.pid, lambda: child.wait(timeout=5))
+            if not reaped:
+                remaining.append(child)
+            else:
+                report['outcomes'][-1]['returncode'] = code
+        self.children = remaining
+        report['unreaped_pids'] = [child.pid for child in remaining]
+        report['status'] = 'FAIL' if report['failures'] else 'PASS'
+        self.cleanup_results.append(report)
+        evidence = {'operation': 'evidence', 'target': 'cleanup.json', 'status': 'ok'}
+        report['outcomes'].append(evidence)
+        try:
+            atomic(root / 'cleanup.json', report)
+        except BaseException as error:
+            failure = {'operation': 'evidence', 'target': 'cleanup.json', 'error_type': type(error).__name__}
+            evidence.update(failure, status='error')
+            report['failures'].append(failure)
+        report['status'] = 'FAIL' if report['failures'] else 'PASS'
+        if report['failures']:
+            summary = 'CPU fixture cleanup failed: ' + ', '.join(
+                f'{item["operation"]}={item["error_type"]}' for item in report['failures'])
+            if primary is not None:
+                note_failure(primary, summary)
+            else:
+                raise RuntimeError(summary)
+        return report
 
     def case(self, name, action='stop', mode='normal', crash=None):
         root = self.root / name
@@ -455,8 +551,8 @@ class ForegroundProof:
             port = reserve.getsockname()[1]
         starter_mode = ('before-wait' if mode == 'before-wait' else
                         'durability-starter' if mode in {'post-replace-fsync-failure', 'post-replace-open-failure'} else 'normal')
-        starter = self.start(root, port, 'starter', 'start', starter_mode)
         try:
+            starter = self.start(root, port, 'starter', 'start', starter_mode)
             first = self.ready(starter, root, 'starter')
             if crash == 'zero':
                 try:
@@ -590,7 +686,7 @@ class ForegroundProof:
                                  'cli_processes': {p.name.removesuffix('.report.json'): json.loads(p.read_text())
                                                    for p in root.glob('*.report.json')}})
         finally:
-            self.cleanup(root)
+            self.cleanup(root, release=('release-wait', 'release-publish', 'release-fsync'))
 
     def history_case(self, fault):
         """A committed shutdown survives failed B publication and successful C."""
@@ -602,8 +698,8 @@ class ForegroundProof:
         with socket.socket() as reserve:
             reserve.bind(('127.0.0.1', 0))
             port = reserve.getsockname()[1]
-        starter = self.start(root, port, 'starter', 'start', 'before-wait')
         try:
+            starter = self.start(root, port, 'starter', 'start', 'before-wait')
             first = self.ready(starter, root, 'starter')
             second_owner = self.start(root, port, 'second', 'restart', 'durability-starter')
             second = self.ready(second_owner, root, 'second')
@@ -664,10 +760,7 @@ class ForegroundProof:
                                  'cli_processes': {p.name.removesuffix('.report.json'): json.loads(p.read_text())
                                                    for p in root.glob('*.report.json')}})
         finally:
-            (root / 'release-wait').touch()
-            (root / 'release-fsync').touch()
-            (root / 'release-open').touch()
-            self.cleanup(root)
+            self.cleanup(root, release=('release-wait', 'release-fsync', 'release-open'))
 
     def history_prepare_case(self):
         """A foreground completes while B has not yet published its backup."""
@@ -679,8 +772,8 @@ class ForegroundProof:
         with socket.socket() as reserve:
             reserve.bind(('127.0.0.1', 0))
             port = reserve.getsockname()[1]
-        starter = self.start(root, port, 'starter', 'start', 'before-wait')
         try:
+            starter = self.start(root, port, 'starter', 'start', 'before-wait')
             first = self.ready(starter, root, 'starter')
             second_owner = self.start(root, port, 'second', 'restart', 'durability-starter')
             second = self.ready(second_owner, root, 'second')
@@ -730,9 +823,7 @@ class ForegroundProof:
                                  'cli_processes': {p.name.removesuffix('.report.json'): json.loads(p.read_text())
                                                    for p in root.glob('*.report.json')}})
         finally:
-            (root / 'release-wait').touch()
-            (root / 'release-prepare').touch()
-            self.cleanup(root)
+            self.cleanup(root, release=('release-wait', 'release-prepare'))
 
     @staticmethod
     def consumable(root, state):
@@ -771,13 +862,19 @@ def check(evidence=None):
         try:
             result = proof.run()
         finally:
+            primary = sys.exception()
             if evidence:
-                evidence.mkdir(parents=True, exist_ok=True)
-                import shutil
-                destination = evidence / 'foreground-cpu'
-                shutil.copytree(temporary, destination, dirs_exist_ok=True)
-                if result is not None:
-                    atomic(destination / 'result.json', result)
+                try:
+                    evidence.mkdir(parents=True, exist_ok=True)
+                    import shutil
+                    destination = evidence / 'foreground-cpu'
+                    shutil.copytree(temporary, destination, dirs_exist_ok=True)
+                    if result is not None:
+                        atomic(destination / 'result.json', result)
+                except BaseException as error:
+                    if primary is None:
+                        raise
+                    note_failure(primary, 'CPU fixture evidence preservation failed: ' + type(error).__name__)
         return result
 
 
