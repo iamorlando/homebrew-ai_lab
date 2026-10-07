@@ -298,6 +298,21 @@ jobs:
           test -x "$ai_lab_old_executable"
           ai_lab_venv="$(cd "$(brew --prefix ai_lab)/libexec/venv" && pwd -P)"
           "$ai_lab_venv/bin/python" -I "$AI_LAB_CHECKS/check_checker_failures.py" --old-executable "$ai_lab_old_executable" --executable "$ai_lab_venv/bin/ai-lab" --source-sha "$SOURCE_SHA" --output-directory /private/tmp/ai-lab-i6-faults
+      - name: Exercise focused retained-owner Framework regressions
+        if: matrix.installation == 'upgrade'
+        env:
+          SOURCE_SHA: ${{ inputs.source_sha }}
+        working-directory: ${{ runner.temp }}
+        run: |
+          ai_lab_old_executable="$(cat "$RUNNER_TEMP/old-executable.txt")"
+          test -x "$ai_lab_old_executable"
+          ai_lab_venv="$(cd "$(brew --prefix ai_lab)/libexec/venv" && pwd -P)"
+          # Keep raw identity reports private; the checker creates a new 0700 child.
+          # The short canonical parent leaves room for the checker's Unix sockets.
+          ai_lab_owner_parent="$(mktemp -d /private/tmp/i6ow.XXXXXX)"
+          ai_lab_owner_output="$ai_lab_owner_parent/proof"
+          test "${#ai_lab_owner_output}" -le 62
+          "$ai_lab_venv/bin/python" -I "$AI_LAB_CHECKS/check_upgrade_owner.py" --old-executable "$ai_lab_old_executable" --executable "$ai_lab_venv/bin/ai-lab" --source-sha "$SOURCE_SHA" --output-directory "$ai_lab_owner_output"
       - name: Install verified prebuilt runtimes without developer tools
         working-directory: ${{ runner.temp }}
         run: |

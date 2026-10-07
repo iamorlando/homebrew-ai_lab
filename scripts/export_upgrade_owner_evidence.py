@@ -25,6 +25,10 @@ class Rejected(ValueError):
     """Untrusted input was outside the fixed diagnostic contract."""
 
 
+class EventConflict(Rejected):
+    """No event copy may win a conflicting observation moment."""
+
+
 def require(condition):
     if not condition:
         raise Rejected('INPUT_REJECTED')
@@ -255,7 +259,8 @@ def collect_events(inputs, argv):
             # Compare the original event, not only sanitized fields: even an
             # unknown-field difference is a conflict, never last-writer-wins.
             original = encoded(event)
-            require(moment not in raw_events or raw_events[moment] == original)
+            if moment in raw_events and raw_events[moment] != original:
+                raise EventConflict('EVENT_CONFLICT')
             raw_events[moment], events[moment] = original, safe
         require(len(events) <= 4)
     return [events[m] for m in MOMENTS if m in events], sorted(capture_errors)
@@ -356,6 +361,39 @@ def phase_summary(report, phase, outcome, checker_hash, root, state):
     return result
 
 
+def independent_events(values, eligible, argv, issues):
+    """Project bound inputs independently; compare all safe envelopes for conflicts.
+
+    An inconsistent state cannot supply events or launch authority. Its valid
+    envelope still participates in duplicate checks so fallback never silently
+    chooses a differing report copy. Invalid/unsafe envelopes supply no events.
+    """
+    candidates, accepted = [], []
+    conflict = False
+    for name, value in values.items():
+        if value is None:
+            continue
+        try:
+            collect_events([value], argv)
+        except EventConflict:
+            issues[name + '_events'] = 'INPUT_REJECTED'
+            conflict = True
+        except (Rejected, ValueError, KeyError, TypeError, UnicodeError, RecursionError):
+            issues[name + '_events'] = 'INPUT_REJECTED'
+        else:
+            candidates.append(value)
+            if eligible[name]:
+                accepted.append(value)
+    try:
+        collect_events(candidates, argv)
+    except EventConflict:
+        conflict = True
+    if conflict:
+        issues['event_conflict'] = 'INPUT_REJECTED'
+        return [], []
+    return collect_events(accepted, argv)
+
+
 def export(args):
     root, state, output = map(absolute, (args.root, args.state, args.output))
     reports = {phase: absolute(getattr(args, phase + '_report')) for phase in PHASES}
@@ -370,8 +408,9 @@ def export(args):
                'provenance': {'tap_sha': hexadecimal(args.tap_sha, 40),
                               'source_sha': hexadecimal(args.source_sha, 40),
                               'run_id': integer(args.run_id, 1), 'run_attempt': integer(args.run_attempt, 1)},
-               'inputs': {}, 'phases': {}}
+               'inputs': {}, 'phases': {}, 'validation_errors': {}}
     inputs = summary['inputs']
+    issues = summary['validation_errors']
     state_value, inputs['state'] = read_json(state, STATE_LIMIT)
     phase_values = {}
     for phase, path in reports.items():
@@ -382,11 +421,25 @@ def export(args):
         checker_bytes = bounded_read(absolute(args.checker), STATE_LIMIT, private=False)
         checker_hash = hashlib.sha256(checker_bytes).hexdigest()
         summary['provenance']['checker_sha256'] = checker_hash
-        argv, summary['state'] = state_summary(state_value, root, state, inputs)
+        argv = None
+        eligible = {name: False for name in ('state', *PHASES)}
+        try:
+            argv, summary['state'] = state_summary(state_value, root, state, inputs)
+            eligible['state'] = state_value is not None
+        except (Rejected, ValueError, KeyError, TypeError, UnicodeError, RecursionError):
+            summary['state'] = {'validation': 'INPUT_REJECTED'}
+            issues['state'] = 'INPUT_REJECTED'
+        except OSError:
+            summary['state'] = {'validation': 'INSPECTION_ERROR'}
+            issues['state'] = 'INSPECTION_ERROR'
         for phase in PHASES:
-            summary['phases'][phase] = phase_summary(phase_values[phase], phase,
-                getattr(args, phase + '_outcome'), checker_hash, root, state)
-        events, capture_errors = collect_events([state_value, *phase_values.values()], argv)
+            try:
+                summary['phases'][phase] = phase_summary(phase_values[phase], phase,
+                    getattr(args, phase + '_outcome'), checker_hash, root, state)
+                eligible[phase] = phase_values[phase] is not None
+            except (Rejected, ValueError, KeyError, TypeError, UnicodeError, RecursionError):
+                issues[phase] = 'INPUT_REJECTED'
+        events, capture_errors = independent_events({'state': state_value, **phase_values}, eligible, argv, issues)
         summary.update(events=events, capture_errors=capture_errors)
         primary = any(e['moment'] == 'primary_before_cleanup' and e['observation'] == 'at_failure' for e in events)
         summary['coverage'] = ('failure_time' if primary else 'late_only' if events
@@ -407,9 +460,11 @@ def export(args):
         summary.update(diagnostic_status='INCOMPLETE', diagnostic_error='INPUT_INSPECTION_ERROR')
     for phase in PHASES:
         summary['phases'][phase]['report_output_status'] = inputs[phase]['status']
-    if any(item['status'] == 'INPUT_REJECTED' for item in inputs.values()):
-        summary.update(diagnostic_status='INPUT_REJECTED', events=[], coverage='no_events')
-    elif any(item['status'] == 'INSPECTION_ERROR' for item in inputs.values()):
+    if ('INPUT_REJECTED' in issues.values()
+            or any(item['status'] == 'INPUT_REJECTED' for item in inputs.values())):
+        summary['diagnostic_status'] = 'INPUT_REJECTED'
+    elif ('INSPECTION_ERROR' in issues.values()
+            or any(item['status'] == 'INSPECTION_ERROR' for item in inputs.values())):
         summary['diagnostic_status'] = 'INCOMPLETE'
     manifest = write_export(output, summary)
     return summary, manifest

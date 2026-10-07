@@ -172,6 +172,97 @@ class ExportTests(unittest.TestCase):
         self.assertEqual(summary['phases']['before']['step_outcome'], 'failure')
         self.assertEqual(summary['phases']['before']['exit_status'], 'UNKNOWN')
 
+    def incomplete_ready_state(self):
+        self.state['startup_owner'] = copy.deepcopy(self.owner)
+        self.state['interpreter_binding'] = {'fixture': 'private inert binding'}
+        self.state['ready_owner_bound'] = False
+        self.save_state()
+        private = self.root / '.upgrade-checker'
+        self.write(private / 'interpreter-owner.json', {'nonce': self.state['nonce'],
+                    'binding': self.state['interpreter_binding'], 'server_argv': self.argv})
+        self.write(private / 'ready-owner.json', {'nonce': self.state['nonce'],
+                    'owner': self.event['observed'], 'startup_owner': self.owner, 'server_argv': self.argv})
+
+    def test_valid_phase_fallback_survives_rejected_ready_persistence(self):
+        self.incomplete_ready_state()
+        self.report('before', [self.event], owner_diagnostics={
+            'schema': 1, 'events': [self.event], 'capture_error': 'PERSISTENCE_ERROR'},
+            cleanup_error='PRIVATE_INTERNAL_FAILURE')
+        self.report('cleanup', cleanup_error='PRIVATE_EXPLICIT_FAILURE')
+        summary = self.run_export()
+        self.assertEqual(summary['diagnostic_status'], 'INPUT_REJECTED')
+        self.assertEqual(summary['state']['validation'], 'INPUT_REJECTED')
+        self.assertEqual(summary['validation_errors']['state'], 'INPUT_REJECTED')
+        for phase in ('before', 'cleanup'):
+            self.assertEqual(summary['phases'][phase]['report_output_status'], 'PRESENT')
+            self.assertEqual(summary['phases'][phase]['report_status'], 'FAIL')
+            self.assertTrue(summary['phases'][phase]['primary_error_present'])
+            self.assertTrue(summary['phases'][phase]['internal_cleanup_error_present'])
+        self.assertEqual(summary['coverage'], 'failure_time')
+        self.assertEqual(summary['capture_errors'], ['PERSISTENCE_ERROR'])
+        self.assertEqual(len(summary['events']), 1)
+        for key in ('expected', 'observed'):
+            self.assertEqual(summary['events'][0][key]['launch_suffix_matches'], 'UNKNOWN')
+            self.assertEqual(summary['events'][0][key]['interpreter_role'], 'unparsed')
+            self.assertEqual(summary['events'][0][key]['command_sha256'],
+                hashlib.sha256(self.event[key]['command'].encode()).hexdigest())
+        self.args.output = str(self.base / 'fallback-cli')
+        argv = ['export_upgrade_owner_evidence.py']
+        for key, value in vars(self.args).items():
+            argv.extend(['--' + key.replace('_', '-'), str(value)])
+        stdout, stderr = io.StringIO(), io.StringIO()
+        with patch('sys.argv', argv), redirect_stdout(stdout), redirect_stderr(stderr):
+            self.assertEqual(exporter.main(), 1)
+        self.assertEqual(json.loads(stdout.getvalue())['coverage'], 'failure_time')
+        self.assertNotIn('PRIVATE_', stdout.getvalue() + stderr.getvalue())
+
+    def test_rejected_state_cannot_hide_conflicting_event_copies(self):
+        self.state['owner_diagnostics'] = {'schema': 1, 'events': [self.event]}
+        self.incomplete_ready_state()
+        other = copy.deepcopy(self.event)
+        other['elapsed_seconds'] += 1
+        self.report('before', [other])
+        self.report('cleanup')
+        summary = self.run_export()
+        self.assertEqual(summary['diagnostic_status'], 'INPUT_REJECTED')
+        self.assertEqual(summary['events'], [])
+        self.assertEqual(summary['validation_errors']['event_conflict'], 'INPUT_REJECTED')
+        self.assertEqual(summary['phases']['before']['report_status'], 'FAIL')
+
+    def test_unbound_state_events_are_not_exported_as_phase_fallback(self):
+        self.state['owner_diagnostics'] = {'schema': 1, 'events': [self.event]}
+        self.incomplete_ready_state()
+        self.report('before')
+        self.report('cleanup')
+        summary = self.run_export()
+        self.assertEqual(summary['diagnostic_status'], 'INPUT_REJECTED')
+        self.assertEqual(summary['events'], [])
+
+    def test_unsafe_phase_input_never_supplies_fallback_events(self):
+        self.incomplete_ready_state()
+        self.report('before', [self.event])
+        before = Path(self.args.before_report)
+        target = self.proof / 'private-foreign-report.json'
+        before.rename(target)
+        before.symlink_to(target)
+        self.report('cleanup')
+        summary = self.run_export()
+        self.assertEqual(summary['diagnostic_status'], 'INPUT_REJECTED')
+        self.assertEqual(summary['inputs']['before']['status'], 'INPUT_REJECTED')
+        self.assertEqual(summary['events'], [])
+        self.assertEqual(summary['phases']['before']['report_status'], 'UNAVAILABLE')
+        self.assertEqual(summary['phases']['cleanup']['report_status'], 'FAIL')
+
+    def test_invalid_report_binding_does_not_hide_other_valid_phase(self):
+        self.report('before', [self.event], checker_sha256='d' * 64)
+        explicit = {**self.event, 'moment': 'explicit_cleanup', 'phase': 'cleanup'}
+        self.report('cleanup', [explicit])
+        summary = self.run_export()
+        self.assertEqual(summary['diagnostic_status'], 'INPUT_REJECTED')
+        self.assertEqual(summary['phases']['before']['report_status'], 'UNAVAILABLE')
+        self.assertEqual(summary['phases']['cleanup']['report_status'], 'FAIL')
+        self.assertEqual([e['moment'] for e in summary['events']], ['explicit_cleanup'])
+
     def test_missing_state_report_fallback_has_unknown_suffix(self):
         self.state_path.unlink()
         self.report('before', [self.event])
