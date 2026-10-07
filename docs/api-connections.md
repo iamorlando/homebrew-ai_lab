@@ -1,44 +1,40 @@
-# API connections
+# Connections
 
-`ai-lab apis` opens a settings inventory with Refresh and Exit. Use
-`ai-lab apis --json` for the same information in scripts. Opening or refreshing
-reads connection metadata and credential availability. It does not check health,
-send provider requests, write configuration, start a process or download weights.
-`configured` means the settings are usable; reachability remains `not_checked`.
+DeepSeek and native CLM run locally through the pinned Mistral runtime.
+`ai-lab web` starts both APIs and retains them until the web process exits; no cloud key is required.
+Jev uses the hosted TypeSafe API and requires `TYPESAFE_API_KEY` or `JEV_API_KEY`.
+Start `ai-lab web` from the environment with that key; it remains server-side.
 
-| Connection | Default endpoint | URL setting | Authentication setting |
-| --- | --- | --- | --- |
-| DeepSeek R1 | `http://127.0.0.1:11435` | Fixed | None |
-| Qwen3-8B | `http://127.0.0.1:11439` | Fixed | None |
-| Native Contrastive CLM | `http://127.0.0.1:11436` | `AI_LAB_DECISIONS_URL` | `AI_LAB_DECISIONS_API_KEY` |
-| Upstream Contrastive CLM | `http://127.0.0.1:8700` | `AI_LAB_CLM_UPSTREAM_URL` | `AI_LAB_CLM_UPSTREAM_API_KEY` |
-| Laya | `http://127.0.0.1:8710` | `AI_LAB_LAYA_URL` | `AI_LAB_LAYA_API_KEY` |
-| Hosted Jev / TypeSafe | `https://api.typesafe.ai/v1/systemone` | Fixed | `TYPESAFE_API_KEY` or `JEV_API_KEY` |
+Use `ai-lab mcp config --codex --json` to inspect the MCP client connection.
+The old informational terminal API manager is no longer a public command.
 
-Local decision URL overrides must be loopback HTTP origins. Authentication is
-optional for local connections; a separately configured server may require its
-own bearer key. Native CLM also accepts `AI_LAB_DECISIONS_MODEL` to select a
-decision model. URL and model overrides are optional. Jev requires either key
-name, or the existing privately synced workspace credential. An environment
-variable is `configured` only when nonblank. The Jev connection can therefore be
-configured while both environment variables are unset, through its saved key.
+## CLM from Python
 
-The inventory reports variable names and booleans. Keys and model-selection
-values are never exported. An invalid URL override is withheld entirely; auth,
-path, query and fragment content cannot leak through endpoint output or errors.
-Valid local endpoints contain only a loopback origin. Generation URLs come from
-`generation_models.GENERATION_BACKENDS`; local decision defaults and URL
-validation come from `decisions.DecisionRuntime`, and hosted key precedence
-comes from `ai_lab.credentials.jev_key`. There is no OpenAI/Anthropic hosted chat
-connection in this inventory because the application does not implement one.
+Keep `ai-lab web` running. Call CLM directly on port 11436; using DeepSeek or
+Decoder in the browser does not stop this endpoint. This example uses Python's
+standard library and discovers the exact loaded model name:
 
-Connections are shared backend/provider routes. Saved named generation profiles
-belong to `ai-lab models`, with their own seed and watermark settings. Process
-lifecycle belongs to `ai-lab services`. A configured connection does not mean its
-model weights are installed or its API is running.
+```python
+import json
+from urllib.request import ProxyHandler, Request, build_opener
 
-Native CLM is the managed `contrastive` service. Its URL setting also selects the
-host and port used when Services launches the existing native Mistral runtime.
-A free supported loopback origin can be started locally; a running server is
-controllable only when its workspace PID receipt and live process identity are
-verified. `clm-upstream` remains a separate legacy backend.
+base = "http://127.0.0.1:11436"
+http = build_opener(ProxyHandler({}))
+with http.open(base + "/v1/models", timeout=10) as response:
+    model = json.load(response)["models"][0]["name"]
+payload = {
+    "model": model,
+    "state": "The package arrived on time and in good condition.",
+    "questions": {
+        "positive": {"type": "noul", "instructions": "Is the customer feedback positive?"}
+    },
+}
+request = Request(base + "/v1/systemone", data=json.dumps(payload).encode(),
+                  headers={"Content-Type": "application/json"}, method="POST")
+with http.open(request, timeout=180) as response:
+    print(json.load(response))
+```
+
+If you configured `AI_LAB_DECISIONS_URL`, use that base URL instead. For a server
+configured with `AI_LAB_DECISIONS_API_KEY`, send its bearer token in the
+`Authorization` header on discovery and requests.

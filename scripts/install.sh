@@ -1,6 +1,6 @@
 #!/bin/sh
 # Homebrew's formula hooks cannot prompt. This optional wrapper offers model
-# weights after install/upgrade; ordinary CLI screens never offer downloads.
+# weights after install/upgrade; the website never downloads models silently.
 set -eu
 action=${1:-install}
 if [ "$#" -gt 0 ]; then shift; fi
@@ -22,6 +22,6 @@ if [ "$action" = update ]; then brew update; fi
 brew "$brew_action" iamorlando/ai_lab/ai_lab
 case "$model_option" in
   --no-models) ;;
-  --yes) ai-lab weights offer --yes ;;
-  '') ai-lab weights offer ;;
+  --yes) ai-lab setup install deepseek qwen clm --yes ;;
+  '') ai-lab setup ;;
 esac
