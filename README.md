@@ -14,10 +14,11 @@ For an existing installation:
 brew update
 brew upgrade iamorlando/ai_lab/ai_lab
 ai-lab --version
+ai-lab setup repair-runtime --model deepseek --yes
 ai-lab web
 ```
 
-Version 0.1.15 uses the website for all interactive work. Stop the older AI Lab
+Version 0.1.16 adds TextGrain to saved Models, Completion, Decoder and MCP tools. Stop the older AI Lab
 launcher before opening the updated website. Keep your existing data directory;
 this update does not require deleting profiles, keys, sessions or weights.
 
@@ -26,7 +27,7 @@ terminal open while using the app. Compatible downloaded weights are reused.
 Missing weights are installed explicitly with `ai-lab setup install FAMILY --yes`; opening the website
 does not silently download models.
 
-- **Completion:** the existing token probabilities, tournament and completion view.
+- **Completion:** token probabilities, SynthID tournaments, and TextGrain vocabulary blocks, transport matrices, entropy calibration and sampling draws.
 - **Decisions:** typed Ask and Rank requests with native CLM or Jev.
 - **Watermark decoder:** generate from a named model on the left; copy or paste
   text on the right and inherit the writing model's watermark configuration.
@@ -34,8 +35,7 @@ does not silently download models.
 - **Models:** create and configure saved DeepSeek profiles.
 
 The only public commands are `web`, `mcp` and `setup`. Terminal screens and the
-Comparison and Watermarking pages have been removed. The Completion page remains
-unchanged; Decisions retains its existing controls with CLM and Jev.
+Comparison and Watermarking pages have been removed. SynthID keeps its tournament behavior; Decisions retains its existing controls with CLM and Jev.
 
 Jev uses `TYPESAFE_API_KEY` or `JEV_API_KEY`. The key stays on the server.
 CLM runs locally using the pinned Mistral runtime and its CLM/Qwen weights.

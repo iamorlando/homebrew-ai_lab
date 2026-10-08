@@ -33,3 +33,14 @@ detection side by side. Existing profiles are not converted or deleted.
 
 Refresh an installed MCP configuration with `ai-lab mcp install --codex --force`
 or `--claude --force`, then restart that client.
+
+AI Lab 0.1.16 adds TextGrain and updates the DeepSeek native runtime. After the
+Homebrew upgrade, use `ai-lab setup repair-runtime --model deepseek --yes` when
+setup reports that the runtime needs repair. This downloads the new runtime,
+while reusing verified DeepSeek weights. CLM's runtime is unchanged.
+
+The application advances only recognized shipped source manifests whose other
+fields and official chat template remain unchanged. Custom sources/templates
+remain user-owned. There is no profile or conversation schema migration. For a
+rollback, restore the prior application and its shipped source manifest/runtime
+pair in the same data root; retain the models, keys, profiles and sessions.

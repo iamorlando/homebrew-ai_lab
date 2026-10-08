@@ -4,7 +4,7 @@
     "version": "0.9.4",
     "repository": "https://github.com/iamorlando/mistral.rs.git",
     "upstream": "https://github.com/EricLBuehler/mistral.rs.git",
-    "commit": "a976f7d041173f5b076b267796aecec6040c990b",
+    "commit": "edc4950d31f1247ed641176e1cf0c9d8ce4d0274",
     "rust_version": "1.96.0",
     "features": [
       "metal"
@@ -13,7 +13,7 @@
   },
   "watermark_library": {
     "repository": "https://github.com/iamorlando/llm_watermarking.git",
-    "commit": "7ed8f403d463191bc091b19cb476e9945e3b0260"
+    "commit": "af89e9ecdb8f9a9640fd48a331c4cdc2b35e76e1"
   },
   "model": {
     "name": "DeepSeek-R1-0528-Qwen3-8B",

@@ -1,9 +1,9 @@
 class AiLab < Formula
   desc "AI Lab web app for DeepSeek, CLM decisions, and watermark decoding"
   homepage "https://github.com/iamorlando/homebrew-ai_lab"
-  url "https://raw.githubusercontent.com/iamorlando/homebrew-ai_lab/352a7378c6007ff73d1203febc5e067761f8d38b/artifacts/0.1.15/ai_lab-0.1.15.tar.gz"
-  version "0.1.15"
-  sha256 "1c67efd69159aaa0d583599accf5b8831496876fb57adcfc092e909854baa4a4"
+  url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.16/ai_lab-0.1.16.tar.gz"
+  version "0.1.16"
+  sha256 "31614431222d296ffff8b12c839861c79508c13adb835b0de091643f8ebc1ed7"
 
 
   depends_on arch: :arm64
@@ -43,6 +43,8 @@ class AiLab < Formula
       Keep the same AI_LAB_ROOT if you use a custom workspace. No data cleanup or
       weight redownload is required for this update. Stop an older AI Lab launcher
       before opening the updated website.
+      Install the TextGrain-capable runtime while reusing existing weights:
+        ai-lab setup repair-runtime --model deepseek --yes
       Requires Apple Silicon and macOS 15+. Native setup uses verified prebuilt
       Metal servers; no Rust or Xcode installation is needed.
     EOS

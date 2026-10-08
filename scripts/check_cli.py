@@ -4,6 +4,7 @@ import argparse
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import tempfile
 
@@ -37,6 +38,16 @@ def main():
             assert set(discovery['commands']) == PUBLIC
             guide = run('guide', ['--skill'])
             assert all('ai-lab ' + name in guide for name in PUBLIC)
+            for shell in ('bash', 'zsh', 'fish'):
+                script = run('shell-' + shell, ['--completions', shell])
+                assert all(name in script for name in PUBLIC) and 'ai-lab' in script
+                path = Path(directory) / ('completion.' + shell)
+                path.write_text(script)
+                interpreter = shutil.which(shell)
+                if interpreter:
+                    syntax = subprocess.run([interpreter, '-n', str(path)], capture_output=True, text=True)
+                    assert syntax.returncode == 0, (shell, syntax.stderr)
+            assert 'invalid choice' in run('invalid-shell', ['--completions', 'invalid'], 2)
             for name in sorted(PUBLIC):
                 run(name + '-help', [name, '--help'])
             for name in REMOVED:

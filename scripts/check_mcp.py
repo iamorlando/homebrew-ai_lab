@@ -10,6 +10,7 @@ from contextlib import contextmanager
 from datetime import timedelta
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
+import math
 import os
 from pathlib import Path
 import subprocess
@@ -42,7 +43,11 @@ def model_fixture(family):
                 self.respond({'choices': [{'text': family + ' fixture answer', 'finish_reason': 'stop'}],
                               'usage': {'completion_tokens': 3}})
             elif self.path == '/v1/watermark/detect':
-                self.respond({'tokens_scored': 100, 'trials': 100, 'green_count': 75, 'z_score': 5})
+                if body['watermark']['scheme'] == 'textgrain':
+                    self.respond({'kind': 'textgrain', 'tokens_scored': 100, 'score_sum': 200,
+                                  'mean_score': 2, 'p_value': .0001, 'log_p_value': math.log(.0001)})
+                else:
+                    self.respond({'tokens_scored': 100, 'trials': 100, 'green_count': 75, 'z_score': 5})
             else: raise AssertionError(self.path)
     server = ThreadingHTTPServer(('127.0.0.1', 0), Model)
     worker = threading.Thread(target=server.serve_forever, daemon=True); worker.start()
@@ -81,7 +86,8 @@ async def phase(root, entry, *, fixture=False):
                 row = next(r for r in models['models'] if r['name'] == family)
                 assert row['run_command'] == 'ai-lab web'
                 assert row['install_command'] == f'ai-lab setup install {family} --yes'
-            assert len((await call('explain_watermarks'))['schemes']) == 6
+            assert {s['id'] for s in (await call('explain_watermarks'))['schemes']} == {
+                'synthid', 'kgw', 'unigram', 'exponential', 'inverse_transform', 'mpac', 'textgrain'}
             seeded = await call('create_seeded_model', {'name': 'MCP seed', 'seed': '0x2A'})
             assert seeded['seed'] == 42 and seeded['underlying_model'] == 'DeepSeekR1'
             profiles = {}
@@ -116,6 +122,17 @@ async def phase(root, entry, *, fixture=False):
                                        ('detect_watermark', {'text': 'External text', 'model': wm['key']}),
                                        ('inspect_next_token', {'prompt': 'Exact prefix', 'model': wm['key']})]:
                         assert 'ai-lab setup' in await call(name, args, error=True)
+            grain = await call('create_watermarked_model', {'name': 'MCP TextGrain', 'scheme': 'textgrain',
+                'key': '57' * 32, 'settings': {'block_count': 8, 'column_count': 16,
+                'entropy_loss': .2, 'generation_policy': 'block_then_token'}})
+            assert grain['watermark']['block_count'] == 8 and grain['watermark']['column_count'] == 16
+            assert grain['watermark']['generation_policy'] == 'block_then_token'
+            assert 'depth' not in grain['watermark'] and '57' * 32 not in json.dumps(grain)
+            if fixture:
+                generated = await call('generate_text', {'model': grain['key'], 'prompt': 'TextGrain fixture', 'max_tokens': 4})
+                assert generated['fixture'] is True and generated['watermark']['scheme'] == 'textgrain'
+                detected = await call('detect_watermark', {'model': grain['key'], 'text': generated['answer']})
+                assert detected['verdict'] == 'match' and '57' * 32 not in json.dumps(detected)
             assert root.joinpath('harness/models.json').stat().st_mode & 0o777 == 0o600
             assert 'ai-lab setup' in await call('answer_decisions', {'model': 'contrastive', 'state': 'test',
                      'questions': {'ok': {'type': 'noul'}}}, error=True)
@@ -144,16 +161,19 @@ async def check(executable=None):
             await phase(fixture, entry(fixture), fixture=True)
             for family, requests in [('deepseek', deepseek_requests)]:
                 generations = [body for path, body in requests if path == '/v1/completions']
-                assert len(generations) == 3
+                assert len(generations) == 4
                 assert generations[0]['watermark']['key'] == '42'*32
                 assert generations[1]['watermark']['key'] == '23'*32
                 assert 'watermark' not in generations[2]
+                assert generations[3]['watermark']['scheme'] == 'textgrain'
+                assert generations[3]['watermark']['generation_policy'] == 'block_then_token'
                 assert '<think>' in generations[0]['prompt']
     return {'status': 'passed', 'transport': 'real stdio', 'launcher': 'uvx', 'tool_count': len(tools),
             'tools': sorted(tools), 'fixture': True, 'native_inference_proof': False,
             'checked': ['empty-workspace no-download/no-start', 'DeepSeek catalog and standalone Qwen rejection',
                         'generation and detector family routing', 'private keys and explicit key retrieval',
-                        'saved inheritance and unsaved override/disable', 'both missing-backend setup instructions']}
+                        'saved inheritance and unsaved override/disable', 'TextGrain settings/generation/Gamma detection',
+                        'both missing-backend setup instructions']}
 
 
 if __name__ == '__main__':
