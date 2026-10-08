@@ -1,54 +1,47 @@
-name: Candidate Homebrew install
+name: Manual published Homebrew smoke
+
+# Hosted CI is unavailable and excluded for 0.1.16 by the release owner's request.
+# This opt-in job checks the published formula; it is not a prepublication gate.
 on:
   workflow_dispatch:
-    inputs:
-      draft_release_id:
-        description: Unpublished release containing the exact candidate sdist
-        required: true
-        type: string
+
 permissions:
   contents: read
+
 jobs:
   installed-web:
-    strategy:
-      fail-fast: false
-      matrix:
-        installation: [clean, upgrade]
     runs-on: macos-15
-    timeout-minutes: 35
-    permissions:
-      contents: write
+    timeout-minutes: 30
     defaults:
       run:
         shell: bash
         working-directory: ${{ runner.temp }}
     env:
-      HOMEBREW_NO_AUTO_UPDATE: '1'
-      HOMEBREW_NO_INSTALL_CLEANUP: '1'
-      HOMEBREW_CACHE: ${{ runner.temp }}/brew-cache
-      AI_LAB_ROOT: ${{ runner.temp }}/retained-ai-lab-data
+      HOMEBREW_NO_AUTO_UPDATE: "1"
+      HOMEBREW_NO_INSTALL_CLEANUP: "1"
     steps:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
-      - name: Download exact private candidate
-        env:
-          GH_TOKEN: ${{ github.token }}
-          DRAFT_RELEASE_ID: ${{ inputs.draft_release_id }}
+      - name: Install the checked-out published formula
         run: |
           test "$(uname -m)" = arm64
-          python3 "$GITHUB_WORKSPACE/scripts/candidate_homebrew.py" download --release-id "$DRAFT_RELEASE_ID" --directory "$GITHUB_WORKSPACE" --evidence "$RUNNER_TEMP/evidence"
-      - name: Actual clean install or literal upgrade and installed checks
-        env:
-          INSTALLATION: ${{ matrix.installation }}
+          brew update
+          brew tap iamorlando/ai_lab
+          cp "$GITHUB_WORKSPACE/Formula/ai_lab.rb" "$(brew --repository iamorlando/ai_lab)/Formula/ai_lab.rb"
+          brew trust --formula iamorlando/ai_lab/ai_lab
+          brew install iamorlando/ai_lab/ai_lab
+          brew linkage --test iamorlando/ai_lab/ai_lab
+          brew test iamorlando/ai_lab/ai_lab
+      - name: Check installed CLI, web and MCP with CPU fixtures
         run: |
-          python3 "$GITHUB_WORKSPACE/scripts/candidate_homebrew.py" install --mode "$INSTALLATION" --directory "$GITHUB_WORKSPACE" --evidence "$RUNNER_TEMP/evidence"
-      - name: Retain exact commands and results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: homebrew-${{ matrix.installation }}-${{ github.sha }}
-          path: |
-            ${{ runner.temp }}/evidence
-            !${{ runner.temp }}/evidence/brew-cache
-          retention-days: 14
+          ai_lab_prefix="$(brew --prefix ai_lab)"
+          ai_lab_python="$ai_lab_prefix/libexec/venv/bin/python"
+          ai_lab_executable="$ai_lab_prefix/bin/ai-lab"
+          ai_lab_checks="$RUNNER_TEMP/ai-lab-checks"
+          mkdir -p "$ai_lab_checks"
+          cp "$GITHUB_WORKSPACE"/scripts/check_*.py "$ai_lab_checks/"
+          "$ai_lab_python" "$ai_lab_checks/check_cli.py" "$ai_lab_executable"
+          "$ai_lab_python" "$ai_lab_checks/check_web.py" "$ai_lab_executable"
+          "$ai_lab_python" "$ai_lab_checks/check_web.py" "$ai_lab_executable" --jev-configured
+          "$ai_lab_python" "$ai_lab_checks/check_mcp.py" --executable "$ai_lab_executable"

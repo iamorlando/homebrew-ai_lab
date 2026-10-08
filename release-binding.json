@@ -25,7 +25,7 @@
     "scripts/install.sh": "packaging/install.sh"
   },
   "dependency_lock_unchanged_except_app_version": true,
-  "git_archive_sha256": "ea9e57aada99dccb620c71632451d95f5b42ee2ecd1828186b3a105cb56ec5de",
+  "git_archive_sha256": "a3518019b8797be1a468b863cd60176ed66984a4d8f5c6794c517f6cb9262997",
   "native_runtime": {
     "binary_sha256": "d5f2947a3d377173f6d6782062bb948956e9c26c56f84fb8f096bf9be798163d",
     "bytes": 31226357,
@@ -315,9 +315,9 @@
     "sdist_automatic_source_files": [
       ".gitignore"
     ],
-    "sdist_bytes": 552208,
+    "sdist_bytes": 552358,
     "sdist_files": 165,
-    "sdist_sha256": "31614431222d296ffff8b12c839861c79508c13adb835b0de091643f8ebc1ed7",
+    "sdist_sha256": "58908a7402069823b433f66dcb822e6cd3ded7b9c19de316c6c4716746497ecd",
     "sdist_sha256_by_file": {
       ".gitignore": "1c1935ed295a92e6d8d920bf0182eaf2b9ea01beff5c787b506ebdbb0449ab97",
       "AGENTS.md": "19966dbdad4ef663b9ce342e3da08ecb396fd56a217c005e192d05bc572861ae",
@@ -379,7 +379,7 @@
       "docs/ai-lab/services.md": "ecd39a0ba19617ece436746ff40c9708d51433ba217bb4a956c7fd8a8a136064",
       "docs/ai-lab/skills.md": "ae61f6a042ff00e3dcf69db2d81ce6a082d7607f814561bcdb0692bcec193ea6",
       "docs/ai-lab/upgrading.md": "9e50277bcc27bb8610962e74ba0484f23ececd0d1b887c7dbdfea5b6213cf241",
-      "docs/tests.md": "0606648f22b56ab56577313e23b68f7ec463f644965b4038678cb8cc7b5450a0",
+      "docs/tests.md": "375ca42185b175fc25fd5c9bea997efb6e60032951b46d435e36e6bdd48293f0",
       "harness/clm_encoder.py": "7b523fae70da6266b1aef2961093e6fe5922201a882c19ca1b1f94087fab30d5",
       "harness/clm_upstream.py": "128f15e34aebbd7276c1ddf9ad280971cbdfd2ca5991fd03d04deab733098dcb",
       "harness/common.py": "8346a4ab41733b43fa889e2d02a0e713d2b828cd8299c3e0adf63f380e9dadf9",
@@ -461,7 +461,7 @@
       "packaging/check_mcp.py": "4dea3c6a586fb3080390114fe015b317475c594ea6d0ae02b1be933e796429f8",
       "packaging/check_mcp_client.py": "f7444809d9e8dd9b11e4eac28aa63c7e237dc41017adf5f3694dc288740969f6",
       "packaging/check_python_experiments.py": "e6c79c3add793bf19ed90ccf0594f3417951ca1567f453c1f59284a4486b8853",
-      "packaging/check_release_data.py": "11166912109a141b5e3467706a0e70efc9d16d6a54791d7f4d745aee00f8a744",
+      "packaging/check_release_data.py": "eafc75475fc1069b22f75d72d0af2b22aee52acb3a62a3a1d544488baf29e421",
       "packaging/check_services_foreground.py": "837227fbd6ae46fd25c5332b7833d78d05bfd7cd8f1f710c8f01e72ce4861c2f",
       "packaging/check_storage.py": "177bc68dd632988ec094dbe2f87cf1c85a02cc306062afb5df45e5576f5f35d9",
       "packaging/check_upgrade.py": "e4d0766268e92e69c4240ea0eeff70fc01e2e9a28e41149404236642623d1366",
@@ -487,7 +487,7 @@
     },
     "wheel_bytes": 402918,
     "wheel_generator": "hatchling 1.32.4",
-    "wheel_sha256": "954ad106ddae007a2e582665f386cbe763ba6ae6bfea807abffa25faaa78f6db"
+    "wheel_sha256": "976c261091c4d986a06b62a6b2d21c18ca7378aa1199f0e1205e88cb2574bd5a"
   },
   "prior_sdist_sha256": "1c67efd69159aaa0d583599accf5b8831496876fb57adcfc092e909854baa4a4",
   "prior_tap_sha": "25827e18266138973ebf7cdec8332f65a9aadde5",
@@ -622,19 +622,19 @@
   },
   "schema_version": 2,
   "scope": "Immutable artifact binding; execution results recorded separately in release-validation.json.",
-  "sdist_sha256": "31614431222d296ffff8b12c839861c79508c13adb835b0de091643f8ebc1ed7",
+  "sdist_sha256": "58908a7402069823b433f66dcb822e6cd3ded7b9c19de316c6c4716746497ecd",
   "source_provenance": {
     "AGENTS.md": "19966dbdad4ef663b9ce342e3da08ecb396fd56a217c005e192d05bc572861ae",
     "ai_lab/decisions-runtime.json": "ba0174dc0e46b22afafe3f092ec96a741447bbb3b7d2b24dbd6dc67a138160cc",
     "ai_lab/runtime.json": "d5c7e9ae27f10f3c439e287b465e67d5ba53ed38391188949a965c15c7a29f22",
-    "docs/tests.md": "0606648f22b56ab56577313e23b68f7ec463f644965b4038678cb8cc7b5450a0",
+    "docs/tests.md": "375ca42185b175fc25fd5c9bea997efb6e60032951b46d435e36e6bdd48293f0",
     "packaging/runtime/contrastive-sources.json": "9bd39c3eb04a4f23e23486165029689b746619be2accb1da3b5d84ab8f5acdf9",
     "pyproject.toml": "1b2c799f609858e92e0c486c307ee869639e178f32a8d92f19abf22ccf8150fa",
     "sources.json": "b859613c8612e7724554988168b4216de4aeb73a525d94812d8062cfb285b6ce",
     "uv.lock": "110a8c62fb1b96a11dfef276813cdac58441a4710823a51c2922561959a2d1e7"
   },
   "source_repository": "https://github.com/iamorlando/deepseek",
-  "source_sha": "d984c225e9c88cc88f414428bff26225a6b85b25",
+  "source_sha": "bd2be508bf738cd267ab483257a8188aa1219724",
   "version": "0.1.16",
-  "wheel_sha256": "954ad106ddae007a2e582665f386cbe763ba6ae6bfea807abffa25faaa78f6db"
+  "wheel_sha256": "976c261091c4d986a06b62a6b2d21c18ca7378aa1199f0e1205e88cb2574bd5a"
 }

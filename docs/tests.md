@@ -7,7 +7,9 @@ Execution reports bind the final source, wheel, sdist and installed files.
 This release adds TextGrain configuration, completion traces and Gamma-tail
 watermark evidence, and updates the DeepSeek native runtime to the reviewed
 TextGrain-capable build. The CLM runtime and dependency versions stay pinned.
-The historical 0.1.15 CI and Homebrew exceptions do not apply to this release.
+GitHub CI is unavailable and explicitly excluded from this release by the
+release owner's instruction. Do not dispatch GitHub Actions. Record local
+validation and any unavailable Homebrew host prerequisites truthfully.
 
 ## Package and upgrade
 
@@ -25,8 +27,8 @@ The historical 0.1.15 CI and Homebrew exceptions do not apply to this release.
   environment. Render the formula from the accepted archive and check its Ruby
   syntax, three-command assertions and dependency recipe locally. Run actual
   Homebrew clean installation and literal 0.1.15-to-0.1.16 upgrade, retaining the
-  same owned data root. Require `brew test iamorlando/ai_lab/ai_lab` and candidate
-  tap install CI on both paths before publication. Draft assets may seed an owned
+  same owned data root. Run `brew test iamorlando/ai_lab/ai_lab` on a supported
+  local installation. Draft assets may seed an owned
   Homebrew source cache; the unchanged final formula must validate their hashes.
 
 ## Supported CLI

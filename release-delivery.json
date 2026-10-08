@@ -1,7 +1,7 @@
 {
   "version": "0.1.16",
-  "source_sha": "d984c225e9c88cc88f414428bff26225a6b85b25",
-  "delivery": "GitHub release; exact draft bytes validated before public publication",
+  "source_sha": "bd2be508bf738cd267ab483257a8188aa1219724",
+  "delivery": "GitHub release; exact locally validated artifact bytes",
   "assets": {
     "ai_lab-0.1.16-py3-none-any.whl": "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.16/ai_lab-0.1.16-py3-none-any.whl",
     "ai_lab-0.1.16.tar.gz": "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.16/ai_lab-0.1.16.tar.gz",
@@ -10,5 +10,5 @@
     "release-validation.json": "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.16/release-validation.json"
   },
   "checksums": "release-binding.json",
-  "validation": "Publication requires the complete docs/tests.md gate. Results are recorded in release-validation.json; no prior Homebrew or CI exception applies."
+  "validation": "Local package, upgrade, browser and bounded native evidence is recorded in release-validation.json. GitHub CI is unavailable and excluded by explicit user instruction. Actual Homebrew clean installation is blocked by outdated Command Line Tools; Homebrew upgrade and brew test could not run. The user explicitly authorized publication with this recorded Homebrew limitation."
 }

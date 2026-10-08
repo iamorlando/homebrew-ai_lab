@@ -4,6 +4,7 @@ Run using an installed interpreter with -I outside the source checkout. No nativ
 runtime, model request, download, credential lookup or user data is accessed.
 """
 import argparse
+import asyncio
 import hashlib
 import json
 from pathlib import Path
@@ -30,9 +31,16 @@ if a.action == 'seed':
     registry = ModelProfiles(root)
     registry.save({'retained-release': profile_values('Retained release profile', 42, 'deepseek',
                   validate_watermark({'scheme': 'synthid', 'key': '57' * 32, 'depth': 4}))})
+    from ai_lab.service import Sessions, SessionInput
+    sessions = Sessions(root, registry, None, asyncio.Lock(), None, None)
+    retained = asyncio.run(sessions.create(SessionInput(model='retained-release', name='Retained release session')))
+    session = sessions.records[retained['id']]
+    session.update(prompt='Preserve this saved conversation exactly.', answer='Retained answer.', status='complete')
+    sessions.save(session)
+    session_name = '.state/ai-lab/sessions/' + retained['id'] + '.json'
     files = {
         '.state/ai-lab/settings.json': b'{"theme":"dark","release_fixture":true}\n',
-        '.state/ai-lab/sessions/retained.json': b'{"messages":[{"role":"user","content":"preserve exactly"}]}\n',
+        session_name: (root/session_name).read_bytes(),
         '.models/owned-release-fixture.bin': b'Owned persistence fixture; not native model weights.\n',
     }
     for name, data in files.items():
