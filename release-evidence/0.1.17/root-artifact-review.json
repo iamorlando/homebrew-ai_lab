@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "source_sha": "83f5ce69046810e664d9686683d50f6db4fca5ca",
+  "artifacts_identical_to_tap": true,
+  "source_to_archive_to_wheel_resources": 129,
+  "installed_bindings": {
+    "clean": 129,
+    "upgrade": 129,
+    "sdist": 129
+  },
+  "native_summary_sha256": "8942b8354ed1969087d5431d764b69d2184bcb81ab6a6b1bc1b71d4b49cdd5d0",
+  "browser_summary_sha256": "e43225d9aff61c9c409d5adf6e3e32c6e2113a90d43f4fa53a7fde6fca72d112"
+}

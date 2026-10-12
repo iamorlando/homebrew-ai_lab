@@ -1,0 +1,19 @@
+HOMEBREW_VERSION: 7.0.8
+ORIGIN: https://github.com/Homebrew/brew
+HEAD: a57af195cf9d7addb48bdb1204c9151313cd0057
+Last commit: 8 days ago
+Branch: stable
+Core tap: N/A
+Core cask tap: N/A
+HOMEBREW_PREFIX: /opt/homebrew
+HOMEBREW_NO_ANALYTICS: set
+HOMEBREW_NO_AUTO_UPDATE: set
+Homebrew Ruby: 4.0.7 => /opt/homebrew/Library/Homebrew/vendor/portable-ruby/4.0.7/bin/ruby
+CPU: dodeca-core 64-bit dunno
+Clang: 21.0.0 build 2100
+Git: 2.39.1 => /opt/homebrew/bin/git
+Curl: 8.7.1 => /usr/bin/curl
+macOS: 27.0-arm64
+CLT: 26.6.0.0.1781586589
+Xcode: 27.0
+Metal Toolchain: N/A

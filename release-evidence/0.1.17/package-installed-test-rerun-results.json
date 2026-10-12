@@ -1,0 +1,64 @@
+[
+  {
+    "name": "clean-rerun-tests-ai_lab-test_coordination.py",
+    "argv": [
+      "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+      "-I",
+      "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+      "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+      "tests/ai_lab",
+      "test_coordination.py"
+    ],
+    "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+    "environment": {
+      "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+      "PYTHONNOUSERSITE": "1",
+      "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+      "LANG": "en_US.UTF-8",
+      "UV_OFFLINE": "1",
+      "UV_PYTHON_DOWNLOADS": "never"
+    },
+    "exit_status": 0,
+    "seconds": 8.311,
+    "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-rerun-tests-ai_lab-test_coordination.py",
+    "installed_test_summary": {
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+      "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+    }
+  },
+  {
+    "name": "clean-rerun-tests-ai_lab-test_mcp_result_semantics.py",
+    "argv": [
+      "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+      "-I",
+      "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+      "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+      "tests/ai_lab",
+      "test_mcp_result_semantics.py"
+    ],
+    "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+    "environment": {
+      "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+      "PYTHONNOUSERSITE": "1",
+      "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+      "LANG": "en_US.UTF-8",
+      "UV_OFFLINE": "1",
+      "UV_PYTHON_DOWNLOADS": "never"
+    },
+    "exit_status": 0,
+    "seconds": 9.072,
+    "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-rerun-tests-ai_lab-test_mcp_result_semantics.py",
+    "installed_test_summary": {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+      "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+    }
+  }
+]

@@ -1,0 +1,904 @@
+{
+  "schema_version": 1,
+  "status": "LOCAL_VALIDATION_PASS_WITH_RECORDED_LIMITATIONS",
+  "date": "2026-10-12",
+  "version": "0.1.17",
+  "source_sha": "83f5ce69046810e664d9686683d50f6db4fca5ca",
+  "source_repository": "https://github.com/iamorlando/deepseek",
+  "prior_version": "0.1.16",
+  "prior_archive_sha256": "58908a7402069823b433f66dcb822e6cd3ded7b9c19de316c6c4716746497ecd",
+  "tap_baseline_sha": "375cfd824c043d951646a1f111d968b799c7ca24",
+  "artifact_git_sha": "b6075281df29cb76fea4479d850b263192b6cf03",
+  "tap_commit_binding": "The final tap candidate is the Git commit containing this validation and is recorded by the independent reviewer/publication report.",
+  "artifacts": {
+    "ai_lab-0.1.17.tar.gz": {
+      "sha256": "c7fe0b1e6f04290da91cf56e99668fc4d78dd1a4eb4f5750057d989bc74cd69f",
+      "bytes": 580162
+    },
+    "ai_lab-0.1.17-py3-none-any.whl": {
+      "sha256": "962de95352a893e0c0afef603a5e670dffbad98d3ae56ec46057a9bdd579fb60",
+      "bytes": 415434
+    }
+  },
+  "dependency_lock_sha256": "a4756a4d342a19b98c8bed44d7ddee966c52bf5cb72e95865b7cfcf70b00638f",
+  "delivery": {
+    "kind": "Immutable Git commit URLs",
+    "urls": {
+      "ai_lab-0.1.17-py3-none-any.whl": "https://raw.githubusercontent.com/iamorlando/homebrew-ai_lab/b6075281df29cb76fea4479d850b263192b6cf03/packages/0.1.17/ai_lab-0.1.17-py3-none-any.whl",
+      "ai_lab-0.1.17.tar.gz": "https://raw.githubusercontent.com/iamorlando/homebrew-ai_lab/b6075281df29cb76fea4479d850b263192b6cf03/packages/0.1.17/ai_lab-0.1.17.tar.gz",
+      "manifest.json": "https://raw.githubusercontent.com/iamorlando/homebrew-ai_lab/b6075281df29cb76fea4479d850b263192b6cf03/packages/0.1.17/manifest.json"
+    },
+    "no_github_release_or_tag_required": true,
+    "public_url_verification": "Pending independent reviewer normal candidate push; local artifact bytes and immutable paths verified."
+  },
+  "publication_exceptions": {
+    "github_ci": {
+      "status": "NOT_RUN",
+      "reason": "User explicitly prohibited GitHub CI. No workflow dispatch or tag push is performed; source has no workflows and tap workflow/runtime paths remain unchanged."
+    },
+    "homebrew": {
+      "clean_install": "BLOCKED_INPUT",
+      "literal_upgrade": "NOT_RUN",
+      "brew_test": "NOT_RUN",
+      "candidate_install_attempted": false,
+      "reason": "Current macOS 27 host still has CLT26.6; the separate CLT27 required by Homebrew is unavailable. Prior actual 0.1.16 clean attempt failed this prerequisite; no new 0.1.17 attempt is relabeled as a result.",
+      "current_host_evidence": "homebrew-config.txt",
+      "prior_actual_attempt_log": "/private/tmp/textgrain-homebrew-clean/candidate-install.log",
+      "prior_attempt_sha256": "55c84b4d1a401edcbd41ad09542f6e2b7f406b29d6f6552d337128d49617f244",
+      "publication_exception": "User explicitly authorized publication with the recorded Homebrew limitation."
+    }
+  },
+  "package": {
+    "status": "PASS",
+    "summary": "release-evidence/0.1.17/package-SUMMARY.json",
+    "source_resource_files": 129,
+    "sdist_source_files": 171,
+    "independent_sdist_wheel_identical": true,
+    "installed_matrix": {
+      "clean": {
+        "modules": 38,
+        "tests": 450,
+        "skipped": 0
+      },
+      "upgrade": {
+        "modules": 38,
+        "tests": 450,
+        "skipped": 0
+      }
+    },
+    "checker_commands": 19,
+    "cli_checks_per_installation": 42,
+    "mcp_tools_per_installation": 15,
+    "cross_model_fixture_requests_per_installation": 44,
+    "installations": {
+      "clean": {
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "python_base": "/Users/orlando/dev/deepseek/.runtime/python/cpython-3.13.7-macos-aarch64-none/bin/python3.13",
+        "prefix": "/private/tmp/ai-lab-qwen38-release-017/clean-env",
+        "version": "0.1.17",
+        "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+        "verified_installed_files": 129,
+        "installed_probe": "/private/tmp/ai-lab-qwen38-release-017/clean-installed.json"
+      },
+      "sdist": {
+        "python": "/private/tmp/ai-lab-qwen38-release-017/sdist-env/bin/python",
+        "python_base": "/Users/orlando/dev/deepseek/.runtime/python/cpython-3.13.7-macos-aarch64-none/bin/python3.13",
+        "prefix": "/private/tmp/ai-lab-qwen38-release-017/sdist-env",
+        "version": "0.1.17",
+        "cwd": "/private/tmp/ai-lab-qwen38-release-017/sdist-run",
+        "verified_installed_files": 129,
+        "installed_probe": "/private/tmp/ai-lab-qwen38-release-017/sdist-installed.json"
+      },
+      "upgrade": {
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "python_base": "/Users/orlando/dev/deepseek/.runtime/python/cpython-3.13.7-macos-aarch64-none/bin/python3.13",
+        "prefix": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env",
+        "version": "0.1.17",
+        "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+        "verified_installed_files": 129,
+        "installed_probe": "/private/tmp/ai-lab-qwen38-release-017/upgrade-installed.json"
+      },
+      "owner-upgrade": {
+        "python": "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-env/bin/python",
+        "python_base": "/Users/orlando/dev/deepseek/.runtime/python/cpython-3.13.7-macos-aarch64-none/bin/python3.13",
+        "prefix": "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-env",
+        "version": "0.1.17",
+        "cwd": "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-run",
+        "verified_installed_files": 129,
+        "installed_probe": "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-installed.json"
+      }
+    },
+    "literal_upgrade_retained_owner": {
+      "status": "PASS",
+      "events": [
+        {
+          "event": "prior-owner",
+          "pid": 22497
+        },
+        {
+          "event": "literal-upgrade",
+          "command": [
+            "/Users/orlando/.local/bin/uv",
+            "pip",
+            "install",
+            "--offline",
+            "--no-deps",
+            "--python",
+            "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-env/bin/python",
+            "/private/tmp/ai-lab-qwen38-release-017/dist/ai_lab-0.1.17-py3-none-any.whl"
+          ],
+          "exit": 0
+        },
+        {
+          "event": "retained-prior-owner",
+          "pid": 22497,
+          "existing": false,
+          "incompatible_launcher_rejected": true
+        },
+        {
+          "event": "candidate-owner",
+          "pid": 25221
+        }
+      ],
+      "prior_version": "0.1.16",
+      "version": "0.1.17",
+      "profiles_preserved": true,
+      "owned_sockets_released": true,
+      "native_starts": 0
+    },
+    "model_downloads": 0,
+    "native_starts": 0,
+    "scope": "Installed Python package, CLI/web/API/MCP and CPU fixture validation; Homebrew/browser/native lanes reported separately"
+  },
+  "browser": {
+    "status": "PASS",
+    "summary": "release-evidence/0.1.17/browser-summary.json",
+    "runs": 12,
+    "scope": "Actual installed web app in browser; owned CPU provider fixtures. Browser generation/routing evidence is not native inference evidence.",
+    "tested_source_sha": "217b310fbb96fd4b89fb6ad5679c477a5c71293b",
+    "final_source_binding": {
+      "status": "PASS",
+      "kind": "metadata-only rebinding; browser checks not rerun",
+      "tested_source_sha": "217b310fbb96fd4b89fb6ad5679c477a5c71293b",
+      "final_source_sha": "83f5ce69046810e664d9686683d50f6db4fca5ca",
+      "changed_files": [
+        "tests/ai_lab/test_mcp_result_semantics.py"
+      ],
+      "explanation": "Only an excluded test file changed. Final exact-source rebuild produced identical wheel and sdist bytes. All 129 installed files in each tested environment were rehashed against the final release binding.",
+      "release_binding": "/private/tmp/ai-lab-qwen38-release-017/release-binding.json",
+      "release_binding_sha256": "2de91f4225eb7b9e46904ed4232f48b322c102c581274d5349f24c05bb5af4d3",
+      "artifacts": {
+        "/private/tmp/ai-lab-qwen38-release-017/dist/ai_lab-0.1.17-py3-none-any.whl": {
+          "sha256": "962de95352a893e0c0afef603a5e670dffbad98d3ae56ec46057a9bdd579fb60",
+          "bytes": 415434
+        },
+        "/private/tmp/ai-lab-qwen38-release-017/dist/ai_lab-0.1.17.tar.gz": {
+          "sha256": "c7fe0b1e6f04290da91cf56e99668fc4d78dd1a4eb4f5750057d989bc74cd69f",
+          "bytes": 580162
+        },
+        "/private/tmp/ai-lab-qwen38-release-017/sdist-wheel/ai_lab-0.1.17-py3-none-any.whl": {
+          "sha256": "962de95352a893e0c0afef603a5e670dffbad98d3ae56ec46057a9bdd579fb60",
+          "bytes": 415434
+        }
+      },
+      "installed_verification": {
+        "clean": {
+          "installed_files": 129,
+          "status": "PASS"
+        },
+        "upgrade": {
+          "installed_files": 129,
+          "status": "PASS"
+        }
+      }
+    },
+    "installations": {
+      "clean": {
+        "status": "PASS",
+        "verified_installed_files": 129,
+        "checks": {
+          "completion": {
+            "scope": "CPU HTTP fixture",
+            "blocks": 16,
+            "columns": 32,
+            "keyboard": true,
+            "append": true,
+            "policies": 2,
+            "mobile": true
+          },
+          "states": {
+            "scope": "CPU HTTP fixture",
+            "skips": 2,
+            "iterationLimit": true,
+            "omission": true,
+            "missingTrace": true,
+            "synthidPreserved": true,
+            "recovery": true
+          },
+          "profile": {
+            "scope": "CPU HTTP fixture",
+            "profile": "model-0f42e523809341dc978348fd0ffbceb3",
+            "persistence": true,
+            "generate": true,
+            "copy": true,
+            "decode": true,
+            "verdicts": 3,
+            "restore": true,
+            "crud": true,
+            "modelError": true
+          },
+          "retained": {
+            "scope": "installed CPU fixture",
+            "typedAnswers": 3,
+            "rank": 4,
+            "keyboard": true,
+            "rawViews": true,
+            "errorRecovery": true
+          },
+          "qwen": {
+            "scope": "actual installed web command with owned CPU HTTP fixtures",
+            "completions": [
+              {
+                "model": "Qwen3.8-27B",
+                "candidate_count": 248320,
+                "token": " qwen38"
+              },
+              {
+                "model": "DeepSeekR1",
+                "candidate_count": 151936,
+                "token": " deepseek"
+              },
+              {
+                "model": "Qwen3.8-27B",
+                "candidate_count": 248320,
+                "token": " qwen38"
+              }
+            ],
+            "modelsCrud": true,
+            "profilePersistence": true,
+            "decoderQwenRouting": true,
+            "generation": true,
+            "copyExact": true,
+            "detect": true,
+            "settingsReset": true,
+            "narrowLayout": true
+          },
+          "decoder-errors": {
+            "scope": "installed CPU HTTP fixture",
+            "exactPaste": true,
+            "match": true,
+            "highConfidenceBelowThreshold": true,
+            "insufficientCases": 2,
+            "missingKeyNoRequest": true,
+            "errors": 4,
+            "errorPrivacy": true,
+            "recovery": true,
+            "priorOutputPreserved": true
+          }
+        },
+        "browser_session_closed": true,
+        "qwen_cleanup": {
+          "web_and_fixture_listeners_released": true,
+          "api_returncodes": {
+            "deepseek": -15,
+            "qwen38": -15,
+            "contrastive": -15
+          }
+        }
+      },
+      "upgrade": {
+        "status": "PASS",
+        "verified_installed_files": 129,
+        "checks": {
+          "completion": {
+            "scope": "CPU HTTP fixture",
+            "blocks": 16,
+            "columns": 32,
+            "keyboard": true,
+            "append": true,
+            "policies": 2,
+            "mobile": true
+          },
+          "states": {
+            "scope": "CPU HTTP fixture",
+            "skips": 2,
+            "iterationLimit": true,
+            "omission": true,
+            "missingTrace": true,
+            "synthidPreserved": true,
+            "recovery": true
+          },
+          "profile": {
+            "scope": "CPU HTTP fixture",
+            "profile": "model-6bf4a5caeb704c1393de6911f59ca54f",
+            "persistence": true,
+            "generate": true,
+            "copy": true,
+            "decode": true,
+            "verdicts": 3,
+            "restore": true,
+            "crud": true,
+            "modelError": true
+          },
+          "retained": {
+            "scope": "installed CPU fixture",
+            "typedAnswers": 3,
+            "rank": 4,
+            "keyboard": true,
+            "rawViews": true,
+            "errorRecovery": true
+          },
+          "qwen": {
+            "scope": "actual installed web command with owned CPU HTTP fixtures",
+            "completions": [
+              {
+                "model": "Qwen3.8-27B",
+                "candidate_count": 248320,
+                "token": " qwen38"
+              },
+              {
+                "model": "DeepSeekR1",
+                "candidate_count": 151936,
+                "token": " deepseek"
+              },
+              {
+                "model": "Qwen3.8-27B",
+                "candidate_count": 248320,
+                "token": " qwen38"
+              }
+            ],
+            "modelsCrud": true,
+            "profilePersistence": true,
+            "decoderQwenRouting": true,
+            "generation": true,
+            "copyExact": true,
+            "detect": true,
+            "settingsReset": true,
+            "narrowLayout": true
+          },
+          "decoder-errors": {
+            "scope": "installed CPU HTTP fixture",
+            "exactPaste": true,
+            "match": true,
+            "highConfidenceBelowThreshold": true,
+            "insufficientCases": 2,
+            "missingKeyNoRequest": true,
+            "errors": 4,
+            "errorPrivacy": true,
+            "recovery": true,
+            "priorOutputPreserved": true
+          }
+        },
+        "browser_session_closed": true,
+        "qwen_cleanup": {
+          "web_and_fixture_listeners_released": true,
+          "api_returncodes": {
+            "deepseek": -15,
+            "qwen38": -15,
+            "contrastive": -15
+          }
+        }
+      }
+    },
+    "cleanup": {
+      "status": "PASS",
+      "listeners": [
+        {
+          "port": 62728,
+          "connect_ex": 61,
+          "listener_released": true
+        },
+        {
+          "port": 62747,
+          "connect_ex": 61,
+          "listener_released": true
+        },
+        {
+          "port": 63153,
+          "connect_ex": 61,
+          "listener_released": true
+        },
+        {
+          "port": 63155,
+          "connect_ex": 61,
+          "listener_released": true
+        },
+        {
+          "port": 63158,
+          "connect_ex": 61,
+          "listener_released": true
+        },
+        {
+          "port": 63159,
+          "connect_ex": 61,
+          "listener_released": true
+        },
+        {
+          "port": 63287,
+          "connect_ex": 61,
+          "listener_released": true
+        },
+        {
+          "port": 63290,
+          "connect_ex": 61,
+          "listener_released": true
+        },
+        {
+          "port": 63980,
+          "connect_ex": 61,
+          "listener_released": true
+        },
+        {
+          "port": 63983,
+          "connect_ex": 61,
+          "listener_released": true
+        },
+        {
+          "port": 63986,
+          "connect_ex": 61,
+          "listener_released": true
+        },
+        {
+          "port": 63988,
+          "connect_ex": 61,
+          "listener_released": true
+        },
+        {
+          "port": 64721,
+          "connect_ex": 61,
+          "listener_released": true
+        },
+        {
+          "port": 64738,
+          "connect_ex": 61,
+          "listener_released": true
+        }
+      ]
+    }
+  },
+  "native_qwen": {
+    "status": "PASS_BOUNDED_NATIVE_SMOKE",
+    "summary": "release-evidence/0.1.17/native-summary.json",
+    "actual_native": true,
+    "fixture": false,
+    "wheel_sha256": "962de95352a893e0c0afef603a5e670dffbad98d3ae56ec46057a9bdd579fb60",
+    "native_execution_source_sha": "217b310fbb96fd4b89fb6ad5679c477a5c71293b",
+    "final_source_difference": "Only tests/ai_lab/test_mcp_result_semantics.py; exact wheel and sdist rebuilt byte-identical.",
+    "runtime": {
+      "repository": "https://github.com/iamorlando/mistral.rs.git",
+      "commit": "edc4950d31f1247ed641176e1cf0c9d8ce4d0274",
+      "watermark_library": {
+        "repository": "https://github.com/iamorlando/llm_watermarking.git",
+        "commit": "af89e9ecdb8f9a9640fd48a331c4cdc2b35e76e1",
+        "dirty": false
+      },
+      "features": [
+        "metal"
+      ],
+      "watermark_support": true,
+      "binary_sha256": "d5f2947a3d377173f6d6782062bb948956e9c26c56f84fb8f096bf9be798163d",
+      "version": "mistralrs 0.9.4",
+      "rustc": "rustc 1.96.0 (ac68faa20 2026-05-25)",
+      "cargo_lock_sha256": "55f0b6047e21f73a6f546b9146efef878ad7acbca09bada8c9119b7cae45b956",
+      "source": {
+        "commit": "edc4950d31f1247ed641176e1cf0c9d8ce4d0274",
+        "dirty": false
+      },
+      "platform": "macos-arm64",
+      "minimum_macos": "15.0",
+      "metal_compilation": "macOS Metal framework; no developer tools at runtime",
+      "sha256": "f99f891e210dd555550e6161c80d896e992f131bbffe27f2ed51c226b1b9038e",
+      "bytes": 31226357,
+      "filename": "ai_lab-runtime-macos-arm64.tar.gz",
+      "url": "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.16/ai_lab-runtime-macos-arm64.tar.gz"
+    },
+    "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+    "installed_module": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle/inference.py",
+    "startup_seconds": 53.722,
+    "elapsed_seconds": 250.003,
+    "maximum_generated_tokens": 528,
+    "cases": [
+      {
+        "name": "owned_qwen_startup_identity",
+        "status": "PASS",
+        "seconds": 53.722
+      },
+      {
+        "name": "selected_qwen_plain_generation",
+        "status": "PASS",
+        "seconds": 12.256
+      },
+      {
+        "name": "native_xml_tool_call_and_result_turn",
+        "status": "PASS",
+        "seconds": 19.501
+      },
+      {
+        "name": "saved_qwen_kgw_generation_trace_detection",
+        "status": "PASS",
+        "seconds": 39.214
+      },
+      {
+        "name": "saved_qwen_synthid_generation_trace_detection",
+        "status": "PASS",
+        "seconds": 23.954
+      },
+      {
+        "name": "saved_qwen_textgrain_generation_trace_detection",
+        "status": "PASS",
+        "seconds": 33.899
+      },
+      {
+        "name": "real_mcp_stdio_selected_qwen_generation",
+        "status": "PASS",
+        "seconds": 66.171
+      }
+    ],
+    "profile_cleanup": {
+      "status": "PASS",
+      "removed_keys": [
+        "model-433e83a0a4354012a8b5ab1e4c252564",
+        "model-7909446c1fac404ea28f7198a7ddbad4",
+        "model-cb5d0fa44f3c4dbaa04c37ae098514cf"
+      ],
+      "original_bytes_restored": true,
+      "original_sha256": "db953744bfdc62bee487bb4cc02f0294e75da2c72b5dcf765c13542a3682f81b"
+    },
+    "weight_reuse": {
+      "status": "PASS",
+      "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+      "root": "/Users/orlando/dev/deepseek/.worktrees/qwen38-integration",
+      "kind": "real-weight adoption by installed0.1.17 after earlier0.1.16setup; separate from literal package environment upgrade",
+      "result": {
+        "installed": [
+          "qwen38"
+        ],
+        "reused_files": [],
+        "root": "/Users/orlando/dev/deepseek/.worktrees/qwen38-integration"
+      },
+      "weight_download_calls": 0,
+      "network_calls": 0,
+      "identity_and_hash_unchanged": true,
+      "files": {
+        ".models/qwen3.8-27b/Qwen3.8-27B-Q4_K_M.gguf": {
+          "sha256": "880a52af8317974f7b4b064a6bc29ff49e188b91aa218e08eea3078b6b1cc673",
+          "bytes": 17442399968,
+          "device": 16777233,
+          "inode": 391270585,
+          "mtime_ns": 1791821574365906502,
+          "ctime_ns": 1791821606383682781
+        },
+        ".models/qwen3.8-27b-assets/config.json": {
+          "sha256": "191e0af232104ed8b65258cf3fb2b842e288008baca7633c11b82a1ac7203aab",
+          "bytes": 4312,
+          "device": 16777233,
+          "inode": 391361635,
+          "mtime_ns": 1791821606618199318,
+          "ctime_ns": 1791821606618695988
+        },
+        ".models/qwen3.8-27b-assets/tokenizer.json": {
+          "sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3",
+          "bytes": 12809320,
+          "device": 16777233,
+          "inode": 391361637,
+          "mtime_ns": 1791821607368637962,
+          "ctime_ns": 1791821607383779595
+        },
+        ".models/qwen3.8-27b-assets/tokenizer_config.json": {
+          "sha256": "b11349aafa7cdc6a320767cf7ceb29ed82f7eda5d65e8e0819e76f0ce947bf27",
+          "bytes": 17928,
+          "device": 16777233,
+          "inode": 391361639,
+          "mtime_ns": 1791821607478118246,
+          "ctime_ns": 1791821607478614041
+        },
+        ".models/qwen3.8-27b-assets/chat_template.jinja": {
+          "sha256": "c3cf9e34abf4f9e36c2d72165aa9c132d3e2a725b6c2586aaa3a8af9d7a81041",
+          "bytes": 8952,
+          "device": 16777233,
+          "inode": 391361641,
+          "mtime_ns": 1791821607586874068,
+          "ctime_ns": 1791821607587368904
+        },
+        ".models/qwen3.8-27b-assets/generation_config.json": {
+          "sha256": "e70c136c1b78ddc1fb0905bac8e733a4dc448d4f852a5dd75143fffc70be550e",
+          "bytes": 202,
+          "device": 16777233,
+          "inode": 391361643,
+          "mtime_ns": 1791821607703969689,
+          "ctime_ns": 1791821607704187482
+        }
+      }
+    },
+    "cleanup": {
+      "status": "PASS",
+      "native_pid": 20541,
+      "process_gone": true,
+      "listener_absent": true,
+      "production_style_rebind": true,
+      "receipt_removed": true,
+      "wrapper_limitation": "Driver exit0. Wrapper exit1 was a faulty cleanup check: attempted bind on the same socket after connect_ex. Independent sockets prove no listener and successful SO_REUSEADDR bind. Original report retained."
+    },
+    "raw_report": {
+      "path": "release-evidence/0.1.17/native-results.json.gz",
+      "gzip_sha256": "e7e618cbb65f3ce9ea2bbcb2b301d5c57e4c7cfff111f028969175422f25cc70",
+      "uncompressed_sha256": "1acbceb84fb4b30f13118aa28db71fa83a2b3a4e65e52621add473ab363e3779",
+      "uncompressed_bytes": 3254575
+    }
+  },
+  "node_unit_checks": {
+    "status": "PASS",
+    "tests": 72,
+    "log": "release-evidence/0.1.17/node-tests.log",
+    "owned_loopback_execution": true,
+    "command": "node --test harness/tests/*.test.mjs",
+    "initial_sandbox_failure_log": "release-evidence/0.1.17/node-tests-first-sandbox-failure.log"
+  },
+  "herdr": {
+    "status": "PASS",
+    "source_sha": "a9c14fb4e0b52eb2961c8fe483c75989db20c148",
+    "fixture_tests": 18,
+    "source_repository": "https://github.com/iamorlando/herdr",
+    "scope": "Discovery and workflow fixtures; no native model execution from Herdr in this release lane."
+  },
+  "formula": {
+    "status": "PASS_LOCAL_RECIPE_CHECKS_ONLY",
+    "source_sha": "83f5ce69046810e664d9686683d50f6db4fca5ca",
+    "artifact_git_sha": "b6075281df29cb76fea4479d850b263192b6cf03",
+    "formula_sha256": "1555c88f55fc1500d60f46e5429940c8d19bcb8890c2570ebb064f3f5d36364f",
+    "ruby_syntax": "PASS",
+    "formula_test_block": {
+      "status": "PASS",
+      "kind": "Exact recipe test block executed in an owned Ruby DSL harness against installed clean 0.1.17 Python package. This is not an actual brew test.",
+      "command": "/opt/homebrew/Library/Homebrew/vendor/portable-ruby/4.0.7/bin/ruby /private/tmp/qwen017-formula-test.rb",
+      "log": "formula-test-harness.log",
+      "test_body_unchanged_after_final_artifact_URL_rebinding": true
+    },
+    "candidate_downloader": {
+      "status": "PASS",
+      "command": "python3 -B release-evidence/0.1.17/check_candidate_download.py",
+      "log": "candidate-download-check.log",
+      "cases": [
+        "exact accepted",
+        "same-size wrong hash rejected",
+        "truncated rejected",
+        "non-HTTPS rejected before transport"
+      ],
+      "network_calls": 0,
+      "homebrew_processes": 0,
+      "native_processes": 0
+    },
+    "actual_homebrew": {
+      "clean_install": "BLOCKED_INPUT",
+      "literal_upgrade": "NOT_RUN",
+      "brew_test": "NOT_RUN",
+      "candidate_install_attempted": false,
+      "reason": "Current macOS 27 host still has CLT26.6; the separate CLT27 required by Homebrew is unavailable. Prior actual 0.1.16 clean attempt failed this prerequisite; no new 0.1.17 attempt is relabeled as a result.",
+      "current_host_evidence": "homebrew-config.txt",
+      "prior_actual_attempt_log": "/private/tmp/textgrain-homebrew-clean/candidate-install.log",
+      "prior_attempt_sha256": "55c84b4d1a401edcbd41ad09542f6e2b7f406b29d6f6552d337128d49617f244",
+      "publication_exception": "User explicitly authorized publication with the recorded Homebrew limitation."
+    },
+    "github_ci": "NOT_RUN_USER_PROHIBITED",
+    "workflow_and_runtime_paths_changed": false,
+    "preserved_initial_failures": [
+      "formula-test-harness-first-failure.log: owned harness initially failed to coerce a Pathname for Kernel.system; corrected wrapper rerun passed."
+    ]
+  },
+  "review": {
+    "source": "release-evidence/0.1.17/source-review.json",
+    "independent_artifact_review": "release-evidence/0.1.17/root-artifact-review.json",
+    "tap_review": "Pending independent review after builder freeze; reviewer owns candidate push."
+  },
+  "preserved_failures": [
+    "Sandboxed source CLI helper and browser/node loopback attempts failed under sandbox; unchanged owned-process reruns passed.",
+    "Original retained-owner checker expected older website reuse; 0.1.17 intentionally rejects its incompatible model-selection contract without stopping it. Corrected checker and literal upgrade rerun passed.",
+    "One clean coordination timing assertion saw already-completed work; isolated unchanged module rerun passed. Original failure log is retained.",
+    "Original MCP contract snapshots omitted Qwen. Tests-only snapshot correction at83f5ce6 reflects actual public discovery; corrected clean and upgrade tests passed. Packaged bytes were rebuilt identically.",
+    "Formula Ruby DSL harness initially failed to stringify Pathname before Kernel.system; corrected harness passed. This is supplemental validation, not actual brew test.",
+    "Native driver exited0 and all7cases passed; wrapper exited1 because it reused a connect_ex socket for a bind cleanup probe. Independent process/listener/receipt/rebind checks passed. Original native-command.json endpoint_released=false remains preserved alongside the cleanup correction."
+  ],
+  "limits": [
+    "Short watermark samples test plumbing, not detection power.",
+    "DeepSeek and CLM native generation were not rerun in this Qwen lane; CPU routing/lifecycle regressions are separate.",
+    "macOS15 execution not run; native host macOS27 AppleSilicon64GiB.",
+    "Actual Homebrew clean/upgrade/brew-test validation remains blocked/not run on this host under the recorded user exception; local Python package and Ruby recipe checks are not substituted for Homebrew PASS.",
+    "Real Qwen weight adoption/reuse is separate from the literal Python environment upgrade retaining owned fixture data. Neither deletes user data nor downloads model weights.",
+    "No hosted Jev requests or external desktop MCP client were required; available/unavailable behavior and stdio MCP were tested locally.",
+    "No deliberate machine out-of-memory event was induced; graceful memory errors are covered by installed CPU fixture tests."
+  ],
+  "supporting_evidence": {
+    "release-evidence/0.1.17/artifact-binding.json": {
+      "sha256": "aa1826335cbed696fd05f7aefef1473cb285ef0a35665aa48975b421f33cd8ee",
+      "bytes": 28469
+    },
+    "release-evidence/0.1.17/browser-commands.md": {
+      "sha256": "b69d5b1ad7e013c63f88f7f4b30dc8230c4c41d81d24c5477037abca23108bac",
+      "bytes": 5569
+    },
+    "release-evidence/0.1.17/browser-summary.json": {
+      "sha256": "e43225d9aff61c9c409d5adf6e3e32c6e2113a90d43f4fa53a7fde6fca72d112",
+      "bytes": 43954
+    },
+    "release-evidence/0.1.17/build-commands.json": {
+      "sha256": "b49b846c1c68e1a33320e3c45fa4ff2db020a832d34b403a9e4a78b5cedbb9d3",
+      "bytes": 3453
+    },
+    "release-evidence/0.1.17/candidate-download-check.log": {
+      "sha256": "88287e7c26ce21250edafda31540f688bbdb259886e55daf7bad470e85182701",
+      "bytes": 136
+    },
+    "release-evidence/0.1.17/check_candidate_download.py": {
+      "sha256": "b6f9fffc3d0fd2e430d61c6e92147aecc5c1d74899d2e01f43ffa827637a31ad",
+      "bytes": 2137
+    },
+    "release-evidence/0.1.17/check_weight_reuse.py": {
+      "sha256": "f9ae219e7a875da892e86342d1f937185e99019dbd29e46e6d85dbd12782b731",
+      "bytes": 2007
+    },
+    "release-evidence/0.1.17/clean-tests-ai_lab-test_coordination.py-first-failure.log": {
+      "sha256": "387d63c27a40507916d1d2bfa9349735898897b327eaa8b80561c35f5c06c864",
+      "bytes": 4988
+    },
+    "release-evidence/0.1.17/clean-tests-ai_lab-test_mcp_result_semantics.py-first-failure.log": {
+      "sha256": "4ce33f37f4b4eef6829ec84549d8f7f95991244093be33e2fa889019f926e6c7",
+      "bytes": 19559
+    },
+    "release-evidence/0.1.17/formula-test-harness-first-failure.log": {
+      "sha256": "1d43c2217e91b9cd7334d390e6859ab5673d88d801f842dd129b2b2d03d9503f",
+      "bytes": 624
+    },
+    "release-evidence/0.1.17/formula-test-harness.log": {
+      "sha256": "3b56a8af769b5acace7e6228fc48ebbc2f211dd7f5d5acfb24c1f051f290ac1e",
+      "bytes": 104
+    },
+    "release-evidence/0.1.17/formula-test-harness.rb": {
+      "sha256": "e015b698c265524add24c4af4e86495bbc250b5e27a897d6a4716a74054e296a",
+      "bytes": 1449
+    },
+    "release-evidence/0.1.17/homebrew-config.txt": {
+      "sha256": "3bc41e64d23c2a13ac683b2117920b93bf2468d4c9ad09e56cf62a23ff8ec046",
+      "bytes": 559
+    },
+    "release-evidence/0.1.17/homebrew-local-validation.json": {
+      "sha256": "c7505e25968c88a12098fe38c1b4aca6592831f254dab60b63d59b5b521d71c5",
+      "bytes": 2161
+    },
+    "release-evidence/0.1.17/native-cleanup-verification.json": {
+      "sha256": "2944b2145373b6f321830d704024d6118a4b4429afcd6fd4919cf7343651cab5",
+      "bytes": 392
+    },
+    "release-evidence/0.1.17/native-command.json": {
+      "sha256": "2f90932c8315167baa2ed67cf1429c12d4024ab7b3ac6daba2960cbc7e22a457",
+      "bytes": 796
+    },
+    "release-evidence/0.1.17/native-grant.md": {
+      "sha256": "fa0a3ac9cd3c6a4960550d3d751def38dad605ce692ed7732c644c377d6d2878",
+      "bytes": 1381
+    },
+    "release-evidence/0.1.17/native-results.json.gz": {
+      "sha256": "e7e618cbb65f3ce9ea2bbcb2b301d5c57e4c7cfff111f028969175422f25cc70",
+      "bytes": 285364
+    },
+    "release-evidence/0.1.17/native-server.log": {
+      "sha256": "dcadca9ee2d9941ab0c0b98475d25c7c6bc65b35f3f8bdcad865f51aee5b05d7",
+      "bytes": 62105
+    },
+    "release-evidence/0.1.17/native-summary.json": {
+      "sha256": "8942b8354ed1969087d5431d764b69d2184bcb81ab6a6b1bc1b71d4b49cdd5d0",
+      "bytes": 9390
+    },
+    "release-evidence/0.1.17/native-wrapper.py": {
+      "sha256": "7e82f717ce3ceae884f0c5dc85ad2aa3e72805643c8f2017760eb497ccb8d526",
+      "bytes": 2825
+    },
+    "release-evidence/0.1.17/node-tests.log": {
+      "sha256": "9b40108d6a252a16ccd58a2920d0a20339880b95f6c0e1cfa499689dce6d3577",
+      "bytes": 7209
+    },
+    "release-evidence/0.1.17/package-COMMANDS.md": {
+      "sha256": "ba462c2f7c685a15a6028348105ada5280fb6d86f4c2f9a5be81d44c602dfeed",
+      "bytes": 93452
+    },
+    "release-evidence/0.1.17/package-REPORT.md": {
+      "sha256": "a91baafd5a476ef58776bf91174916645315e6a70f7e814d762b62f4d7138000",
+      "bytes": 2774
+    },
+    "release-evidence/0.1.17/package-SUMMARY.json": {
+      "sha256": "daf23d5798ab9803af4017fe6f41cf35a34c889b429cb16c3b7962287bb925e2",
+      "bytes": 7899
+    },
+    "release-evidence/0.1.17/package-artifact-binding.json": {
+      "sha256": "aa1826335cbed696fd05f7aefef1473cb285ef0a35665aa48975b421f33cd8ee",
+      "bytes": 28469
+    },
+    "release-evidence/0.1.17/package-build-commands.json": {
+      "sha256": "b49b846c1c68e1a33320e3c45fa4ff2db020a832d34b403a9e4a78b5cedbb9d3",
+      "bytes": 3453
+    },
+    "release-evidence/0.1.17/package-clean-installed.json": {
+      "sha256": "5ca483ce9892fee1f103d0c1d8f61f67da662255d70314056ec2bac4ac859dec",
+      "bytes": 22372
+    },
+    "release-evidence/0.1.17/package-current-check-commands.json": {
+      "sha256": "64bb95452c7167a1ee800c74085ad9ea83c44a278fdd7bce59e7e5e3797a9b6a",
+      "bytes": 17231
+    },
+    "release-evidence/0.1.17/package-current-check-summary.json": {
+      "sha256": "41f96a792ae5d2bb55d4afe99689e5f617e00455ee6ca08bace456671b7135fd",
+      "bytes": 18290
+    },
+    "release-evidence/0.1.17/package-installed-test-rerun-results.json": {
+      "sha256": "a00b996bc6bf401ecfcb7c3673a35b4369f767054b4cf2f2e5b66bafb2c601db",
+      "bytes": 2371
+    },
+    "release-evidence/0.1.17/package-installed-test-rerun-summary.json": {
+      "sha256": "3e71e485e3d55e2d8adeceeeb9f4f1f94a5df95d9c65d55390ea2947bf75bbd4",
+      "bytes": 2565
+    },
+    "release-evidence/0.1.17/package-installed-test-results.json": {
+      "sha256": "e83506f23dc037ba3e3cf6526b8166dbc9ae7db0de7a6071eb9daad3bce8ee2a",
+      "bytes": 89080
+    },
+    "release-evidence/0.1.17/package-installed-test-summary.json": {
+      "sha256": "1ccee25fbf0f2586d0846630856975e2669b1de5b8f8fcdd5de4bf6463800410",
+      "bytes": 93864
+    },
+    "release-evidence/0.1.17/package-owner-rerun-commands.json": {
+      "sha256": "4726d51289ad9ac2de7c20a08d9a5b02b04382c30611153caa3bb7da1f341536",
+      "bytes": 7193
+    },
+    "release-evidence/0.1.17/package-owner-rerun-summary.json": {
+      "sha256": "9105f87a976d650a6dd9bdbad911ebbf9de5126a5289f26d28506727cfeb2bfd",
+      "bytes": 7610
+    },
+    "release-evidence/0.1.17/package-owner-upgrade-installed.json": {
+      "sha256": "36b95451af0df03071635333f702a73c21b49b7e12ad0c643700ea181cab59a8",
+      "bytes": 22548
+    },
+    "release-evidence/0.1.17/package-process-cleanup.json": {
+      "sha256": "ad62e129b241671e155f7e71a23ac79fd97a98010d12fe5bae43a36bea17ea6e",
+      "bytes": 231
+    },
+    "release-evidence/0.1.17/package-sdist-installed.json": {
+      "sha256": "75991e9f0ebb348d06bcc212df408f5ffd83b0b79c2aab8de40516b5d78f6c93",
+      "bytes": 22372
+    },
+    "release-evidence/0.1.17/package-source-binding.json": {
+      "sha256": "35f3b2bcb7b02260a4c612fc8ed6c8e36184ceb9220cc4f9b30791f11c5a3764",
+      "bytes": 70670
+    },
+    "release-evidence/0.1.17/package-upgrade-installed.json": {
+      "sha256": "5cebd9117994b4ef51cbd477e8001ba3640aa236e544545c3db755d6a1316953",
+      "bytes": 22416
+    },
+    "release-evidence/0.1.17/root-artifact-review.json": {
+      "sha256": "832cbe5e6ea406472ceb59a1f62d3aa023d57ccc19fae168a5ee9c44c035e364",
+      "bytes": 445
+    },
+    "release-evidence/0.1.17/source-binding.json": {
+      "sha256": "35f3b2bcb7b02260a4c612fc8ed6c8e36184ceb9220cc4f9b30791f11c5a3764",
+      "bytes": 70670
+    },
+    "release-evidence/0.1.17/source-review.json": {
+      "sha256": "82e8856e471b1cb5c5db550576125aecd2cc82a6cb1688b735079bd78c0b1495",
+      "bytes": 2147
+    },
+    "release-evidence/0.1.17/upgrade-owner-first-failure.json": {
+      "sha256": "87818136f87992ab558abae48148519f422dd55b6f921de47c3b6c25fa025809",
+      "bytes": 519
+    },
+    "release-evidence/0.1.17/upgrade-owner.json": {
+      "sha256": "ebb43fe921cea2ce10ac49bc2ed929ff07c196b5d896f94e82c055e5a5ba00aa",
+      "bytes": 840
+    },
+    "release-evidence/0.1.17/weight-reuse.json": {
+      "sha256": "4bf028281834ab91f678cb5033e8330d531fbe9e36a5e08d43a9844a28d3bcb4",
+      "bytes": 2344
+    },
+    "release-evidence/0.1.17/node-tests-first-sandbox-failure.log": {
+      "sha256": "3cc9e1310a43fca501c5cc3c252d1688e83bfdd916c74df8aeb4757c4e2e726c",
+      "bytes": 10664
+    }
+  }
+}

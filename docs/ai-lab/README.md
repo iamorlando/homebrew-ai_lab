@@ -8,9 +8,10 @@ ai-lab setup install deepseek clm --yes
 ai-lab web
 ```
 
-Install both model families before launching the website. Web startup starts both
-DeepSeek and CLM APIs; both remain available while the web process is running,
-including while idle, using Decoder, or calling CLM from Python.
+Install the models you want to use. Qwen3.8-27B is available with
+`ai-lab setup install qwen38 --yes`. Opening the website loads no model; the
+selected installed API starts on its first operation and remains available while
+the web process runs. A model startup failure leaves the website usable.
 Existing compatible weights are reused. Keep the website terminal open and use
 Ctrl+C to stop it. AI Lab cleans up APIs it started, preserving borrowed services.
 
@@ -20,8 +21,9 @@ existing workspace; use the same root when installing its weights.
 
 ## Screens
 
-**Completion** keeps its existing prefix, next-token probabilities, tournament,
-layer and token selection controls.
+**Completion** selects DeepSeek or Qwen3.8-27B and keeps its prefix, next-token
+probabilities, tournament, layer and token selection controls. Each backend uses
+its own tokenizer and vocabulary; SynthID tournament behavior is unchanged.
 
 **Decisions** keeps its Ask/Rank interface. Choose **CLM** for local native
 inference or **Jev** for TypeSafe. Jev appears when the server can find a nonempty
@@ -41,14 +43,14 @@ Detection is statistical. A displayed value such as 98% evidence can be below a
 was missing. Short text may provide insufficient evidence. A detection result is
 not a guarantee of authorship or a calibrated probability that a model wrote it.
 
-**Models** creates named DeepSeek profiles, with or without a watermark.
+**Models** creates named DeepSeek or Qwen3.8-27B profiles, with or without a watermark.
 A profile selects an inference family and configuration; it does not require its
 own separate inference server.
 
 ## Setup and persistent data
 
 `ai-lab setup --help` lists download and repair actions. The download catalog
-covers DeepSeek and native CLM. Runtime repair is separate from weight
+covers DeepSeek, Qwen3.8-27B (`qwen38`), and native CLM (`clm`). Runtime repair is separate from weight
 availability; a changed Python installation or application version does not
 invalidate compatible model files.
 
@@ -67,10 +69,13 @@ Use `--force` to replace an existing AI Lab entry after upgrading, then restart 
 client. `ai-lab mcp config --codex --json` previews configuration without writing
 it; `ai-lab mcp serve` serves JSON-RPC on stdio. `ai-lab --skill` describes the
 shipped MCP tools. Their arguments can select named model profiles and override
-watermark configuration without changing the saved profile.
+watermark configuration without changing the saved profile. Use
+`underlying_model="qwen38"` when creating a Qwen profile, or `model="qwen38"`
+for an unprofiled generation/detection request. CLM remains a decision model.
 
 ## Public command surface
 
-Only `web`, `mcp` and `setup` remain. Interactive terminal commands, terminal
-managers, shell-completion commands, Comparison and Watermarking screens are
-removed. Older scripts using those commands must use the website or MCP tools.
+`web`, `mcp`, `setup`, and `services` are public. `services` provides explicit
+machine-oriented discovery and foreground lifecycle actions for Herdr; see
+[services](services.md). It opens no terminal screen. Interactive terminal
+commands and the Comparison and Watermarking screens remain removed.

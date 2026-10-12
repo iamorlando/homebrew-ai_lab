@@ -1,0 +1,66 @@
+{
+  "status": "PASS",
+  "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+  "root": "/Users/orlando/dev/deepseek/.worktrees/qwen38-integration",
+  "kind": "real-weight adoption by installed0.1.17 after earlier0.1.16setup; separate from literal package environment upgrade",
+  "result": {
+    "installed": [
+      "qwen38"
+    ],
+    "reused_files": [],
+    "root": "/Users/orlando/dev/deepseek/.worktrees/qwen38-integration"
+  },
+  "weight_download_calls": 0,
+  "network_calls": 0,
+  "identity_and_hash_unchanged": true,
+  "files": {
+    ".models/qwen3.8-27b/Qwen3.8-27B-Q4_K_M.gguf": {
+      "sha256": "880a52af8317974f7b4b064a6bc29ff49e188b91aa218e08eea3078b6b1cc673",
+      "bytes": 17442399968,
+      "device": 16777233,
+      "inode": 391270585,
+      "mtime_ns": 1791821574365906502,
+      "ctime_ns": 1791821606383682781
+    },
+    ".models/qwen3.8-27b-assets/config.json": {
+      "sha256": "191e0af232104ed8b65258cf3fb2b842e288008baca7633c11b82a1ac7203aab",
+      "bytes": 4312,
+      "device": 16777233,
+      "inode": 391361635,
+      "mtime_ns": 1791821606618199318,
+      "ctime_ns": 1791821606618695988
+    },
+    ".models/qwen3.8-27b-assets/tokenizer.json": {
+      "sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3",
+      "bytes": 12809320,
+      "device": 16777233,
+      "inode": 391361637,
+      "mtime_ns": 1791821607368637962,
+      "ctime_ns": 1791821607383779595
+    },
+    ".models/qwen3.8-27b-assets/tokenizer_config.json": {
+      "sha256": "b11349aafa7cdc6a320767cf7ceb29ed82f7eda5d65e8e0819e76f0ce947bf27",
+      "bytes": 17928,
+      "device": 16777233,
+      "inode": 391361639,
+      "mtime_ns": 1791821607478118246,
+      "ctime_ns": 1791821607478614041
+    },
+    ".models/qwen3.8-27b-assets/chat_template.jinja": {
+      "sha256": "c3cf9e34abf4f9e36c2d72165aa9c132d3e2a725b6c2586aaa3a8af9d7a81041",
+      "bytes": 8952,
+      "device": 16777233,
+      "inode": 391361641,
+      "mtime_ns": 1791821607586874068,
+      "ctime_ns": 1791821607587368904
+    },
+    ".models/qwen3.8-27b-assets/generation_config.json": {
+      "sha256": "e70c136c1b78ddc1fb0905bac8e733a4dc448d4f852a5dd75143fffc70be550e",
+      "bytes": 202,
+      "device": 16777233,
+      "inode": 391361643,
+      "mtime_ns": 1791821607703969689,
+      "ctime_ns": 1791821607704187482
+    }
+  }
+}

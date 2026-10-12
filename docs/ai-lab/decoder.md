@@ -2,7 +2,7 @@
 
 Run `ai-lab web` and choose **Watermark decoder**.
 
-The left pane generates text from a saved DeepSeek model. Select the
+The left pane generates text from a saved DeepSeek or Qwen3.8-27B model. Select the
 model, enter a prompt, and press Generate. The saved backend, seed, watermark key
 and settings are inherited. Use Copy to decoder to transfer the exact output and
 its generation configuration to the right pane.
@@ -19,6 +19,8 @@ value may not meet a 99% cutoff. Insufficient text is reported separately.
 Confidence is `1 - p_value` for the known-key test, not a calibrated probability
 of authorship. Changing inputs makes the old result stale until you decode again.
 
-Web startup keeps the DeepSeek and CLM APIs running. Missing weights need an
-explicit `ai-lab setup install deepseek clm --yes`; existing weights
-are reused. There is no terminal decoder command in 0.1.15.
+The selected installed model starts when needed. Missing weights require
+`ai-lab setup install deepseek --yes` or `ai-lab setup install qwen38 --yes`;
+compatible existing weights are reused. Token IDs and vocabulary-dependent
+settings are checked against the selected model. There is no terminal decoder
+screen. Memory/setup failures identify the backend and an actionable next step.

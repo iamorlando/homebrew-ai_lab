@@ -1,0 +1,191 @@
+[
+  {
+    "name": "owner-locked-dependencies",
+    "argv": [
+      "/Users/orlando/.local/bin/uv",
+      "sync",
+      "--project",
+      "/private/tmp/ai-lab-qwen38-release-017/source",
+      "--locked",
+      "--offline",
+      "--no-install-project",
+      "--no-python-downloads",
+      "--python",
+      "/Users/orlando/dev/deepseek/.venv/bin/python"
+    ],
+    "cwd": "/private/tmp/ai-lab-qwen38-release-017",
+    "environment": {
+      "PATH": "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-env/bin:/Users/orlando/.local/bin:/usr/bin:/bin",
+      "HOME": "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-run/home",
+      "PYTHONNOUSERSITE": "1",
+      "LANG": "en_US.UTF-8",
+      "UV_CACHE_DIR": "/Users/orlando/.cache/uv",
+      "UV_OFFLINE": "1",
+      "UV_PYTHON_DOWNLOADS": "never",
+      "UV_PROJECT_ENVIRONMENT": "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-env"
+    },
+    "exit_status": 0,
+    "seconds": 1.335,
+    "log": "/private/tmp/ai-lab-qwen38-release-017/logs/owner-locked-dependencies.log"
+  },
+  {
+    "name": "owner-install-published-prior",
+    "argv": [
+      "/Users/orlando/.local/bin/uv",
+      "pip",
+      "install",
+      "--offline",
+      "--no-deps",
+      "--python",
+      "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-env/bin/python",
+      "/private/tmp/ai-lab-qwen38-release-017/prior-wheel/ai_lab-0.1.16-py3-none-any.whl"
+    ],
+    "cwd": "/private/tmp/ai-lab-qwen38-release-017",
+    "environment": {
+      "PATH": "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-env/bin:/Users/orlando/.local/bin:/usr/bin:/bin",
+      "HOME": "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-run/home",
+      "PYTHONNOUSERSITE": "1",
+      "LANG": "en_US.UTF-8",
+      "UV_CACHE_DIR": "/Users/orlando/.cache/uv",
+      "UV_OFFLINE": "1",
+      "UV_PYTHON_DOWNLOADS": "never"
+    },
+    "exit_status": 0,
+    "seconds": 1.291,
+    "log": "/private/tmp/ai-lab-qwen38-release-017/logs/owner-install-published-prior.log"
+  },
+  {
+    "name": "owner-prior-version",
+    "argv": [
+      "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-env/bin/ai-lab",
+      "--version"
+    ],
+    "cwd": "/private/tmp/ai-lab-qwen38-release-017",
+    "environment": {
+      "PATH": "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-env/bin:/Users/orlando/.local/bin:/usr/bin:/bin",
+      "HOME": "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-run/home",
+      "PYTHONNOUSERSITE": "1",
+      "LANG": "en_US.UTF-8",
+      "UV_CACHE_DIR": "/Users/orlando/.cache/uv",
+      "UV_OFFLINE": "1",
+      "UV_PYTHON_DOWNLOADS": "never"
+    },
+    "exit_status": 0,
+    "seconds": 4.209,
+    "log": "/private/tmp/ai-lab-qwen38-release-017/logs/owner-prior-version.log"
+  },
+  {
+    "name": "owner-seed-prior-data",
+    "argv": [
+      "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-env/bin/python",
+      "-I",
+      "/private/tmp/ai-lab-qwen38-release-017/checkers/check_release_data.py",
+      "seed",
+      "--root",
+      "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-retained-data",
+      "--record",
+      "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-data-before.json"
+    ],
+    "cwd": "/private/tmp/ai-lab-qwen38-release-017",
+    "environment": {
+      "PATH": "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-env/bin:/Users/orlando/.local/bin:/usr/bin:/bin",
+      "HOME": "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-run/home",
+      "PYTHONNOUSERSITE": "1",
+      "LANG": "en_US.UTF-8",
+      "UV_CACHE_DIR": "/Users/orlando/.cache/uv",
+      "UV_OFFLINE": "1",
+      "UV_PYTHON_DOWNLOADS": "never"
+    },
+    "exit_status": 0,
+    "seconds": 6.797,
+    "log": "/private/tmp/ai-lab-qwen38-release-017/logs/owner-seed-prior-data.log"
+  },
+  {
+    "name": "owner-literal-upgrade-rerun",
+    "argv": [
+      "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-env/bin/python",
+      "-I",
+      "/private/tmp/ai-lab-qwen38-release-017/checkers/check_upgrade_web_owner.py",
+      "--executable",
+      "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-env/bin/ai-lab",
+      "--root",
+      "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-retained-data",
+      "--output",
+      "/private/tmp/ai-lab-qwen38-release-017/upgrade-owner-final",
+      "--web-checker",
+      "/private/tmp/ai-lab-qwen38-release-017/checkers/check_web.py",
+      "--",
+      "/Users/orlando/.local/bin/uv",
+      "pip",
+      "install",
+      "--offline",
+      "--no-deps",
+      "--python",
+      "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-env/bin/python",
+      "/private/tmp/ai-lab-qwen38-release-017/dist/ai_lab-0.1.17-py3-none-any.whl"
+    ],
+    "cwd": "/private/tmp/ai-lab-qwen38-release-017",
+    "environment": {
+      "PATH": "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-env/bin:/Users/orlando/.local/bin:/usr/bin:/bin",
+      "HOME": "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-run/home",
+      "PYTHONNOUSERSITE": "1",
+      "LANG": "en_US.UTF-8",
+      "UV_CACHE_DIR": "/Users/orlando/.cache/uv",
+      "UV_OFFLINE": "1",
+      "UV_PYTHON_DOWNLOADS": "never"
+    },
+    "exit_status": 0,
+    "seconds": 31.726,
+    "log": "/private/tmp/ai-lab-qwen38-release-017/logs/owner-literal-upgrade-rerun.log"
+  },
+  {
+    "name": "owner-verify-retained-data",
+    "argv": [
+      "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-env/bin/python",
+      "-I",
+      "/private/tmp/ai-lab-qwen38-release-017/checkers/check_release_data.py",
+      "verify",
+      "--root",
+      "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-retained-data",
+      "--record",
+      "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-data-before.json",
+      "--binding",
+      "/private/tmp/ai-lab-qwen38-release-017/package-binding.json"
+    ],
+    "cwd": "/private/tmp/ai-lab-qwen38-release-017",
+    "environment": {
+      "PATH": "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-env/bin:/Users/orlando/.local/bin:/usr/bin:/bin",
+      "HOME": "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-run/home",
+      "PYTHONNOUSERSITE": "1",
+      "LANG": "en_US.UTF-8",
+      "UV_CACHE_DIR": "/Users/orlando/.cache/uv",
+      "UV_OFFLINE": "1",
+      "UV_PYTHON_DOWNLOADS": "never"
+    },
+    "exit_status": 0,
+    "seconds": 6.512,
+    "log": "/private/tmp/ai-lab-qwen38-release-017/logs/owner-verify-retained-data.log"
+  },
+  {
+    "name": "owner-installed-probe",
+    "argv": [
+      "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-env/bin/python",
+      "-I",
+      "/private/tmp/ai-lab-qwen38-release-017/installed_probe.py",
+      "owner-upgrade"
+    ],
+    "cwd": "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-run",
+    "environment": {
+      "PATH": "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-env/bin:/Users/orlando/.local/bin:/usr/bin:/bin",
+      "HOME": "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-run/home",
+      "PYTHONNOUSERSITE": "1",
+      "LANG": "en_US.UTF-8",
+      "UV_CACHE_DIR": "/Users/orlando/.cache/uv",
+      "UV_OFFLINE": "1",
+      "UV_PYTHON_DOWNLOADS": "never"
+    },
+    "exit_status": 0,
+    "seconds": 10.604,
+    "log": "/private/tmp/ai-lab-qwen38-release-017/logs/owner-installed-probe.log"
+  }
+]

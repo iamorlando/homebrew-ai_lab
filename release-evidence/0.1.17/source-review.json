@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "source_sha": "83f5ce69046810e664d9686683d50f6db4fca5ca",
+  "review_worktree": "/private/tmp/qwen017-source-review",
+  "review_scope": "Release delta after reviewed native evidence commit 7a4fdf5625407154805623f35fc10e3f58b8325a",
+  "checks": {
+    "version_consistency": "PASS",
+    "dependency_lock_unchanged_except_application_version": "PASS",
+    "native_pins_unchanged": "PASS",
+    "source_workflows_absent": "PASS",
+    "rendered_formula_ruby_syntax": "PASS",
+    "git_diff_check": "PASS",
+    "test_web_only_cli": {
+      "status": "PASS",
+      "tests": 19,
+      "seconds": 80.007,
+      "command": "/private/tmp/ai-lab-qwen38-package-3f5b941/wheel-env/bin/python -m unittest discover -s tests/ai_lab -p test_web_only_cli.py -v",
+      "cwd": "/private/tmp/qwen017-source-review",
+      "owned_cpu_helper": true,
+      "prior_sandbox_attempt": "18 tests passed, one helper startup failed under sandbox; complete rerun outside sandbox passed",
+      "tested_source_sha": "89f4d6800f7478bd9d3065f85a364a5ff5dd92a4"
+    },
+    "final_checker_delta": "PASS semantic review against ai_lab.web older launcher guard; retained owner, provider survival, explicit restart, new supported_models; syntax/diff checks passed",
+    "final_mcp_contract_delta": {
+      "status": "PASS",
+      "tests": 9,
+      "seconds": 7.715,
+      "tested_source_sha": "83f5ce69046810e664d9686683d50f6db4fca5ca",
+      "command": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python -m unittest discover -s tests/ai_lab -p test_mcp_result_semantics.py -v",
+      "cwd": "/private/tmp/qwen017-source-review",
+      "network": "mock transports only",
+      "native_starts": 0,
+      "changed_test_excluded_from_wheel_and_sdist": true
+    }
+  },
+  "source_feature_push": "Normal non-force release/qwen38-0.1.17 pushed and remote verified at final source_sha.",
+  "github_ci": "NOT_RUN_USER_PROHIBITED",
+  "native_execution": "NOT_RUN",
+  "superseded_candidate": "89f4d6800f7478bd9d3065f85a364a5ff5dd92a4",
+  "superseded_candidates": [
+    "89f4d6800f7478bd9d3065f85a364a5ff5dd92a4",
+    "217b310fbb96fd4b89fb6ad5679c477a5c71293b"
+  ]
+}

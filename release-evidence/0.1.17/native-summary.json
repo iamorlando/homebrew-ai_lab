@@ -1,0 +1,247 @@
+{
+  "status": "PASS",
+  "version": "0.1.17",
+  "source_sha": "83f5ce69046810e664d9686683d50f6db4fca5ca",
+  "native_execution_source_sha": "217b310fbb96fd4b89fb6ad5679c477a5c71293b",
+  "final_source_difference": "Only tests/ai_lab/test_mcp_result_semantics.py; exact wheel and sdist rebuilt byte-identical.",
+  "wheel_sha256": "962de95352a893e0c0afef603a5e670dffbad98d3ae56ec46057a9bdd579fb60",
+  "runtime": {
+    "repository": "https://github.com/iamorlando/mistral.rs.git",
+    "commit": "edc4950d31f1247ed641176e1cf0c9d8ce4d0274",
+    "watermark_library": {
+      "repository": "https://github.com/iamorlando/llm_watermarking.git",
+      "commit": "af89e9ecdb8f9a9640fd48a331c4cdc2b35e76e1",
+      "dirty": false
+    },
+    "features": [
+      "metal"
+    ],
+    "watermark_support": true,
+    "binary_sha256": "d5f2947a3d377173f6d6782062bb948956e9c26c56f84fb8f096bf9be798163d",
+    "version": "mistralrs 0.9.4",
+    "rustc": "rustc 1.96.0 (ac68faa20 2026-05-25)",
+    "cargo_lock_sha256": "55f0b6047e21f73a6f546b9146efef878ad7acbca09bada8c9119b7cae45b956",
+    "source": {
+      "commit": "edc4950d31f1247ed641176e1cf0c9d8ce4d0274",
+      "dirty": false
+    },
+    "platform": "macos-arm64",
+    "minimum_macos": "15.0",
+    "metal_compilation": "macOS Metal framework; no developer tools at runtime",
+    "sha256": "f99f891e210dd555550e6161c80d896e992f131bbffe27f2ed51c226b1b9038e",
+    "bytes": 31226357,
+    "filename": "ai_lab-runtime-macos-arm64.tar.gz",
+    "url": "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.16/ai_lab-runtime-macos-arm64.tar.gz"
+  },
+  "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+  "installed_module": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle/inference.py",
+  "actual_native": true,
+  "fixture": false,
+  "startup_seconds": 53.722,
+  "elapsed_seconds": 250.003,
+  "maximum_generated_tokens": 528,
+  "cases": [
+    {
+      "name": "owned_qwen_startup_identity",
+      "status": "PASS",
+      "seconds": 53.722
+    },
+    {
+      "name": "selected_qwen_plain_generation",
+      "status": "PASS",
+      "seconds": 12.256
+    },
+    {
+      "name": "native_xml_tool_call_and_result_turn",
+      "status": "PASS",
+      "seconds": 19.501
+    },
+    {
+      "name": "saved_qwen_kgw_generation_trace_detection",
+      "status": "PASS",
+      "seconds": 39.214
+    },
+    {
+      "name": "saved_qwen_synthid_generation_trace_detection",
+      "status": "PASS",
+      "seconds": 23.954
+    },
+    {
+      "name": "saved_qwen_textgrain_generation_trace_detection",
+      "status": "PASS",
+      "seconds": 33.899
+    },
+    {
+      "name": "real_mcp_stdio_selected_qwen_generation",
+      "status": "PASS",
+      "seconds": 66.171
+    }
+  ],
+  "profile_cleanup": {
+    "status": "PASS",
+    "removed_keys": [
+      "model-433e83a0a4354012a8b5ab1e4c252564",
+      "model-7909446c1fac404ea28f7198a7ddbad4",
+      "model-cb5d0fa44f3c4dbaa04c37ae098514cf"
+    ],
+    "original_bytes_restored": true,
+    "original_sha256": "db953744bfdc62bee487bb4cc02f0294e75da2c72b5dcf765c13542a3682f81b"
+  },
+  "weight_reuse": {
+    "status": "PASS",
+    "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+    "root": "/Users/orlando/dev/deepseek/.worktrees/qwen38-integration",
+    "kind": "real-weight adoption by installed0.1.17 after earlier0.1.16setup; separate from literal package environment upgrade",
+    "result": {
+      "installed": [
+        "qwen38"
+      ],
+      "reused_files": [],
+      "root": "/Users/orlando/dev/deepseek/.worktrees/qwen38-integration"
+    },
+    "weight_download_calls": 0,
+    "network_calls": 0,
+    "identity_and_hash_unchanged": true,
+    "files": {
+      ".models/qwen3.8-27b/Qwen3.8-27B-Q4_K_M.gguf": {
+        "sha256": "880a52af8317974f7b4b064a6bc29ff49e188b91aa218e08eea3078b6b1cc673",
+        "bytes": 17442399968,
+        "device": 16777233,
+        "inode": 391270585,
+        "mtime_ns": 1791821574365906502,
+        "ctime_ns": 1791821606383682781
+      },
+      ".models/qwen3.8-27b-assets/config.json": {
+        "sha256": "191e0af232104ed8b65258cf3fb2b842e288008baca7633c11b82a1ac7203aab",
+        "bytes": 4312,
+        "device": 16777233,
+        "inode": 391361635,
+        "mtime_ns": 1791821606618199318,
+        "ctime_ns": 1791821606618695988
+      },
+      ".models/qwen3.8-27b-assets/tokenizer.json": {
+        "sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3",
+        "bytes": 12809320,
+        "device": 16777233,
+        "inode": 391361637,
+        "mtime_ns": 1791821607368637962,
+        "ctime_ns": 1791821607383779595
+      },
+      ".models/qwen3.8-27b-assets/tokenizer_config.json": {
+        "sha256": "b11349aafa7cdc6a320767cf7ceb29ed82f7eda5d65e8e0819e76f0ce947bf27",
+        "bytes": 17928,
+        "device": 16777233,
+        "inode": 391361639,
+        "mtime_ns": 1791821607478118246,
+        "ctime_ns": 1791821607478614041
+      },
+      ".models/qwen3.8-27b-assets/chat_template.jinja": {
+        "sha256": "c3cf9e34abf4f9e36c2d72165aa9c132d3e2a725b6c2586aaa3a8af9d7a81041",
+        "bytes": 8952,
+        "device": 16777233,
+        "inode": 391361641,
+        "mtime_ns": 1791821607586874068,
+        "ctime_ns": 1791821607587368904
+      },
+      ".models/qwen3.8-27b-assets/generation_config.json": {
+        "sha256": "e70c136c1b78ddc1fb0905bac8e733a4dc448d4f852a5dd75143fffc70be550e",
+        "bytes": 202,
+        "device": 16777233,
+        "inode": 391361643,
+        "mtime_ns": 1791821607703969689,
+        "ctime_ns": 1791821607704187482
+      }
+    }
+  },
+  "cleanup": {
+    "status": "PASS",
+    "native_pid": 20541,
+    "process_gone": true,
+    "listener_absent": true,
+    "production_style_rebind": true,
+    "receipt_removed": true,
+    "wrapper_limitation": "Driver exit0. Wrapper exit1 was a faulty cleanup check: attempted bind on the same socket after connect_ex. Independent sockets prove no listener and successful SO_REUSEADDR bind. Original report retained."
+  },
+  "limits": [
+    "Short watermark samples test plumbing, not detection power.",
+    "DeepSeek and CLM native generation were not rerun in this Qwen lane; CPU routing/lifecycle regressions are separate.",
+    "macOS15 execution not run; native host macOS27 AppleSilicon64GiB."
+  ],
+  "evidence": {
+    "check_qwen_mcp_wire.py": {
+      "path": "/private/tmp/qwen017-native/check_qwen_mcp_wire.py",
+      "sha256": "949d8f386d57778bb1adca2a9ce103af4f8f7c154d7a0176fd1f3d0048a4a932",
+      "bytes": 4333
+    },
+    "GRANT.md": {
+      "path": "/private/tmp/qwen017-native/GRANT.md",
+      "sha256": "fa0a3ac9cd3c6a4960550d3d751def38dad605ce692ed7732c644c377d6d2878",
+      "bytes": 1381
+    },
+    "native-command.json": {
+      "path": "/private/tmp/qwen017-native/native-command.json",
+      "sha256": "2f90932c8315167baa2ed67cf1429c12d4024ab7b3ac6daba2960cbc7e22a457",
+      "bytes": 796
+    },
+    "cleanup-verification.json": {
+      "path": "/private/tmp/qwen017-native/cleanup-verification.json",
+      "sha256": "2944b2145373b6f321830d704024d6118a4b4429afcd6fd4919cf7343651cab5",
+      "bytes": 392
+    },
+    "native.stdout": {
+      "path": "/private/tmp/qwen017-native/native.stdout",
+      "sha256": "5188be8427c5a51b532923613af40f8ebe131502211f89563a60a124b1cb64c9",
+      "bytes": 691
+    },
+    "run_native.py": {
+      "path": "/private/tmp/qwen017-native/run_native.py",
+      "sha256": "7e82f717ce3ceae884f0c5dc85ad2aa3e72805643c8f2017760eb497ccb8d526",
+      "bytes": 2825
+    },
+    "check_weight_reuse.py": {
+      "path": "/private/tmp/qwen017-native/check_weight_reuse.py",
+      "sha256": "f9ae219e7a875da892e86342d1f937185e99019dbd29e46e6d85dbd12782b731",
+      "bytes": 2007
+    },
+    "native-results.mcp-stderr.log": {
+      "path": "/private/tmp/qwen017-native/native-results.mcp-stderr.log",
+      "sha256": "3f6d3107a6f5bb3a6c4fad4edb317baa5ba86d05ce61882e22c8afdb22580f1c",
+      "bytes": 1053
+    },
+    "weight-reuse.stdout": {
+      "path": "/private/tmp/qwen017-native/weight-reuse.stdout",
+      "sha256": "35098387eb37d4bd8d2d2022d6d6eb19e80e229c5a015fdac11fa14fd5a0374b",
+      "bytes": 545
+    },
+    "weight-reuse.stderr": {
+      "path": "/private/tmp/qwen017-native/weight-reuse.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "qwen38-server.log": {
+      "path": "/private/tmp/qwen017-native/qwen38-server.log",
+      "sha256": "dcadca9ee2d9941ab0c0b98475d25c7c6bc65b35f3f8bdcad865f51aee5b05d7",
+      "bytes": 62105
+    },
+    "check_qwen_native.py": {
+      "path": "/private/tmp/qwen017-native/check_qwen_native.py",
+      "sha256": "1c18ada47950d88d54922173b89b83f64f3784e681c789b8286a84bbc51e2db0",
+      "bytes": 13281
+    },
+    "native-results.json": {
+      "path": "/private/tmp/qwen017-native/native-results.json",
+      "sha256": "1acbceb84fb4b30f13118aa28db71fa83a2b3a4e65e52621add473ab363e3779",
+      "bytes": 3254575
+    },
+    "weight-reuse.json": {
+      "path": "/private/tmp/qwen017-native/weight-reuse.json",
+      "sha256": "4bf028281834ab91f678cb5033e8330d531fbe9e36a5e08d43a9844a28d3bcb4",
+      "bytes": 2344
+    },
+    "native.stderr": {
+      "path": "/private/tmp/qwen017-native/native.stderr",
+      "sha256": "23b380c2292c12cf4271113d9852f15f5cb041fb72ca915b719ef2a720822820",
+      "bytes": 23
+    }
+  }
+}

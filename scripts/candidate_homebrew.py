@@ -8,6 +8,7 @@ import shutil
 import subprocess
 import sys
 import time
+from urllib.request import urlopen
 
 p = argparse.ArgumentParser(description=__doc__)
 p.add_argument('action', choices=('download', 'install'))
@@ -22,6 +23,7 @@ binding = json.loads((a.directory / 'release-binding.json').read_text())
 records = []
 env = {k: v for k, v in os.environ.items() if k not in ('PYTHONPATH', 'PYTHONHOME')}
 env.update(HOMEBREW_NO_AUTO_UPDATE='1', HOMEBREW_NO_INSTALL_CLEANUP='1',
+           HOMEBREW_NO_ANALYTICS='1', HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK='1',
            HOMEBREW_CACHE=str(a.evidence / 'brew-cache'), PYTHONDONTWRITEBYTECODE='1')
 root = a.evidence / 'retained-data'
 env['AI_LAB_ROOT'] = str(root)
@@ -45,19 +47,30 @@ def run(label, argv, timeout=600):
 name = 'ai_lab-' + binding['version'] + '.tar.gz'
 archive = a.evidence / name
 expected = binding['sdist_sha256']
+expected_bytes = binding['sdist_bytes']
 formula = 'iamorlando/ai_lab/ai_lab'
 if a.action == 'download':
-    assert a.release_id and a.release_id.isdecimal()
-    assets = json.loads(run('draft-assets', ['gh', 'api', 'repos/iamorlando/homebrew-ai_lab/releases/' + a.release_id + '/assets']))
-    asset = next(x for x in assets if x['name'] == name)
-    command = ['gh', 'api', '-H', 'Accept: application/octet-stream', 'repos/iamorlando/homebrew-ai_lab/releases/assets/' + str(asset['id'])]
-    with archive.open('wb') as f:
-        r = subprocess.run(command, env=env, stdout=f, stderr=subprocess.PIPE, timeout=120)
-    assert r.returncode == 0, 'Draft asset transfer failed'
-    assert digest(archive) == expected and archive.stat().st_size == asset['size']
-    (a.evidence/'asset.json').write_text(json.dumps(dict(id=asset['id'], size=asset['size'], sha256=expected, transport='authenticated unpublished draft'), indent=2)+'\n')
+    if a.release_id:
+        assert a.release_id.isdecimal()
+        assets = json.loads(run('draft-assets', ['gh', 'api', 'repos/iamorlando/homebrew-ai_lab/releases/' + a.release_id + '/assets']))
+        asset = next(x for x in assets if x['name'] == name)
+        command = ['gh', 'api', '-H', 'Accept: application/octet-stream', 'repos/iamorlando/homebrew-ai_lab/releases/assets/' + str(asset['id'])]
+        with archive.open('wb') as f:
+            r = subprocess.run(command, env=env, stdout=f, stderr=subprocess.PIPE, timeout=120)
+        assert r.returncode == 0, 'Draft asset transfer failed'
+        assert asset['size'] == expected_bytes
+        provenance = dict(id=asset['id'], transport='authenticated unpublished draft')
+    else:
+        delivery = json.loads((a.directory / 'release-delivery.json').read_text())
+        url = delivery['assets'][name]
+        assert url.startswith('https://'), 'Published package URL must use HTTPS'
+        with urlopen(url, timeout=120) as response, archive.open('wb') as f:
+            shutil.copyfileobj(response, f)
+        provenance = dict(url=url, transport=delivery['delivery'])
+    assert digest(archive) == expected and archive.stat().st_size == expected_bytes
+    (a.evidence/'asset.json').write_text(json.dumps(dict(**provenance, size=expected_bytes, sha256=expected), indent=2)+'\n')
     sys.exit(0)
-assert a.mode and digest(archive) == expected
+assert a.mode and digest(archive) == expected and archive.stat().st_size == expected_bytes
 # Only a fresh, owned formula installation is permitted.
 installed = subprocess.run(['brew','list','--versions','ai_lab'], env=env, capture_output=True, text=True)
 assert not installed.stdout.strip(), 'Refusing to replace an existing AI Lab installation'
@@ -74,7 +87,7 @@ try:
         prefix = Path(run('old-prefix', ['brew','--prefix','ai_lab']))
         old_python = str(prefix/'libexec/venv/bin/python')
         old_exe = str(prefix/'bin/ai-lab')
-        assert run('literal-before', [old_exe,'--version']) == 'AI Lab 0.1.15'
+        assert run('literal-before', [old_exe,'--version']) == 'AI Lab ' + binding['prior_version']
         old_cache = Path(run('old-cache', ['brew','--cache','--build-from-source',formula]))
         assert digest(old_cache) == binding['prior_sdist_sha256']
         run('seed-prior', [old_python,'-I',str(a.directory/'scripts/check_release_data.py'),'seed','--root',str(root),'--record',str(a.evidence/'data-before.json')])
@@ -100,6 +113,7 @@ try:
     run('installed-web', [python,str(a.directory/'scripts/check_web.py'),exe,'--root',str(root)])
     run('installed-web-jev', [python,str(a.directory/'scripts/check_web.py'),exe,'--root',str(root),'--jev-configured'])
     run('installed-mcp', [python,str(a.directory/'scripts/check_mcp.py'),'--executable',exe])
+    run('installed-cross-model', [python,'-I',str(a.directory/'scripts/check_cross_model_profiles.py'),'--python',python])
     run('preserved-data', [python,'-I',str(a.directory/'scripts/check_release_data.py'),'verify','--root',str(root),'--record',str(a.evidence/'data-before.json'),'--binding',str(a.directory/'release-binding.json')])
     (a.evidence/'result.json').write_text(json.dumps(dict(status='PASS', installation=a.mode, version=binding['version'], source_sha=binding['source_sha'], tap_sha=run('tap-candidate-sha',['git','-C',str(a.directory),'rev-parse','HEAD']), python=python, executable=exe, archive_sha256=expected, native_starts=0),indent=2)+'\n')
 finally:

@@ -1,0 +1,1164 @@
+{
+  "status": "PASS",
+  "source_sha": "83f5ce69046810e664d9686683d50f6db4fca5ca",
+  "version": "0.1.17",
+  "scope": "installed browser validation with owned CPU HTTP fixtures",
+  "native_model_execution": "NOT_RUN in this browser lane; separate existing native evidence belongs to the root release report",
+  "github_ci": "NOT_RUN as explicitly requested",
+  "artifact_binding": "/private/tmp/ai-lab-qwen38-release-017/artifact-binding.json",
+  "wheel_sha256": "962de95352a893e0c0afef603a5e670dffbad98d3ae56ec46057a9bdd579fb60",
+  "installations": {
+    "clean": {
+      "provenance": {
+        "version": "0.1.17",
+        "module": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/__init__.py",
+        "executable": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      },
+      "verified_installed_files": 129,
+      "checks": {
+        "completion": {
+          "status": "PASS",
+          "result": {
+            "scope": "CPU HTTP fixture",
+            "blocks": 16,
+            "columns": 32,
+            "keyboard": true,
+            "append": true,
+            "policies": 2,
+            "mobile": true
+          },
+          "log": "/private/tmp/qwen017-browser/clean/completion.log"
+        },
+        "states": {
+          "status": "PASS",
+          "result": {
+            "scope": "CPU HTTP fixture",
+            "skips": 2,
+            "iterationLimit": true,
+            "omission": true,
+            "missingTrace": true,
+            "synthidPreserved": true,
+            "recovery": true
+          },
+          "log": "/private/tmp/qwen017-browser/clean/states.log"
+        },
+        "profile": {
+          "status": "PASS",
+          "result": {
+            "scope": "CPU HTTP fixture",
+            "profile": "model-0f42e523809341dc978348fd0ffbceb3",
+            "persistence": true,
+            "generate": true,
+            "copy": true,
+            "decode": true,
+            "verdicts": 3,
+            "restore": true,
+            "crud": true,
+            "modelError": true
+          },
+          "log": "/private/tmp/qwen017-browser/clean/profile.log"
+        },
+        "retained": {
+          "status": "PASS",
+          "result": {
+            "scope": "installed CPU fixture",
+            "typedAnswers": 3,
+            "rank": 4,
+            "keyboard": true,
+            "rawViews": true,
+            "errorRecovery": true
+          },
+          "log": "/private/tmp/qwen017-browser/clean/retained.log"
+        },
+        "qwen": {
+          "status": "PASS",
+          "result": {
+            "scope": "actual installed web command with owned CPU HTTP fixtures",
+            "completions": [
+              {
+                "model": "Qwen3.8-27B",
+                "candidate_count": 248320,
+                "token": " qwen38"
+              },
+              {
+                "model": "DeepSeekR1",
+                "candidate_count": 151936,
+                "token": " deepseek"
+              },
+              {
+                "model": "Qwen3.8-27B",
+                "candidate_count": 248320,
+                "token": " qwen38"
+              }
+            ],
+            "modelsCrud": true,
+            "profilePersistence": true,
+            "decoderQwenRouting": true,
+            "generation": true,
+            "copyExact": true,
+            "detect": true,
+            "settingsReset": true,
+            "narrowLayout": true
+          },
+          "log": "/private/tmp/qwen017-browser/clean/qwen.log"
+        },
+        "decoder-errors": {
+          "status": "PASS",
+          "result": {
+            "scope": "installed CPU HTTP fixture",
+            "exactPaste": true,
+            "match": true,
+            "highConfidenceBelowThreshold": true,
+            "insufficientCases": 2,
+            "missingKeyNoRequest": true,
+            "errors": 4,
+            "errorPrivacy": true,
+            "recovery": true,
+            "priorOutputPreserved": true
+          },
+          "log": "/private/tmp/qwen017-browser/clean/decoder-errors.log"
+        }
+      },
+      "fixture_provenance": [
+        {
+          "scope": "HTTP fixtures, not native evidence",
+          "calls": [],
+          "profiles_unchanged": true,
+          "owned_ports": [
+            62747,
+            62728
+          ],
+          "application_module": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle/harness/comparison_app.py",
+          "labtools_module": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/mcp_tools.py"
+        },
+        {
+          "scope": "HTTP fixtures, not native evidence",
+          "calls": [
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "Human: Respond with the single word that best fits in the blank:\nThe quick brown ___ jumped over the lazy dog. Respond in lowercase only, do not use space or numbers. only use  characters a-z after the last \":\"\nAgent: The answer is :",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "Human: Respond with the single word that best fits in the blank:\nThe quick brown ___ jumped over the lazy dog. Respond in lowercase only, do not use space or numbers. only use  characters a-z after the last \":\"\nAgent: The answer is : calm",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "Human: Respond with the single word that best fits in the blank:\nThe quick brown ___ jumped over the lazy dog. Respond in lowercase only, do not use space or numbers. only use  characters a-z after the last \":\"\nAgent: The answer is : calm",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "WARMUP",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "REPEAT",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "LIMIT",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "OMITTED",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "MISSING",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "SynthID regression",
+              "saved_profile": null,
+              "scheme": "synthid",
+              "saved_key_used": false,
+              "depth": 2,
+              "context_width": null,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "TextGrain recovery",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "<\uff5cbegin\u2581of\u2581sentence\uff5c>You are a helpful conversational assistant. Answer the user's prompt directly. When appropriate, give a substantive answer of at least four sentences. Use fewer sentences when the requested format or a simple answer makes that more appropriate.<\uff5cUser\uff5c>Generate a fixture answer<\uff5cAssistant\uff5c><think>\n</think>\n\n",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 512,
+              "temperature": 1.0
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/watermark/detect",
+              "text": "Generated deepseek plain fixture answer.\nThis exact text can be copied to the decoder.",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default"
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/watermark/detect",
+              "text": "WEAK",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default"
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/watermark/detect",
+              "text": "SHORT",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default"
+            }
+          ],
+          "profiles_unchanged": true,
+          "owned_ports": [
+            62747,
+            62728
+          ],
+          "application_module": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle/harness/comparison_app.py",
+          "labtools_module": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/mcp_tools.py"
+        },
+        {
+          "scope": "HTTP fixtures, not native evidence",
+          "calls": [
+            {
+              "family": "deepseek",
+              "path": "/v1/watermark/detect",
+              "text": "  Exact browser pasted text.\nSecond line.  ",
+              "saved_profile": "cedar",
+              "scheme": "kgw",
+              "saved_key_used": true,
+              "depth": null,
+              "context_width": 3,
+              "input_model": "default"
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/watermark/detect",
+              "text": "HIGH_CONFIDENCE",
+              "saved_profile": "cedar",
+              "scheme": "kgw",
+              "saved_key_used": true,
+              "depth": null,
+              "context_width": 3,
+              "input_model": "default"
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/watermark/detect",
+              "text": "SHORT",
+              "saved_profile": "cedar",
+              "scheme": "kgw",
+              "saved_key_used": true,
+              "depth": null,
+              "context_width": 3,
+              "input_model": "default"
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/watermark/detect",
+              "text": "UNSCORABLE",
+              "saved_profile": "cedar",
+              "scheme": "kgw",
+              "saved_key_used": true,
+              "depth": null,
+              "context_width": 3,
+              "input_model": "default"
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/watermark/detect",
+              "text": "INVALID",
+              "saved_profile": null,
+              "scheme": "synthid",
+              "saved_key_used": false,
+              "depth": 30,
+              "context_width": null,
+              "input_model": "default"
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/watermark/detect",
+              "text": "FAIL",
+              "saved_profile": null,
+              "scheme": "synthid",
+              "saved_key_used": false,
+              "depth": 30,
+              "context_width": null,
+              "input_model": "default"
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/watermark/detect",
+              "text": "  Exact browser pasted text.\nSecond line.  ",
+              "saved_profile": "cedar",
+              "scheme": "kgw",
+              "saved_key_used": true,
+              "depth": null,
+              "context_width": 3,
+              "input_model": "default"
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "<\uff5cbegin\u2581of\u2581sentence\uff5c>You are a helpful conversational assistant. Answer the user's prompt directly. When appropriate, give a substantive answer of at least four sentences. Use fewer sentences when the requested format or a simple answer makes that more appropriate.<\uff5cUser\uff5c>Valid fixture<\uff5cAssistant\uff5c><think>\n</think>\n\n",
+              "saved_profile": "cedar",
+              "scheme": "kgw",
+              "saved_key_used": true,
+              "depth": null,
+              "context_width": 3,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 512,
+              "temperature": 1.0
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "<\uff5cbegin\u2581of\u2581sentence\uff5c>You are a helpful conversational assistant. Answer the user's prompt directly. When appropriate, give a substantive answer of at least four sentences. Use fewer sentences when the requested format or a simple answer makes that more appropriate.<\uff5cUser\uff5c>INVALID<\uff5cAssistant\uff5c><think>\n</think>\n\n",
+              "saved_profile": "cedar",
+              "scheme": "kgw",
+              "saved_key_used": true,
+              "depth": null,
+              "context_width": 3,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 512,
+              "temperature": 1.0
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "<\uff5cbegin\u2581of\u2581sentence\uff5c>You are a helpful conversational assistant. Answer the user's prompt directly. When appropriate, give a substantive answer of at least four sentences. Use fewer sentences when the requested format or a simple answer makes that more appropriate.<\uff5cUser\uff5c>FAIL<\uff5cAssistant\uff5c><think>\n</think>\n\n",
+              "saved_profile": "cedar",
+              "scheme": "kgw",
+              "saved_key_used": true,
+              "depth": null,
+              "context_width": 3,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 512,
+              "temperature": 1.0
+            }
+          ],
+          "profiles_unchanged": true,
+          "owned_ports": [
+            64738,
+            64721
+          ],
+          "application_module": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle/harness/comparison_app.py",
+          "labtools_module": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/mcp_tools.py"
+        }
+      ],
+      "qwen_cleanup": {
+        "web_and_fixture_listeners_released": true,
+        "api_returncodes": {
+          "deepseek": -15,
+          "qwen38": -15,
+          "contrastive": -15
+        }
+      },
+      "browser_session_closed": true
+    },
+    "upgrade": {
+      "provenance": {
+        "version": "0.1.17",
+        "module": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/__init__.py",
+        "executable": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      },
+      "verified_installed_files": 129,
+      "checks": {
+        "completion": {
+          "status": "PASS",
+          "result": {
+            "scope": "CPU HTTP fixture",
+            "blocks": 16,
+            "columns": 32,
+            "keyboard": true,
+            "append": true,
+            "policies": 2,
+            "mobile": true
+          },
+          "log": "/private/tmp/qwen017-browser/upgrade/completion.log"
+        },
+        "states": {
+          "status": "PASS",
+          "result": {
+            "scope": "CPU HTTP fixture",
+            "skips": 2,
+            "iterationLimit": true,
+            "omission": true,
+            "missingTrace": true,
+            "synthidPreserved": true,
+            "recovery": true
+          },
+          "log": "/private/tmp/qwen017-browser/upgrade/states.log"
+        },
+        "profile": {
+          "status": "PASS",
+          "result": {
+            "scope": "CPU HTTP fixture",
+            "profile": "model-6bf4a5caeb704c1393de6911f59ca54f",
+            "persistence": true,
+            "generate": true,
+            "copy": true,
+            "decode": true,
+            "verdicts": 3,
+            "restore": true,
+            "crud": true,
+            "modelError": true
+          },
+          "log": "/private/tmp/qwen017-browser/upgrade/profile.log"
+        },
+        "retained": {
+          "status": "PASS",
+          "result": {
+            "scope": "installed CPU fixture",
+            "typedAnswers": 3,
+            "rank": 4,
+            "keyboard": true,
+            "rawViews": true,
+            "errorRecovery": true
+          },
+          "log": "/private/tmp/qwen017-browser/upgrade/retained.log"
+        },
+        "qwen": {
+          "status": "PASS",
+          "result": {
+            "scope": "actual installed web command with owned CPU HTTP fixtures",
+            "completions": [
+              {
+                "model": "Qwen3.8-27B",
+                "candidate_count": 248320,
+                "token": " qwen38"
+              },
+              {
+                "model": "DeepSeekR1",
+                "candidate_count": 151936,
+                "token": " deepseek"
+              },
+              {
+                "model": "Qwen3.8-27B",
+                "candidate_count": 248320,
+                "token": " qwen38"
+              }
+            ],
+            "modelsCrud": true,
+            "profilePersistence": true,
+            "decoderQwenRouting": true,
+            "generation": true,
+            "copyExact": true,
+            "detect": true,
+            "settingsReset": true,
+            "narrowLayout": true
+          },
+          "log": "/private/tmp/qwen017-browser/upgrade/qwen.log"
+        },
+        "decoder-errors": {
+          "status": "PASS",
+          "result": {
+            "scope": "installed CPU HTTP fixture",
+            "exactPaste": true,
+            "match": true,
+            "highConfidenceBelowThreshold": true,
+            "insufficientCases": 2,
+            "missingKeyNoRequest": true,
+            "errors": 4,
+            "errorPrivacy": true,
+            "recovery": true,
+            "priorOutputPreserved": true
+          },
+          "log": "/private/tmp/qwen017-browser/upgrade/decoder-errors.log"
+        }
+      },
+      "fixture_provenance": [
+        {
+          "scope": "HTTP fixtures, not native evidence",
+          "calls": [
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "Human: Respond with the single word that best fits in the blank:\nThe quick brown ___ jumped over the lazy dog. Respond in lowercase only, do not use space or numbers. only use  characters a-z after the last \":\"\nAgent: The answer is :",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "Human: Respond with the single word that best fits in the blank:\nThe quick brown ___ jumped over the lazy dog. Respond in lowercase only, do not use space or numbers. only use  characters a-z after the last \":\"\nAgent: The answer is : calm",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "Human: Respond with the single word that best fits in the blank:\nThe quick brown ___ jumped over the lazy dog. Respond in lowercase only, do not use space or numbers. only use  characters a-z after the last \":\"\nAgent: The answer is : calm",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "WARMUP",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "REPEAT",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "LIMIT",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            }
+          ],
+          "profiles_unchanged": true,
+          "owned_ports": [
+            63290,
+            63287
+          ],
+          "application_module": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle/harness/comparison_app.py",
+          "labtools_module": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/mcp_tools.py"
+        },
+        {
+          "scope": "HTTP fixtures, not native evidence",
+          "calls": [
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "Human: Respond with the single word that best fits in the blank:\nThe quick brown ___ jumped over the lazy dog. Respond in lowercase only, do not use space or numbers. only use  characters a-z after the last \":\"\nAgent: The answer is :",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "Human: Respond with the single word that best fits in the blank:\nThe quick brown ___ jumped over the lazy dog. Respond in lowercase only, do not use space or numbers. only use  characters a-z after the last \":\"\nAgent: The answer is : calm",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "Human: Respond with the single word that best fits in the blank:\nThe quick brown ___ jumped over the lazy dog. Respond in lowercase only, do not use space or numbers. only use  characters a-z after the last \":\"\nAgent: The answer is : calm",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "WARMUP",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "REPEAT",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "LIMIT",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "OMITTED",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "MISSING",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "SynthID regression",
+              "saved_profile": null,
+              "scheme": "synthid",
+              "saved_key_used": false,
+              "depth": 2,
+              "context_width": null,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "TextGrain recovery",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 1,
+              "temperature": 1
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "<\uff5cbegin\u2581of\u2581sentence\uff5c>You are a helpful conversational assistant. Answer the user's prompt directly. When appropriate, give a substantive answer of at least four sentences. Use fewer sentences when the requested format or a simple answer makes that more appropriate.<\uff5cUser\uff5c>Generate a fixture answer<\uff5cAssistant\uff5c><think>\n</think>\n\n",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 512,
+              "temperature": 1.0
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/watermark/detect",
+              "text": "Generated deepseek plain fixture answer.\nThis exact text can be copied to the decoder.",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default"
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/watermark/detect",
+              "text": "WEAK",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default"
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/watermark/detect",
+              "text": "SHORT",
+              "saved_profile": null,
+              "scheme": "textgrain",
+              "saved_key_used": false,
+              "depth": null,
+              "context_width": 4,
+              "input_model": "default"
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/watermark/detect",
+              "text": "  Exact browser pasted text.\nSecond line.  ",
+              "saved_profile": "cedar",
+              "scheme": "kgw",
+              "saved_key_used": true,
+              "depth": null,
+              "context_width": 3,
+              "input_model": "default"
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/watermark/detect",
+              "text": "HIGH_CONFIDENCE",
+              "saved_profile": "cedar",
+              "scheme": "kgw",
+              "saved_key_used": true,
+              "depth": null,
+              "context_width": 3,
+              "input_model": "default"
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/watermark/detect",
+              "text": "SHORT",
+              "saved_profile": "cedar",
+              "scheme": "kgw",
+              "saved_key_used": true,
+              "depth": null,
+              "context_width": 3,
+              "input_model": "default"
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/watermark/detect",
+              "text": "UNSCORABLE",
+              "saved_profile": "cedar",
+              "scheme": "kgw",
+              "saved_key_used": true,
+              "depth": null,
+              "context_width": 3,
+              "input_model": "default"
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/watermark/detect",
+              "text": "INVALID",
+              "saved_profile": null,
+              "scheme": "synthid",
+              "saved_key_used": false,
+              "depth": 30,
+              "context_width": null,
+              "input_model": "default"
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/watermark/detect",
+              "text": "FAIL",
+              "saved_profile": null,
+              "scheme": "synthid",
+              "saved_key_used": false,
+              "depth": 30,
+              "context_width": null,
+              "input_model": "default"
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/watermark/detect",
+              "text": "  Exact browser pasted text.\nSecond line.  ",
+              "saved_profile": "cedar",
+              "scheme": "kgw",
+              "saved_key_used": true,
+              "depth": null,
+              "context_width": 3,
+              "input_model": "default"
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "<\uff5cbegin\u2581of\u2581sentence\uff5c>You are a helpful conversational assistant. Answer the user's prompt directly. When appropriate, give a substantive answer of at least four sentences. Use fewer sentences when the requested format or a simple answer makes that more appropriate.<\uff5cUser\uff5c>Valid fixture<\uff5cAssistant\uff5c><think>\n</think>\n\n",
+              "saved_profile": "cedar",
+              "scheme": "kgw",
+              "saved_key_used": true,
+              "depth": null,
+              "context_width": 3,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 512,
+              "temperature": 1.0
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "<\uff5cbegin\u2581of\u2581sentence\uff5c>You are a helpful conversational assistant. Answer the user's prompt directly. When appropriate, give a substantive answer of at least four sentences. Use fewer sentences when the requested format or a simple answer makes that more appropriate.<\uff5cUser\uff5c>INVALID<\uff5cAssistant\uff5c><think>\n</think>\n\n",
+              "saved_profile": "cedar",
+              "scheme": "kgw",
+              "saved_key_used": true,
+              "depth": null,
+              "context_width": 3,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 512,
+              "temperature": 1.0
+            },
+            {
+              "family": "deepseek",
+              "path": "/v1/completions",
+              "prompt": "<\uff5cbegin\u2581of\u2581sentence\uff5c>You are a helpful conversational assistant. Answer the user's prompt directly. When appropriate, give a substantive answer of at least four sentences. Use fewer sentences when the requested format or a simple answer makes that more appropriate.<\uff5cUser\uff5c>FAIL<\uff5cAssistant\uff5c><think>\n</think>\n\n",
+              "saved_profile": "cedar",
+              "scheme": "kgw",
+              "saved_key_used": true,
+              "depth": null,
+              "context_width": 3,
+              "input_model": "default",
+              "seed": null,
+              "max_tokens": 512,
+              "temperature": 1.0
+            }
+          ],
+          "profiles_unchanged": true,
+          "owned_ports": [
+            63290,
+            63287
+          ],
+          "application_module": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle/harness/comparison_app.py",
+          "labtools_module": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/mcp_tools.py"
+        }
+      ],
+      "qwen_cleanup": {
+        "web_and_fixture_listeners_released": true,
+        "api_returncodes": {
+          "deepseek": -15,
+          "qwen38": -15,
+          "contrastive": -15
+        }
+      },
+      "browser_session_closed": true
+    }
+  },
+  "fixtures": {
+    "check_web.py": {
+      "exact_source": "/private/tmp/ai-lab-qwen38-release-017/source/packaging/homebrew/check_web.py",
+      "sha256": "bb42bbf941eeb276293c78fdf6ba12d01c7e1693183a58ff66c7b9d21260b28e"
+    },
+    "decoder_http_fixture.py": {
+      "exact_source": "/private/tmp/ai-lab-qwen38-release-017/source/harness/tests/decoder_http_fixture.py",
+      "sha256": "2eb1871a25018daa927fde5e26c618a5ca0333508f5bb761f1ba31a94e3b019e"
+    },
+    "fixtures/production-tournament-unit.json": {
+      "exact_source": "/private/tmp/ai-lab-qwen38-release-017/source/harness/tests/fixtures/production-tournament-unit.json",
+      "sha256": "f1fe0d0ad9053e1b9351c05ef839b19a37b39311f8dc3fd07db7a1c4b24be616"
+    },
+    "textgrain-browser-completion.js": {
+      "exact_source": "/private/tmp/ai-lab-qwen38-release-017/source/harness/tests/textgrain-browser-completion.js",
+      "sha256": "d57bf4199148b472426220c4adcbaa7b42aed9ecdddd8b15f5b8c05751ef4068"
+    },
+    "textgrain-browser-profile.js": {
+      "exact_source": "/private/tmp/ai-lab-qwen38-release-017/source/harness/tests/textgrain-browser-profile.js",
+      "sha256": "e3f9fbbee9d6f12f9f7d1bd485964ce8e6aa4489f552f571fe4e268adb27e423"
+    },
+    "textgrain-browser-retained.js": {
+      "exact_source": "/private/tmp/ai-lab-qwen38-release-017/source/harness/tests/textgrain-browser-retained.js",
+      "sha256": "d520459cebd7afb4ee70dae6d8e19dde119b8b2b5807d25f9e19399cd674ba15"
+    },
+    "textgrain-browser-states.js": {
+      "exact_source": "/private/tmp/ai-lab-qwen38-release-017/source/harness/tests/textgrain-browser-states.js",
+      "sha256": "16efe7304ae16678b77be5d9511b7246328ec5bf06d1cdd0669d9e382a8a95e5"
+    },
+    "textgrain_fixture.py": {
+      "exact_source": "/private/tmp/ai-lab-qwen38-release-017/source/harness/tests/textgrain_fixture.py",
+      "sha256": "9f04da2fafc5fc9c06cdceb728d67fa943bfa9bcf0005f33fe1544333434912a"
+    }
+  },
+  "limitations": [
+    "Browser fixture roots are fresh owned temporary roots. The upgrade label denotes the same literal 0.1.16-to-0.1.17 upgraded package environment; retained data-root upgrade validation is separate package-lane evidence.",
+    "No live hosted provider or native model inference runs in this lane. The fixtures are evidence of browser controls, routing, rendering and errors, not model quality."
+  ],
+  "initial_harness_retry": "Initial sandboxed clean fixture could not bind loopback (PermissionError); repeated unchanged with approved owned-loopback execution and passed.",
+  "cleanup": {
+    "status": "PASS",
+    "listeners": [
+      {
+        "port": 62728,
+        "connect_ex": 61,
+        "listener_released": true
+      },
+      {
+        "port": 62747,
+        "connect_ex": 61,
+        "listener_released": true
+      },
+      {
+        "port": 63153,
+        "connect_ex": 61,
+        "listener_released": true
+      },
+      {
+        "port": 63155,
+        "connect_ex": 61,
+        "listener_released": true
+      },
+      {
+        "port": 63158,
+        "connect_ex": 61,
+        "listener_released": true
+      },
+      {
+        "port": 63159,
+        "connect_ex": 61,
+        "listener_released": true
+      },
+      {
+        "port": 63287,
+        "connect_ex": 61,
+        "listener_released": true
+      },
+      {
+        "port": 63290,
+        "connect_ex": 61,
+        "listener_released": true
+      },
+      {
+        "port": 63980,
+        "connect_ex": 61,
+        "listener_released": true
+      },
+      {
+        "port": 63983,
+        "connect_ex": 61,
+        "listener_released": true
+      },
+      {
+        "port": 63986,
+        "connect_ex": 61,
+        "listener_released": true
+      },
+      {
+        "port": 63988,
+        "connect_ex": 61,
+        "listener_released": true
+      },
+      {
+        "port": 64721,
+        "connect_ex": 61,
+        "listener_released": true
+      },
+      {
+        "port": 64738,
+        "connect_ex": 61,
+        "listener_released": true
+      }
+    ]
+  },
+  "tested_source_sha": "217b310fbb96fd4b89fb6ad5679c477a5c71293b",
+  "final_source_binding": {
+    "status": "PASS",
+    "kind": "metadata-only rebinding; browser checks not rerun",
+    "tested_source_sha": "217b310fbb96fd4b89fb6ad5679c477a5c71293b",
+    "final_source_sha": "83f5ce69046810e664d9686683d50f6db4fca5ca",
+    "changed_files": [
+      "tests/ai_lab/test_mcp_result_semantics.py"
+    ],
+    "explanation": "Only an excluded test file changed. Final exact-source rebuild produced identical wheel and sdist bytes. All 129 installed files in each tested environment were rehashed against the final release binding.",
+    "release_binding": "/private/tmp/ai-lab-qwen38-release-017/release-binding.json",
+    "release_binding_sha256": "2de91f4225eb7b9e46904ed4232f48b322c102c581274d5349f24c05bb5af4d3",
+    "artifacts": {
+      "/private/tmp/ai-lab-qwen38-release-017/dist/ai_lab-0.1.17-py3-none-any.whl": {
+        "sha256": "962de95352a893e0c0afef603a5e670dffbad98d3ae56ec46057a9bdd579fb60",
+        "bytes": 415434
+      },
+      "/private/tmp/ai-lab-qwen38-release-017/dist/ai_lab-0.1.17.tar.gz": {
+        "sha256": "c7fe0b1e6f04290da91cf56e99668fc4d78dd1a4eb4f5750057d989bc74cd69f",
+        "bytes": 580162
+      },
+      "/private/tmp/ai-lab-qwen38-release-017/sdist-wheel/ai_lab-0.1.17-py3-none-any.whl": {
+        "sha256": "962de95352a893e0c0afef603a5e670dffbad98d3ae56ec46057a9bdd579fb60",
+        "bytes": 415434
+      }
+    },
+    "installed_verification": {
+      "clean": {
+        "installed_files": 129,
+        "status": "PASS"
+      },
+      "upgrade": {
+        "installed_files": 129,
+        "status": "PASS"
+      }
+    }
+  }
+}

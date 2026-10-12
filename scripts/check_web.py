@@ -1,6 +1,6 @@
 """Exercise installed web routes and cleanup with owned Python CPU API fixtures.
 
-Never launches native/model processes. Production eager-start ownership is tested
+Never launches native/model processes. Production selected-start ownership is tested
 separately in the release matrix; this checker proves fixture/API availability,
 installed assets, supported model CRUD, decoder privacy, reuse and Ctrl+C cleanup.
 """
@@ -38,15 +38,23 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers(); self.wfile.write(data)
     def do_GET(self):
         if self.path != '/v1/models': return self.send({'error': 'Fixture route missing'}, 404)
-        self.send({'data': [{'id': 'ai-lab-fixture-deepseek'}], 'models': [{'name': 'fixture-clm'}],
+        self.send({'data': [{'id': 'ai-lab-fixture-' + family}], 'models': [{'name': 'fixture-clm'}],
                    'fixture': True, 'family': family, 'pid': os.getpid()})
     def do_POST(self):
         body = json.loads(self.rfile.read(int(self.headers['Content-Length'])))
-        if family == 'deepseek' and self.path == '/v1/completions':
-            return self.send({'choices': [{'text': 'Owned CPU fixture response.', 'finish_reason': 'stop'}],
-                              'usage': {'completion_tokens': 6}})
-        if family == 'deepseek' and self.path == '/v1/watermark/detect':
-            return self.send({'tokens_scored': 100, 'green_count': 80, 'z_score': 6, 'mean_g_value': .8})
+        if family in ('deepseek', 'qwen38') and self.path == '/v1/completions':
+            choice = {'text': family + ' owned CPU fixture response.', 'finish_reason': 'stop'}
+            if body.get('sampling_trace'):
+                choice['sampling_trace'] = {'truncated': False, 'truncation_reason': None, 'steps': [{
+                    'generated_index': 0, 'selected_token_id': 7, 'context_length': 3, 'attempt': 0,
+                    'selection_rule': 'categorical', 'candidate_count': 248320 if family == 'qwen38' else 151936,
+                    'candidates_truncated': True, 'layers_truncated': False, 'watermark': None, 'layers': [],
+                    'candidates': [{'token_id': 7, 'text': ' ' + family, 'input_logit': 2, 'processed_logit': 2,
+                        'reporting_probability': .9, 'pre_watermark_probability': .9,
+                        'post_watermark_probability': .9, 'post_watermark_log_probability': -.10536}]}]}
+            return self.send({'choices': [choice], 'usage': {'completion_tokens': 6}})
+        if family in ('deepseek', 'qwen38') and self.path == '/v1/watermark/detect':
+            return self.send({'tokens_scored': 100, 'green_count': 88 if family == 'qwen38' else 80, 'z_score': 6, 'mean_g_value': .8})
         if family == 'contrastive' and self.path == '/v1/systemone':
             return self.send({'model': 'fixture-clm', 'answers': {
                 name: {'type': 'noul', 'noul': .75} for name in body['questions']}})
@@ -63,7 +71,7 @@ server.serve_forever()
 def owned_api_fixtures(directory):
     processes, endpoints, logs = {}, {}, {}
     try:
-        for family in ('deepseek', 'contrastive'):
+        for family in ('deepseek', 'qwen38', 'contrastive'):
             receipt = directory / (family + '-fixture.json')
             log_path = directory / (family + '-fixture.log')
             logs[family] = log_path.open('w')
@@ -122,7 +130,7 @@ def main():
             'AI_LAB_CLM_UPSTREAM_URL', 'AI_LAB_CLM_UPSTREAM_API_KEY', 'AI_LAB_LAYA_URL', 'AI_LAB_LAYA_API_KEY',
             'AI_LAB_GENERATION_FIXTURE_FILE'}}
         fixture_file = Path(directory) / 'generation-fixture.json'
-        fixture_file.write_text(json.dumps({'version': 1, 'endpoints': {'deepseek': endpoints['deepseek']}}))
+        fixture_file.write_text(json.dumps({'version': 1, 'endpoints': {family: endpoints[family] for family in ('deepseek', 'qwen38')}}))
         env['AI_LAB_GENERATION_FIXTURE_FILE'] = str(fixture_file)
         env['AI_LAB_DECISIONS_URL'] = endpoints['contrastive']
 
@@ -140,7 +148,7 @@ def main():
                 assert identity['pid'] == api.pid and identity['family'] == family
 
         existing_receipts = {name: (root / '.state' / name).read_bytes() if (root / '.state' / name).exists() else None
-                             for name in ('mistral-server.json', 'qwen-server.json', 'decisions-mistral.json')}
+                             for name in ('mistral-server.json', 'qwen-server.json', 'qwen38-server.json', 'decisions-mistral.json')}
         def weight_files():
             return {str(path.relative_to(root)): (path.stat().st_size, path.stat().st_mtime_ns)
                     for path in (root / '.models').rglob('*') if path.is_file()}
@@ -225,16 +233,16 @@ def main():
                 updated = json.loads(request('/api/models/' + model['key'],
                           {'scheme': 'kgw', 'key': '42' * 32, 'settings': {'delta': 3}}, method='PATCH'))
                 assert updated['watermark']['delta'] == 3
-                second = json.loads(request('/api/models', {'name': 'Second DeepSeek verification',
-                                    'underlying_model': 'deepseek', 'seed': '43'}))
+                second = json.loads(request('/api/models', {'name': 'Qwen3.8 verification',
+                                    'underlying_model': 'qwen38', 'seed': '43'}))
                 created_profiles.append(second['key'])
-                assert second['underlying_model'] == 'DeepSeekR1', second
+                assert second['underlying_model'] == 'Qwen3.8-27B', second
                 request('/api/models/' + second['key'],
                         {'scheme': 'kgw', 'key': '43' * 32, 'settings': {'delta': 4}}, method='PATCH')
                 for route in ('/api/models', '/api/lab/models'):
                     catalog = json.loads(request(route))
-                    assert catalog['underlying_models'] == ['DeepSeekR1'], catalog['underlying_models']
-                    assert all(profile['underlying_model'] == 'DeepSeekR1' for profile in catalog['models'])
+                    assert catalog['underlying_models'] == ['DeepSeekR1', 'Qwen3.8-27B'], catalog['underlying_models']
+                    assert all(profile['underlying_model'] in catalog['underlying_models'] for profile in catalog['models'])
                     try:
                         request(route, {'name': 'Rejected Qwen', 'underlying_model': 'qwen'})
                         raise AssertionError('Retired standalone Qwen creation must be rejected')
@@ -243,19 +251,32 @@ def main():
                 decoder = json.loads(request('/api/decoder/models'))
                 catalog = {profile['id']: profile for profile in decoder['profiles']}
                 assert catalog[model['key']]['underlying_model'] == 'DeepSeekR1'
-                assert catalog[second['key']]['underlying_model'] == 'DeepSeekR1'
+                assert catalog[second['key']]['underlying_model'] == 'Qwen3.8-27B'
                 assert catalog[second['key']]['scheme'] == 'kgw'
                 assert catalog[second['key']]['settings']['delta'] == 4
                 assert catalog[second['key']]['hasKey'] is True
                 assert '42' * 32 not in json.dumps(decoder) and '43' * 32 not in json.dumps(decoder)
                 assert all('key' not in profile and 'seed' not in profile for profile in decoder['profiles'])
-                for profile in (model, second):
+                for profile in (model, second, model):
                     generated = json.loads(request('/api/decoder/generate', {'model': profile['key'], 'prompt': 'CPU fixture check.'}))
+                    family = 'qwen38' if profile['underlying_model'] == 'Qwen3.8-27B' else 'deepseek'
                     assert generated['fixture'] is True and generated['profile_key'] == profile['key']
+                    assert generated['underlying_model'] == profile['underlying_model']
+                    assert generated['answer'].startswith(family + ' owned CPU fixture')
                     detected = json.loads(request('/api/decoder/detect', {'model': profile['key'],
                                          'text': generated['answer'], 'snapshot': generated['snapshot']}))
                     assert detected['fixture'] is True and detected['profile_key'] == profile['key']
+                    assert detected['underlying_model'] == profile['underlying_model']
+                    assert detected['stats']['green_count'] == (88 if family == 'qwen38' else 80)
                     apis_alive()
+                model_catalog = json.loads(request('/api/models'))
+                metadata = {row['family']: row for row in model_catalog['generation_models']}
+                assert metadata['qwen38']['vocab_size'] == 248320
+                for family in ('deepseek', 'qwen38', 'deepseek'):
+                    completed = json.loads(request('/api/completion', {'model': family, 'prompt': 'Exact raw prefix '}))
+                    assert completed['fixture'] is True
+                    assert completed['model'] == metadata[family]['underlying_model']
+                    assert completed['step']['candidates'][0]['text'] == ' ' + family
                 decision_body = {'model': 'contrastive', 'state': 'A synthetic check.',
                                  'questions': {'test': {'type': 'noul', 'instructions': 'Is this a test?'}}}
                 # Python clients address CLM independently of the web request layer.
@@ -274,9 +295,9 @@ def main():
                 assert not (root / 'harness/ui').exists(), 'Assets must come from the package'
                 apis_alive()
                 report = {'scope': 'owned_python_cpu_api_fixtures', 'native_model_proof': False,
-                                  'production_eager_start': 'not_run_separate_release_matrix_lane',
+                                  'production_selected_start': 'not_run_separate_release_matrix_lane',
                                   'pages': list(pages), 'redirect_aliases': list(aliases), 'assets': len(assets),
-                                  'model_crud': 'passed', 'qwen_rejected': 'passed', 'decoder_key_privacy': 'passed',
+                                  'model_crud': 'passed', 'legacy_qwen_rejected': 'passed', 'qwen38_routing': 'passed', 'mixed_model_completion_decoder': 'passed', 'decoder_key_privacy': 'passed',
                                   'api_lifetime': 'passed', 'clm_direct_python_http': 'passed',
                                   'reuse': 'passed', 'decisions': expected}
             finally:

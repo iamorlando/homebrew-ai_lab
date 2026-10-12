@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check the installed web-only command surface without downloads or model starts."""
+"""Check the installed web and service command surface without downloads or model starts."""
 import argparse
 import json
 import os
@@ -8,9 +8,9 @@ import shutil
 import subprocess
 import tempfile
 
-PUBLIC = {'web', 'mcp', 'setup'}
+PUBLIC = {'web', 'mcp', 'setup', 'services'}
 REMOVED = ('weights', 'models', 'apis', 'chat', 'agent', 'decisions', 'completion',
-           'services', 'decoder', 'skills', 'completions', 'setup-python-experiments',
+           'decoder', 'skills', 'completions', 'setup-python-experiments',
            'downloads', 'server', 'complete', 'layout', '_workspace')
 
 
@@ -55,6 +55,11 @@ def main():
             for action in ('list', 'install', 'download', 'repair', 'repair-runtime', 'doctor'):
                 run('setup-' + action + '-help', ['setup', action, '--help'])
             run('setup-list', ['setup', 'list', '--json'])
+            selected = json.loads(run('setup-qwen38-list', ['setup', 'list', 'qwen38', '--json']))
+            assert [row['name'] for row in selected] == ['qwen38']
+            diagnosis = json.loads(run('doctor-qwen38', ['setup', 'doctor', '--model', 'qwen38', '--json']))
+            assert diagnosis['name'] == 'qwen38'
+            assert 'Use --action list, start, stop, restart, or interrupt.' in run('services-needs-action', ['services', '--json'], 1)
             for action in ('config', 'install', 'serve'):
                 run('mcp-' + action + '-help', ['mcp', action, '--help'])
             preview = json.loads(run('mcp-preview', ['mcp', 'config', '--codex', '--config-file', str(Path(directory) / 'codex.toml'), '--json']))

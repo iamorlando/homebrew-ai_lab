@@ -1,0 +1,235 @@
+{"installed_test_summary": {"tests": 9, "failures": 1, "errors": 0, "skipped": 0, "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle", "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"}}
+test_actual_discovery_and_both_client_views_match_supported_contract (test_mcp_result_semantics.MCPResultSemanticsTests.test_actual_discovery_and_both_client_views_match_supported_contract) ... [10/12/26 13:00:24] WARNING  Executing <Task finished        base_events.py:2045
+                             name='Task-1'                                      
+                             coro=<MCPResultSemanticsTests.a                    
+                             syncSetUp() done, defined at                       
+                             /private/tmp/ai-lab-qwen38-rele                    
+                             ase-017/installed-tests/tests/a                    
+                             i_lab/test_mcp_result_semantics                    
+                             .py:61> result=None created at                     
+                             /Users/orlando/dev/deepseek/.ru                    
+                             ntime/python/cpython-3.13.7-mac                    
+                             os-aarch64-none/lib/python3.13/                    
+                             asyncio/runners.py:100> took                       
+                             0.299 seconds                                      
+FAIL
+test_actual_rank_uses_choice_probabilities_and_preserves_candidates (test_mcp_result_semantics.MCPResultSemanticsTests.test_actual_rank_uses_choice_probabilities_and_preserves_candidates) ...                     INFO     HTTP Request: GET                   _client.py:1740
+                             http://127.0.0.1:11436/v1/models                   
+                             "HTTP/1.1 200 OK"                                  
+                    INFO     HTTP Request: POST                  _client.py:1740
+                             http://127.0.0.1:11436/v1/systemone                
+                             "HTTP/1.1 200 OK"                                  
+ok
+test_actual_server_and_client_keep_all_typed_results_and_auxiliary_values (test_mcp_result_semantics.MCPResultSemanticsTests.test_actual_server_and_client_keep_all_typed_results_and_auxiliary_values) ...                     WARNING  Executing <Task finished        base_events.py:2045
+                             name='Task-11'                                     
+                             coro=<MCPResultSemanticsTests.a                    
+                             syncSetUp() done, defined at                       
+                             /private/tmp/ai-lab-qwen38-rele                    
+                             ase-017/installed-tests/tests/a                    
+                             i_lab/test_mcp_result_semantics                    
+                             .py:61> result=None created at                     
+                             /Users/orlando/dev/deepseek/.ru                    
+                             ntime/python/cpython-3.13.7-mac                    
+                             os-aarch64-none/lib/python3.13/                    
+                             asyncio/runners.py:100> took                       
+                             0.358 seconds                                      
+[10/12/26 13:00:25] WARNING  Executing <Task pending         base_events.py:2045
+                             name='Task-12'                                     
+                             coro=<MCPResultSemanticsTests.t                    
+                             est_actual_server_and_client_ke                    
+                             ep_all_typed_results_and_auxili                    
+                             ary_values() running at                            
+                             /private/tmp/ai-lab-qwen38-rele                    
+                             ase-017/installed-tests/tests/a                    
+                             i_lab/test_mcp_result_semantics                    
+                             .py:240> wait_for=<Task pending                    
+                             name='Task-13'                                     
+                             coro=<MCPClient._call_tool()                       
+                             running at                                         
+                             /private/tmp/ai-lab-qwen38-rele                    
+                             ase-017/clean-env/lib/python3.1                    
+                             3/site-packages/ai_lab/mcp_clie                    
+                             nt.py:495>                                         
+                             cb=[Task.task_wakeup()] created                    
+                             at                                                 
+                             /Users/orlando/dev/deepseek/.ru                    
+                             ntime/python/cpython-3.13.7-mac                    
+                             os-aarch64-none/lib/python3.13/                    
+                             asyncio/tasks.py:410>                              
+                             cb=[_run_until_complete_cb() at                    
+                             /Users/orlando/dev/deepseek/.ru                    
+                             ntime/python/cpython-3.13.7-mac                    
+                             os-aarch64-none/lib/python3.13/                    
+                             asyncio/base_events.py:181]                        
+                             created at                                         
+                             /Users/orlando/dev/deepseek/.ru                    
+                             ntime/python/cpython-3.13.7-mac                    
+                             os-aarch64-none/lib/python3.13/                    
+                             asyncio/runners.py:100> took                       
+                             1.079 seconds                                      
+                    INFO     HTTP Request: GET                   _client.py:1740
+                             http://127.0.0.1:11436/v1/models                   
+                             "HTTP/1.1 200 OK"                                  
+                    INFO     HTTP Request: POST                  _client.py:1740
+                             http://127.0.0.1:11436/v1/systemone                
+                             "HTTP/1.1 200 OK"                                  
+ok
+test_actual_server_retains_omitted_hosted_default_and_every_explicit_route (test_mcp_result_semantics.MCPResultSemanticsTests.test_actual_server_retains_omitted_hosted_default_and_every_explicit_route) ... [10/12/26 13:00:26] WARNING  Executing <Task finished        base_events.py:2045
+                             name='Task-23'                                     
+                             coro=<MCPResultSemanticsTests.a                    
+                             syncSetUp() done, defined at                       
+                             /private/tmp/ai-lab-qwen38-rele                    
+                             ase-017/installed-tests/tests/a                    
+                             i_lab/test_mcp_result_semantics                    
+                             .py:61> result=None created at                     
+                             /Users/orlando/dev/deepseek/.ru                    
+                             ntime/python/cpython-3.13.7-mac                    
+                             os-aarch64-none/lib/python3.13/                    
+                             asyncio/runners.py:100> took                       
+                             0.165 seconds                                      
+                    INFO     HTTP Request: POST                  _client.py:1740
+                             https://api.typesafe.ai/v1/systemon                
+                             e "HTTP/1.1 200 OK"                                
+                    INFO     HTTP Request: POST                  _client.py:1740
+                             https://api.typesafe.ai/v1/systemon                
+                             e "HTTP/1.1 200 OK"                                
+                    INFO     HTTP Request: GET                   _client.py:1740
+                             http://127.0.0.1:11436/v1/models                   
+                             "HTTP/1.1 200 OK"                                  
+                    INFO     HTTP Request: POST                  _client.py:1740
+                             http://127.0.0.1:11436/v1/systemone                
+                             "HTTP/1.1 200 OK"                                  
+ok
+test_choice_score_fields_distinguish_measured_probabilities_from_metadata (test_mcp_result_semantics.MCPResultSemanticsTests.test_choice_score_fields_distinguish_measured_probabilities_from_metadata) ...                     WARNING  Executing <Task finished        base_events.py:2045
+                             name='Task-28'                                     
+                             coro=<MCPResultSemanticsTests.a                    
+                             syncSetUp() done, defined at                       
+                             /private/tmp/ai-lab-qwen38-rele                    
+                             ase-017/installed-tests/tests/a                    
+                             i_lab/test_mcp_result_semantics                    
+                             .py:61> result=None created at                     
+                             /Users/orlando/dev/deepseek/.ru                    
+                             ntime/python/cpython-3.13.7-mac                    
+                             os-aarch64-none/lib/python3.13/                    
+                             asyncio/runners.py:100> took                       
+                             0.214 seconds                                      
+[10/12/26 13:00:27] WARNING  Executing <Task finished        base_events.py:2045
+                             name='Task-29'                                     
+                             coro=<MCPResultSemanticsTests.t                    
+                             est_choice_score_fields_disting                    
+                             uish_measured_probabilities_fro                    
+                             m_metadata() done, defined at                      
+                             /private/tmp/ai-lab-qwen38-rele                    
+                             ase-017/installed-tests/tests/a                    
+                             i_lab/test_mcp_result_semantics                    
+                             .py:133> result=None created at                    
+                             /Users/orlando/dev/deepseek/.ru                    
+                             ntime/python/cpython-3.13.7-mac                    
+                             os-aarch64-none/lib/python3.13/                    
+                             asyncio/runners.py:100> took                       
+                             0.994 seconds                                      
+ok
+test_hosted_default_local_guard_and_approval_remain_unchanged (test_mcp_result_semantics.MCPResultSemanticsTests.test_hosted_default_local_guard_and_approval_remain_unchanged) ...                     WARNING  Executing <Task finished        base_events.py:2045
+                             name='Task-35'                                     
+                             coro=<MCPResultSemanticsTests.a                    
+                             syncSetUp() done, defined at                       
+                             /private/tmp/ai-lab-qwen38-rele                    
+                             ase-017/installed-tests/tests/a                    
+                             i_lab/test_mcp_result_semantics                    
+                             .py:61> result=None created at                     
+                             /Users/orlando/dev/deepseek/.ru                    
+                             ntime/python/cpython-3.13.7-mac                    
+                             os-aarch64-none/lib/python3.13/                    
+                             asyncio/runners.py:100> took                       
+                             0.184 seconds                                      
+[10/12/26 13:00:29] WARNING  Executing <Task finished        base_events.py:2045
+                             name='Task-36'                                     
+                             coro=<MCPResultSemanticsTests.t                    
+                             est_hosted_default_local_guard_                    
+                             and_approval_remain_unchanged()                    
+                              done, defined at                                  
+                             /private/tmp/ai-lab-qwen38-rele                    
+                             ase-017/installed-tests/tests/a                    
+                             i_lab/test_mcp_result_semantics                    
+                             .py:156> result=None created at                    
+                             /Users/orlando/dev/deepseek/.ru                    
+                             ntime/python/cpython-3.13.7-mac                    
+                             os-aarch64-none/lib/python3.13/                    
+                             asyncio/runners.py:100> took                       
+                             1.733 seconds                                      
+ok
+test_noul_semantics_reach_public_and_local_native_catalog (test_mcp_result_semantics.MCPResultSemanticsTests.test_noul_semantics_reach_public_and_local_native_catalog) ... [10/12/26 13:00:30] WARNING  Executing <Task finished        base_events.py:2045
+                             name='Task-43'                                     
+                             coro=<MCPResultSemanticsTests.t                    
+                             est_noul_semantics_reach_public                    
+                             _and_local_native_catalog()                        
+                             done, defined at                                   
+                             /private/tmp/ai-lab-qwen38-rele                    
+                             ase-017/installed-tests/tests/a                    
+                             i_lab/test_mcp_result_semantics                    
+                             .py:116> result=None created at                    
+                             /Users/orlando/dev/deepseek/.ru                    
+                             ntime/python/cpython-3.13.7-mac                    
+                             os-aarch64-none/lib/python3.13/                    
+                             asyncio/runners.py:100> took                       
+                             0.539 seconds                                      
+ok
+test_rank_description_matches_unchanged_rank_result_shape (test_mcp_result_semantics.MCPResultSemanticsTests.test_rank_description_matches_unchanged_rank_result_shape) ...                     WARNING  Executing <Task finished        base_events.py:2045
+                             name='Task-49'                                     
+                             coro=<MCPResultSemanticsTests.t                    
+                             est_rank_description_matches_un                    
+                             changed_rank_result_shape()                        
+                             done, defined at                                   
+                             /private/tmp/ai-lab-qwen38-rele                    
+                             ase-017/installed-tests/tests/a                    
+                             i_lab/test_mcp_result_semantics                    
+                             .py:145> result=None created at                    
+                             /Users/orlando/dev/deepseek/.ru                    
+                             ntime/python/cpython-3.13.7-mac                    
+                             os-aarch64-none/lib/python3.13/                    
+                             asyncio/runners.py:100> took                       
+                             0.669 seconds                                      
+ok
+test_retired_decision_providers_are_rejected_before_http_dispatch (test_mcp_result_semantics.MCPResultSemanticsTests.test_retired_decision_providers_are_rejected_before_http_dispatch) ... [10/12/26 13:00:31] WARNING  Executing <Task finished        base_events.py:2045
+                             name='Task-54'                                     
+                             coro=<MCPResultSemanticsTests.a                    
+                             syncSetUp() done, defined at                       
+                             /private/tmp/ai-lab-qwen38-rele                    
+                             ase-017/installed-tests/tests/a                    
+                             i_lab/test_mcp_result_semantics                    
+                             .py:61> result=None created at                     
+                             /Users/orlando/dev/deepseek/.ru                    
+                             ntime/python/cpython-3.13.7-mac                    
+                             os-aarch64-none/lib/python3.13/                    
+                             asyncio/runners.py:100> took                       
+                             0.149 seconds                                      
+ok
+
+======================================================================
+FAIL: test_actual_discovery_and_both_client_views_match_supported_contract (test_mcp_result_semantics.MCPResultSemanticsTests.test_actual_discovery_and_both_client_views_match_supported_contract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/orlando/dev/deepseek/.runtime/python/cpython-3.13.7-macos-aarch64-none/lib/python3.13/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Users/orlando/dev/deepseek/.runtime/python/cpython-3.13.7-macos-aarch64-none/lib/python3.13/asyncio/base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/private/tmp/ai-lab-qwen38-release-017/installed-tests/tests/ai_lab/test_mcp_result_semantics.py", line 100, in test_actual_discovery_and_both_client_views_match_supported_contract
+    self.assertEqual(by_name[name]['inputSchema']['properties']['underlying_model']['enum'],
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     ['deepseek', 'DeepSeekR1'])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['deepseek', 'DeepSeekR1', 'qwen38', 'Qwen3.8-27B'] != ['deepseek', 'DeepSeekR1']
+
+First list contains 2 additional elements.
+First extra element 2:
+'qwen38'
+
+- ['deepseek', 'DeepSeekR1', 'qwen38', 'Qwen3.8-27B']
++ ['deepseek', 'DeepSeekR1']
+
+----------------------------------------------------------------------
+Ran 9 tests in 7.212s
+
+FAILED (failures=1)

@@ -1,12 +1,12 @@
-# AI Lab 0.1.16 release checks
+# AI Lab release checks (0.1.17)
 
 This matrix describes the web-only release. It replaces the terminal-screen
 matrix from 0.1.14. A listed check is a requirement, not an execution result.
 Execution reports bind the final source, wheel, sdist and installed files.
 
-This release adds TextGrain configuration, completion traces and Gamma-tail
-watermark evidence, and updates the DeepSeek native runtime to the reviewed
-TextGrain-capable build. The CLM runtime and dependency versions stay pinned.
+The 0.1.17 release adds Qwen3.8-27B as a selectable conversational model,
+starts selected APIs on demand, and reports actionable model memory failures.
+TextGrain and SynthID remain available. Native runtimes and dependencies stay pinned.
 GitHub CI is unavailable and explicitly excluded from this release by the
 release owner's instruction. Do not dispatch GitHub Actions. Record local
 validation and any unavailable Homebrew host prerequisites truthfully.
@@ -14,19 +14,19 @@ validation and any unavailable Homebrew host prerequisites truthfully.
 ## Package and upgrade
 
 - Build a wheel and sdist from the clean committed final source. Verify their
-  payloads and installed modules against that exact source. Bind the new DeepSeek
+  payloads and installed modules against that exact source. Bind the reused
   runtime archive/binary to its exact native source and lock; preserve the CLM
   runtime and Python dependency versions.
 - Install the wheel and the sdist independently into fresh locked environments.
-- Install the actual published 0.1.15 artifact, retain its data root, and upgrade
-  that same environment to 0.1.16. Verify literal versions before and after.
+- Install the actual published 0.1.16 artifact, retain its data root, and upgrade
+  that same environment to 0.1.17. Verify literal versions before and after.
 - Preserve profiles, watermark keys, sessions and existing weight paths/content.
   No model download is permitted in these checks. Test setup's compatible weight
   reuse and missing/corrupt/runtime-repair paths separately.
 - Run installed checks outside the checkout. Verify imports come from the tested
   environment. Render the formula from the accepted archive and check its Ruby
-  syntax, three-command assertions and dependency recipe locally. Run actual
-  Homebrew clean installation and literal 0.1.15-to-0.1.16 upgrade, retaining the
+  syntax, supported-command assertions and dependency recipe locally. Run actual
+  Homebrew clean installation and literal 0.1.16-to-0.1.17 upgrade, retaining the
   same owned data root. Run `brew test iamorlando/ai_lab/ai_lab` on a supported
   local installation. Draft assets may seed an owned
   Homebrew source cache; the unchanged final formula must validate their hashes.
@@ -34,10 +34,10 @@ validation and any unavailable Homebrew host prerequisites truthfully.
 ## Supported CLI
 
 - `ai-lab --help`, `--version`, `--json` and `--skill` work; discovery contains
-  exactly `web`, `mcp` and `setup`.
+  exactly `web`, `mcp`, `setup` and machine-readable `services`.
 - Help and invalid arguments work for every supported action. Removed terminal
   commands are rejected, including chat, completion, decisions, decoder, models,
-  services, weights, apis, skills and completions.
+  weights, apis, skills and completions. The services CLI is an automation interface, not a terminal screen.
 - Setup lists downloadable/installed families, installs selected families,
   resumes/reuses compatible files, handles cancellation and supports runtime
   repair without redownloading weights.
@@ -55,7 +55,7 @@ It launches the actual installed `web` command in an owned root with explicit CP
 - root opens Completion; old Comparison/Watermarking routes redirect there;
   navigation offers Completion, Decisions, Decoder and Models;
 - package HTML/assets, manifest/icons/service worker load;
-- model create/update/delete persists without OpenCode, saved DeepSeek profiles route correctly; standalone Qwen is rejected, with
+- model create/update/delete persists without OpenCode, saved DeepSeek and Qwen3.8-27B profiles route to distinct endpoints; retired Qwen3-8B is rejected, with
   legacy profiles and CLM base weights preserved, and decoder discovery does not expose saved keys;
 - missing weights produce setup guidance without a download or orphan service;
 - second launch reuses the same owned site; Ctrl+C cleans up its web listener.
@@ -72,28 +72,78 @@ Use a real browser against the installed app as well as API checks:
   Switching config must not mutate profiles or leave a stale result authoritative.
   Check sufficient match, below-threshold high confidence, missing key and
   insufficient-token messages independently. Preserve exact copied text.
-- **Models:** create/select/update/delete with DeepSeek and
-  watermark/no-watermark profiles. Errors remain visible.
+- **Models:** create/select/update/delete with DeepSeek and Qwen3.8-27B, using
+  watermark/no-watermark profiles and model-specific configuration. Errors remain visible.
 
 ## Automatic local APIs
 
-CPU process/HTTP fixtures must exercise eager web startup of both DeepSeek and
-native CLM, simultaneous process lifetimes, readiness only after both are ready,
-PID reuse across page/model switches and idle periods, and a direct Python CLM
-HTTP request while DeepSeek is in use. No switch may stop either API. Verify
-owned shutdown only when the web process exits, startup failures with nonzero
-exit, stale-owner recovery, and preservation of unrelated/borrowed services.
-Explicit fixture endpoints and injected test runtimes must never start native
-models. Web startup with missing prerequisites must give setup guidance without
-claiming readiness. All terminal screen modules and retired Comparison and
-Watermarking assets must be absent, including direct static URLs.
+CPU process/HTTP fixtures must prove the website opens without loading any model.
+A generation/decision operation starts exactly its selected API (DeepSeek,
+Qwen3.8-27B or native CLM); switching selection and idle periods preserve already
+running owned APIs. Missing setup or insufficient memory returns an actionable
+error for that operation while the website and other models remain usable.
+Exercise current-attempt memory diagnostics, timeout/non-memory failure, retry,
+CLM `AI_LAB_CLM_ISQ=q4k` mode and unchanged retained weight bytes/inodes. Never
+classify SIGKILL alone as confirmed out-of-memory. Preserve foreign processes
+and replacement ownership receipts. Shutdown cleans up only owned APIs.
+Explicit fixture endpoints and injected runtimes never authorize native starts.
+All terminal screen modules and retired Comparison/Watermarking assets remain
+absent, including direct static URLs.
 
-One serialized bounded live lane uses existing verified weights and pinned
-prebuilt runtimes. Confirm the website starts both APIs and keeps them up without service
-commands, sends genuine requests and cleans up what it owns. Generation/decoder
-and CLM request transport are application proof. Model prompt fidelity, reasoning
-quality and reliable MCP tool choice are explicitly out of scope; do not repeat
-prompts or tune models to improve those results.
+One separately authorized, serialized bounded live lane uses verified weights
+and pinned prebuilt runtimes. Verify genuine generation/decoder requests for
+each selected conversational model and CLM transport, retained-weight reuse and
+owned cleanup. CPU fixtures and native parser/template tests are separate from
+native model execution; record unexecuted native cases as NOT_RUN. No Cargo
+rebuild is needed for this candidate: native pins and dependency locks stay fixed.
+
+## Qwen3.8 integration checks
+
+- `setup list`, explicit `setup install qwen38 --yes`, model-aware doctor and
+  `setup repair-runtime --model qwen38 --yes`; MCP download/discovery/generation/
+  detection; services list/start/stop/restart JSON, Herdr discovery/Debug panes.
+- Qwen3.8 uses its own GGUF/assets/template and 248320 vocabulary. Legacy
+  Qwen3-8B and the CLM encoder retain their identities and existing paths.
+- Completion, Models and Decoder expose both public generation backends, honor
+  selected profiles and per-model watermark fields, and preserve SynthID and
+  TextGrain behavior. Mixed-backend decoder groups call the matching endpoint.
+- Tool-enabled chat uses the audited Qwen XML template and parser; raw completion
+  stays raw. Qwen generation prefix matches the bundled answer-only template.
+- Adding catalog rows or updating app/runtime metadata reuses private weight
+  receipts and verified file identities. Changed expected hashes, corrupt files
+  and replacement inodes still require verification. Exercise old-format receipts,
+  clean-root adoption, cancellation/retry and retained profiles/keys/sessions.
+- Build wheel/sdist and verify the bundled Qwen template, license/catalog and
+  pinned runtime manifests outside the checkout. The literal upgrade for this
+  release is published 0.1.16 to candidate 0.1.17; historical native evidence
+  remains labeled with its actual tested source and package version.
+
+Focused CPU commands, using the candidate or installed interpreter:
+
+```sh
+python -m unittest discover -s harness/tests -p test_generation_models.py -v
+python -m unittest discover -s harness/tests -p test_qwen38_template.py -v
+python -m unittest discover -s tests/ai_lab -p test_generation_startup_errors.py -v
+python -m unittest discover -s tests/ai_lab -p test_storage.py -v
+python -m unittest discover -s tests/ai_lab -p test_web_process.py -v
+python -m unittest discover -s tests/ai_lab -p test_mcp_generation.py -v
+python -m unittest discover -s tests/ai_lab -p test_service_manager.py -v
+```
+
+With a separate native-lane grant, installed candidate and already verified Qwen
+weights in an owned root, run `packaging/check_qwen_native.py --root ROOT
+--output REPORT --start-through-app --mcp-wire` using the installed interpreter
+and `-I`. Keep `check_qwen_mcp_wire.py` beside it. This exercises actual automatic
+startup, completion, XML tool continuation, KGW/SynthID/TextGrain traces and
+detectors, and real MCP stdio, without fixtures or downloads. Full bounds are
+528 generated tokens, 600 seconds for startup and 180 seconds per case;
+`--only-tool-roundtrip` instead selects the two tool turns with a 192-token cap.
+Record owner/process/socket cleanup separately. A short-sample `no_match` is not
+a runtime failure or proof of detection power. The recorded 2026-10-12 run and
+its limits are in [Qwen native validation](ai-lab/qwen38-runtime.md#actual-native-acceptance-on-2026-10-12).
+
+The corresponding Herdr commit must pass its owned fixture suite:
+`python -m unittest discover -s common/workflow/tests -v` in its isolated checkout.
 
 ## Evidence and publication
 
@@ -189,6 +239,7 @@ For each clean wheel, independently built sdist, and literal upgraded installati
 "$INSTALLED_PYTHON" check_web.py "$INSTALLED_AI_LAB"
 "$INSTALLED_PYTHON" check_web.py "$INSTALLED_AI_LAB" --jev-configured
 "$INSTALLED_PYTHON" check_mcp.py --executable "$INSTALLED_AI_LAB"
+"$INSTALLED_PYTHON" -I check_cross_model_profiles.py --python "$INSTALLED_PYTHON"
 # Before installation/upgrade, seed an owned root with the prior interpreter:
 "$PRIOR_PYTHON" -I check_release_data.py seed --root "$OWNED_ROOT" --record "$BEFORE_JSON"
 # After checks, verify retained files and the accepted installed payload:
@@ -196,14 +247,19 @@ For each clean wheel, independently built sdist, and literal upgraded installati
 ```
 
 These are the current web-only release checkers (`packaging/check_cli.py`,
-`packaging/homebrew/check_web.py`, `packaging/check_mcp.py`, and
-`packaging/check_release_data.py`, `packaging/check_upgrade_web_owner.py`). Historical checkers
+`packaging/homebrew/check_web.py`, `packaging/check_mcp.py`,
+`packaging/check_cross_model_profiles.py`, `packaging/check_release_data.py`,
+`packaging/check_upgrade_web_owner.py`). MCP checks both public generation families
+and rejects retired Qwen3-8B. The cross-model checker uses the current model/session
+web API to verify alternating family routing, profile reload, per-model vocabulary,
+watermark overrides, key privacy and backend/scheme round trips with explicit CPU
+fixtures; it never starts native models. Historical checkers
 for retired terminal/service/standalone-Qwen flows do not define the current
 command surface. Validate setup migration, downloads/reuse/corruption/cancel/
-retry, runtime install, service ownership and eager web lifetime using the
+retry, runtime install, service ownership and on-demand API lifetime using the
 corresponding installed Python test modules and real owned CPU process fixtures.
 Run each test module in a separate process to isolate backend workspace state.
-Reconcile the three discovered public commands and recursive subcommand help
+Reconcile the four discovered public commands and recursive subcommand help
 with `ai_lab.cli.PUBLIC_COMMANDS`; the `--completions bash|zsh|fish` flag must emit valid scripts;
 the removed `completions` subcommand must be rejected. Capture errors and missing optional hosted-key behavior.
 
@@ -216,7 +272,8 @@ failed attempts in evidence and require passing corrected reruns.
 
 Before literal upgrade, run the actual prior web CLI with owned CPU providers.
 Keep its process and data root while installing the candidate into the same
-installation, exercise the retained owner, stop it explicitly, then start the
+installation, exercise the retained owner, verify the new launcher reports its
+incompatible older model-selection contract without stopping it, stop it explicitly, then start the
 candidate on the released socket and recheck profiles and provider lifetimes:
 
 ```sh

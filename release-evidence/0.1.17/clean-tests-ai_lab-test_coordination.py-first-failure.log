@@ -1,0 +1,32 @@
+{"installed_test_summary": {"tests": 8, "failures": 1, "errors": 0, "skipped": 0, "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle", "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"}}
+/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+test_configuration_lock_accepts_explicit_root_alias (test_coordination.CoordinationTests.test_configuration_lock_accepts_explicit_root_alias) ... ok
+test_configuration_lock_rejects_linked_managed_paths_without_foreign_writes (test_coordination.CoordinationTests.test_configuration_lock_rejects_linked_managed_paths_without_foreign_writes) ... ok
+test_configuration_lock_waits_across_instances_and_releases_on_cancel (test_coordination.CoordinationTests.test_configuration_lock_waits_across_instances_and_releases_on_cancel) ... ok
+test_independent_services_do_not_lose_concurrent_models (test_coordination.CoordinationTests.test_independent_services_do_not_lose_concurrent_models) ... ok
+test_mcp_update_uses_the_website_publication_transaction (test_coordination.CoordinationTests.test_mcp_update_uses_the_website_publication_transaction) ... Executing <Task pending name='Task-61' coro=<CoordinationTests.test_mcp_update_uses_the_website_publication_transaction() running at /private/tmp/ai-lab-qwen38-release-017/installed-tests/tests/ai_lab/test_coordination.py:117> cb=[_run_until_complete_cb() at /Users/orlando/dev/deepseek/.runtime/python/cpython-3.13.7-macos-aarch64-none/lib/python3.13/asyncio/base_events.py:181] created at /Users/orlando/dev/deepseek/.runtime/python/cpython-3.13.7-macos-aarch64-none/lib/python3.13/asyncio/runners.py:100> took 0.991 seconds
+Executing <Task pending name='starlette.middleware.base.BaseHTTPMiddleware.__call__.<locals>.call_next.<locals>.coro' coro=<TaskHandle._run_coro() running at /private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/anyio/_core/_tasks.py:327> cb=[TaskGroup._spawn.<locals>.task_done() at /private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/anyio/_backends/_asyncio.py:870] created at /private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/anyio/_backends/_asyncio.py:944> took 0.138 seconds
+ok
+test_model_write_uses_website_publisher_and_never_falls_back_on_error (test_coordination.CoordinationTests.test_model_write_uses_website_publisher_and_never_falls_back_on_error) ... Executing <Task pending name='Task-79' coro=<CoordinationTests.test_model_write_uses_website_publisher_and_never_falls_back_on_error() running at /private/tmp/ai-lab-qwen38-release-017/installed-tests/tests/ai_lab/test_coordination.py:95> cb=[_run_until_complete_cb() at /Users/orlando/dev/deepseek/.runtime/python/cpython-3.13.7-macos-aarch64-none/lib/python3.13/asyncio/base_events.py:181] created at /Users/orlando/dev/deepseek/.runtime/python/cpython-3.13.7-macos-aarch64-none/lib/python3.13/asyncio/runners.py:100> took 0.708 seconds
+Executing <Task pending name='starlette.middleware.base.BaseHTTPMiddleware.__call__.<locals>.call_next.<locals>.coro' coro=<TaskHandle._run_coro() running at /private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/anyio/_core/_tasks.py:327> cb=[TaskGroup._spawn.<locals>.task_done() at /private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/anyio/_backends/_asyncio.py:870] created at /private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/anyio/_backends/_asyncio.py:944> took 0.230 seconds
+ok
+test_client_reconnects_reads_but_does_not_replay_mutations (test_coordination.LateWebsiteTests.test_client_reconnects_reads_but_does_not_replay_mutations) ... ok
+test_website_start_does_not_interrupt_private_run_or_duplicate_sessions (test_coordination.LateWebsiteTests.test_website_start_does_not_interrupt_private_run_or_duplicate_sessions) ... FAIL
+
+======================================================================
+FAIL: test_website_start_does_not_interrupt_private_run_or_duplicate_sessions (test_coordination.LateWebsiteTests.test_website_start_does_not_interrupt_private_run_or_duplicate_sessions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/ai-lab-qwen38-release-017/installed-tests/tests/ai_lab/test_coordination.py", line 148, in test_website_start_does_not_interrupt_private_run_or_duplicate_sessions
+    self.assertEqual(json.loads(saved.read_text())['status'], 'running')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'complete' != 'running'
+- complete
++ running
+
+
+----------------------------------------------------------------------
+Ran 8 tests in 8.048s
+
+FAILED (failures=1)

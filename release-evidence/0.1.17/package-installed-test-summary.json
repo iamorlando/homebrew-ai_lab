@@ -1,0 +1,2363 @@
+{
+  "status": "FAIL",
+  "modules": 76,
+  "tests": 900,
+  "results": [
+    {
+      "name": "clean-tests-ai_lab-test_clm_ownership.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_clm_ownership.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 4.582,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_clm_ownership.py",
+      "installed_test_summary": {
+        "tests": 16,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_coordination.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_coordination.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 1,
+      "seconds": 11.061,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_coordination.py",
+      "installed_test_summary": {
+        "tests": 8,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_credentials.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_credentials.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 3.466,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_credentials.py",
+      "installed_test_summary": {
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_decoder_service.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_decoder_service.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 6.293,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_decoder_service.py",
+      "installed_test_summary": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_downloads.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_downloads.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 5.779,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_downloads.py",
+      "installed_test_summary": {
+        "tests": 16,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_generation_identity.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_generation_identity.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 4.507,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_generation_identity.py",
+      "installed_test_summary": {
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_generation_launch.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_generation_launch.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 10.23,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_generation_launch.py",
+      "installed_test_summary": {
+        "tests": 14,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_generation_startup_errors.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_generation_startup_errors.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 3.909,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_generation_startup_errors.py",
+      "installed_test_summary": {
+        "tests": 13,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_mcp_client.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_mcp_client.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 38.898,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_mcp_client.py",
+      "installed_test_summary": {
+        "tests": 27,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_mcp_detection.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_mcp_detection.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 7.738,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_mcp_detection.py",
+      "installed_test_summary": {
+        "tests": 12,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_mcp_generation.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_mcp_generation.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 5.536,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_mcp_generation.py",
+      "installed_test_summary": {
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_mcp_install.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_mcp_install.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 4.867,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_mcp_install.py",
+      "installed_test_summary": {
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_mcp_result_semantics.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_mcp_result_semantics.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 1,
+      "seconds": 12.824,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_mcp_result_semantics.py",
+      "installed_test_summary": {
+        "tests": 9,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_mcp_startup.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_mcp_startup.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 5.834,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_mcp_startup.py",
+      "installed_test_summary": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_mcp_tools.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_mcp_tools.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 6.089,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_mcp_tools.py",
+      "installed_test_summary": {
+        "tests": 15,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_mcp_transport_schema.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_mcp_transport_schema.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 8.478,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_mcp_transport_schema.py",
+      "installed_test_summary": {
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_native_clm.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_native_clm.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 3.538,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_native_clm.py",
+      "installed_test_summary": {
+        "tests": 13,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_runtime.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_runtime.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 1.37,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_runtime.py",
+      "installed_test_summary": {
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_screen_removal.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_screen_removal.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 7.254,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_screen_removal.py",
+      "installed_test_summary": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_service.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_service.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 10.62,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_service.py",
+      "installed_test_summary": {
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_service_manager.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_service_manager.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 23.954,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_service_manager.py",
+      "installed_test_summary": {
+        "tests": 39,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_setup.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_setup.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 5.518,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_setup.py",
+      "installed_test_summary": {
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_startup_errors.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_startup_errors.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 1.886,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_startup_errors.py",
+      "installed_test_summary": {
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_storage.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_storage.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 7.441,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_storage.py",
+      "installed_test_summary": {
+        "tests": 34,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_web_only_cli.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_web_only_cli.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 96.548,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_web_only_cli.py",
+      "installed_test_summary": {
+        "tests": 19,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_web_process.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_web_process.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 43.635,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_web_process.py",
+      "installed_test_summary": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_web_runtime.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_web_runtime.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 80.205,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_web_runtime.py",
+      "installed_test_summary": {
+        "tests": 14,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-tests-ai_lab-test_weight_repair.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_weight_repair.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 10.79,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-tests-ai_lab-test_weight_repair.py",
+      "installed_test_summary": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-harness-tests-test_completion.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "harness/tests",
+        "test_completion.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 10.931,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-harness-tests-test_completion.py",
+      "installed_test_summary": {
+        "tests": 14,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-harness-tests-test_decoder.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "harness/tests",
+        "test_decoder.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 20.321,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-harness-tests-test_decoder.py",
+      "installed_test_summary": {
+        "tests": 17,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-harness-tests-test_detection_lab.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "harness/tests",
+        "test_detection_lab.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 11.23,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-harness-tests-test_detection_lab.py",
+      "installed_test_summary": {
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-harness-tests-test_generation_models.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "harness/tests",
+        "test_generation_models.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 27.521,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-harness-tests-test_generation_models.py",
+      "installed_test_summary": {
+        "tests": 40,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-harness-tests-test_generation_tournament.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "harness/tests",
+        "test_generation_tournament.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 0.931,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-harness-tests-test_generation_tournament.py",
+      "installed_test_summary": {
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-harness-tests-test_models.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "harness/tests",
+        "test_models.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 13.167,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-harness-tests-test_models.py",
+      "installed_test_summary": {
+        "tests": 12,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-harness-tests-test_qwen38_template.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "harness/tests",
+        "test_qwen38_template.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 2.546,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-harness-tests-test_qwen38_template.py",
+      "installed_test_summary": {
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-harness-tests-test_teaching_tournament.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "harness/tests",
+        "test_teaching_tournament.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 3.071,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-harness-tests-test_teaching_tournament.py",
+      "installed_test_summary": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-harness-tests-test_textgrain.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "harness/tests",
+        "test_textgrain.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 2.264,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-harness-tests-test_textgrain.py",
+      "installed_test_summary": {
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "clean-harness-tests-test_watermark_scoring.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "harness/tests",
+        "test_watermark_scoring.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/clean-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/clean-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 1.383,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/clean-harness-tests-test_watermark_scoring.py",
+      "installed_test_summary": {
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/clean-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_clm_ownership.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_clm_ownership.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 7.054,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_clm_ownership.py",
+      "installed_test_summary": {
+        "tests": 16,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_coordination.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_coordination.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 9.119,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_coordination.py",
+      "installed_test_summary": {
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_credentials.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_credentials.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 1.254,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_credentials.py",
+      "installed_test_summary": {
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_decoder_service.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_decoder_service.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 3.137,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_decoder_service.py",
+      "installed_test_summary": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_downloads.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_downloads.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 3.677,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_downloads.py",
+      "installed_test_summary": {
+        "tests": 16,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_generation_identity.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_generation_identity.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 2.576,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_generation_identity.py",
+      "installed_test_summary": {
+        "tests": 1,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_generation_launch.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_generation_launch.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 7.548,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_generation_launch.py",
+      "installed_test_summary": {
+        "tests": 14,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_generation_startup_errors.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_generation_startup_errors.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 3.479,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_generation_startup_errors.py",
+      "installed_test_summary": {
+        "tests": 13,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_mcp_client.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_mcp_client.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 34.916,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_mcp_client.py",
+      "installed_test_summary": {
+        "tests": 27,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_mcp_detection.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_mcp_detection.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 3.415,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_mcp_detection.py",
+      "installed_test_summary": {
+        "tests": 12,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_mcp_generation.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_mcp_generation.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 2.822,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_mcp_generation.py",
+      "installed_test_summary": {
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_mcp_install.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_mcp_install.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 3.33,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_mcp_install.py",
+      "installed_test_summary": {
+        "tests": 7,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_mcp_result_semantics.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_mcp_result_semantics.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 8.29,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_mcp_result_semantics.py",
+      "installed_test_summary": {
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_mcp_startup.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_mcp_startup.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 4.769,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_mcp_startup.py",
+      "installed_test_summary": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_mcp_tools.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_mcp_tools.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 4.909,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_mcp_tools.py",
+      "installed_test_summary": {
+        "tests": 15,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_mcp_transport_schema.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_mcp_transport_schema.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 7.808,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_mcp_transport_schema.py",
+      "installed_test_summary": {
+        "tests": 9,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_native_clm.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_native_clm.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 3.186,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_native_clm.py",
+      "installed_test_summary": {
+        "tests": 13,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_runtime.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_runtime.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 1.786,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_runtime.py",
+      "installed_test_summary": {
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_screen_removal.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_screen_removal.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 6.599,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_screen_removal.py",
+      "installed_test_summary": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_service.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_service.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 11.74,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_service.py",
+      "installed_test_summary": {
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_service_manager.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_service_manager.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 16.004,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_service_manager.py",
+      "installed_test_summary": {
+        "tests": 39,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_setup.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_setup.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 4.218,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_setup.py",
+      "installed_test_summary": {
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_startup_errors.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_startup_errors.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 1.663,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_startup_errors.py",
+      "installed_test_summary": {
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_storage.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_storage.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 4.234,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_storage.py",
+      "installed_test_summary": {
+        "tests": 34,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_web_only_cli.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_web_only_cli.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 56.354,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_web_only_cli.py",
+      "installed_test_summary": {
+        "tests": 19,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_web_process.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_web_process.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 29.158,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_web_process.py",
+      "installed_test_summary": {
+        "tests": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_web_runtime.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_web_runtime.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 42.036,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_web_runtime.py",
+      "installed_test_summary": {
+        "tests": 14,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-tests-ai_lab-test_weight_repair.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "tests/ai_lab",
+        "test_weight_repair.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 3.976,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-tests-ai_lab-test_weight_repair.py",
+      "installed_test_summary": {
+        "tests": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-harness-tests-test_completion.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "harness/tests",
+        "test_completion.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 4.572,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-harness-tests-test_completion.py",
+      "installed_test_summary": {
+        "tests": 14,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-harness-tests-test_decoder.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "harness/tests",
+        "test_decoder.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 9.183,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-harness-tests-test_decoder.py",
+      "installed_test_summary": {
+        "tests": 17,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-harness-tests-test_detection_lab.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "harness/tests",
+        "test_detection_lab.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 5.959,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-harness-tests-test_detection_lab.py",
+      "installed_test_summary": {
+        "tests": 11,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-harness-tests-test_generation_models.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "harness/tests",
+        "test_generation_models.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 17.21,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-harness-tests-test_generation_models.py",
+      "installed_test_summary": {
+        "tests": 40,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-harness-tests-test_generation_tournament.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "harness/tests",
+        "test_generation_tournament.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 0.651,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-harness-tests-test_generation_tournament.py",
+      "installed_test_summary": {
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-harness-tests-test_models.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "harness/tests",
+        "test_models.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 9.195,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-harness-tests-test_models.py",
+      "installed_test_summary": {
+        "tests": 12,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-harness-tests-test_qwen38_template.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "harness/tests",
+        "test_qwen38_template.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 1.516,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-harness-tests-test_qwen38_template.py",
+      "installed_test_summary": {
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-harness-tests-test_teaching_tournament.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "harness/tests",
+        "test_teaching_tournament.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 1.558,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-harness-tests-test_teaching_tournament.py",
+      "installed_test_summary": {
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-harness-tests-test_textgrain.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "harness/tests",
+        "test_textgrain.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 1.693,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-harness-tests-test_textgrain.py",
+      "installed_test_summary": {
+        "tests": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    },
+    {
+      "name": "upgrade-harness-tests-test_watermark_scoring.py",
+      "argv": [
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "-I",
+        "/private/tmp/ai-lab-qwen38-release-017/test_entry.py",
+        "/private/tmp/ai-lab-qwen38-release-017/installed-tests",
+        "harness/tests",
+        "test_watermark_scoring.py"
+      ],
+      "cwd": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run",
+      "environment": {
+        "PATH": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin:/usr/bin:/bin",
+        "PYTHONNOUSERSITE": "1",
+        "HOME": "/private/tmp/ai-lab-qwen38-release-017/upgrade-run/home",
+        "LANG": "en_US.UTF-8",
+        "UV_OFFLINE": "1",
+        "UV_PYTHON_DOWNLOADS": "never"
+      },
+      "exit_status": 0,
+      "seconds": 1.106,
+      "log": "/private/tmp/ai-lab-qwen38-release-017/logs/upgrade-harness-tests-test_watermark_scoring.py",
+      "installed_test_summary": {
+        "tests": 6,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "package": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/lib/python3.13/site-packages/ai_lab/_bundle",
+        "python": "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python"
+      }
+    }
+  ]
+}

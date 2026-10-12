@@ -1,0 +1,111 @@
+[
+  {
+    "name": "git-archive",
+    "argv": [
+      "git",
+      "archive",
+      "--format=tar",
+      "--output=/private/tmp/ai-lab-qwen38-release-017/source.tar",
+      "83f5ce69046810e664d9686683d50f6db4fca5ca"
+    ],
+    "cwd": "/Users/orlando/dev/deepseek/.worktrees/qwen38-release-0.1.17",
+    "exit_status": 0,
+    "seconds": 3.166,
+    "log": "/private/tmp/ai-lab-qwen38-release-017/logs/git-archive.log"
+  },
+  {
+    "name": "build-wheel",
+    "argv": [
+      "/Users/orlando/.local/bin/uv",
+      "build",
+      "--offline",
+      "--no-python-downloads",
+      "--python",
+      "/Users/orlando/dev/deepseek/.venv/bin/python",
+      "--build-constraints",
+      "/private/tmp/ai-lab-qwen38-release-017/build-constraints.txt",
+      "--wheel",
+      "--out-dir",
+      "/private/tmp/ai-lab-qwen38-release-017/dist",
+      "/private/tmp/ai-lab-qwen38-release-017/source"
+    ],
+    "cwd": "/private/tmp/ai-lab-qwen38-release-017",
+    "exit_status": 0,
+    "seconds": 2.795,
+    "log": "/private/tmp/ai-lab-qwen38-release-017/logs/build-wheel.log"
+  },
+  {
+    "name": "build-sdist",
+    "argv": [
+      "/Users/orlando/.local/bin/uv",
+      "build",
+      "--offline",
+      "--no-python-downloads",
+      "--python",
+      "/Users/orlando/dev/deepseek/.venv/bin/python",
+      "--build-constraints",
+      "/private/tmp/ai-lab-qwen38-release-017/build-constraints.txt",
+      "--sdist",
+      "--out-dir",
+      "/private/tmp/ai-lab-qwen38-release-017/dist",
+      "/private/tmp/ai-lab-qwen38-release-017/source"
+    ],
+    "cwd": "/private/tmp/ai-lab-qwen38-release-017",
+    "exit_status": 0,
+    "seconds": 3.201,
+    "log": "/private/tmp/ai-lab-qwen38-release-017/logs/build-sdist.log"
+  },
+  {
+    "name": "build-sdist-wheel",
+    "argv": [
+      "/Users/orlando/.local/bin/uv",
+      "build",
+      "--offline",
+      "--no-python-downloads",
+      "--python",
+      "/Users/orlando/dev/deepseek/.venv/bin/python",
+      "--build-constraints",
+      "/private/tmp/ai-lab-qwen38-release-017/build-constraints.txt",
+      "--wheel",
+      "--out-dir",
+      "/private/tmp/ai-lab-qwen38-release-017/sdist-wheel",
+      "/private/tmp/ai-lab-qwen38-release-017/dist/ai_lab-0.1.17.tar.gz"
+    ],
+    "cwd": "/private/tmp/ai-lab-qwen38-release-017",
+    "exit_status": 0,
+    "seconds": 4.295,
+    "log": "/private/tmp/ai-lab-qwen38-release-017/logs/build-sdist-wheel.log"
+  },
+  {
+    "name": "build-prior-published-sdist",
+    "argv": [
+      "/Users/orlando/.local/bin/uv",
+      "build",
+      "--offline",
+      "--no-python-downloads",
+      "--python",
+      "/Users/orlando/dev/deepseek/.venv/bin/python",
+      "--build-constraints",
+      "/private/tmp/ai-lab-qwen38-release-017/build-constraints.txt",
+      "--wheel",
+      "--out-dir",
+      "/private/tmp/ai-lab-qwen38-release-017/prior-wheel",
+      "/private/tmp/textgrain-artifacts-bd2be50/dist/ai_lab-0.1.16.tar.gz"
+    ],
+    "cwd": "/private/tmp/ai-lab-qwen38-release-017",
+    "exit_status": 0,
+    "seconds": 5.669,
+    "log": "/private/tmp/ai-lab-qwen38-release-017/logs/build-prior-published-sdist.log"
+  },
+  {
+    "name": "artifact-binding",
+    "argv": [
+      "/Users/orlando/dev/deepseek/.venv/bin/python",
+      "/private/tmp/ai-lab-qwen38-release-017/verify_artifacts.py"
+    ],
+    "cwd": "/private/tmp/ai-lab-qwen38-release-017",
+    "exit_status": 0,
+    "seconds": 0.529,
+    "log": "/private/tmp/ai-lab-qwen38-release-017/logs/artifact-binding.log"
+  }
+]

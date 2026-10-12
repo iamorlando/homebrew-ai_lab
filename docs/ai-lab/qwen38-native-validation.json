@@ -1,0 +1,236 @@
+{
+  "status": "PASS_BOUNDED_NATIVE_SMOKE",
+  "date": "2026-10-12",
+  "application_source_sha": "3f5b941df2a45da4398a5e0d8ba0adde40c0062a",
+  "installed_wheel_sha256": "47086fa714ff94b4f252c2e192bfe00464bf1f201c13393f655f7a0c6f2c0d2a",
+  "python": "/private/tmp/ai-lab-qwen38-package-3f5b941/wheel-env/bin/python",
+  "module": "/private/tmp/ai-lab-qwen38-package-3f5b941/wheel-env/lib/python3.13/site-packages/ai_lab/_bundle/inference.py",
+  "root": "/Users/orlando/dev/deepseek/.worktrees/qwen38-integration",
+  "host": {
+    "memory_gib": 64,
+    "os": "macOS 27.0",
+    "architecture": "arm64",
+    "backend": "Metal"
+  },
+  "runtime_sha256": "d5f2947a3d377173f6d6782062bb948956e9c26c56f84fb8f096bf9be798163d",
+  "cold_start_seconds": 215.339,
+  "warm_restart_seconds": 19.342,
+  "plain": {
+    "status": "PASS",
+    "answer": "42",
+    "usage": {
+      "completion_tokens": 3,
+      "prompt_tokens": 74,
+      "total_tokens": 77,
+      "avg_tok_per_sec": 28.63518,
+      "avg_prompt_tok_per_sec": 29.79066,
+      "avg_compl_tok_per_sec": 14.634147,
+      "total_time_sec": 2.689,
+      "total_prompt_time_sec": 2.484,
+      "total_completion_time_sec": 0.205
+    }
+  },
+  "mcp_stdio": {
+    "status": "PASS",
+    "answer": "17",
+    "usage": {
+      "completion_tokens": 3,
+      "prompt_tokens": 74,
+      "total_tokens": 77,
+      "avg_tok_per_sec": 10.130246,
+      "avg_prompt_tok_per_sec": 9.935554,
+      "avg_compl_tok_per_sec": 19.607843,
+      "total_time_sec": 7.601,
+      "total_prompt_time_sec": 7.448,
+      "total_completion_time_sec": 0.153
+    },
+    "borrow_only": true
+  },
+  "tool_roundtrip": {
+    "status": "PASS",
+    "call_count": 2,
+    "typed_arguments": [
+      {
+        "a": 17,
+        "b": 25
+      },
+      {
+        "a": 17,
+        "b": 25
+      }
+    ],
+    "answer": "42",
+    "initial_test_failure": "The original checker incorrectly required exactly one call; preserved original failed report. Corrected checker validates every parallel call and supplies one result per call ID."
+  },
+  "watermark_smokes": [
+    {
+      "scheme": "kgw",
+      "status": "PASS",
+      "completion_tokens": 93,
+      "trace_steps": 24,
+      "tokens_scored": 90,
+      "p_value": 0.001581381895184556,
+      "verdict": "no_match",
+      "statistical_match_required": false
+    },
+    {
+      "scheme": "synthid",
+      "status": "PASS",
+      "completion_tokens": 64,
+      "trace_steps": 24,
+      "tokens_scored": 60,
+      "p_value": 0.200718247299026,
+      "verdict": "no_match",
+      "statistical_match_required": false
+    },
+    {
+      "scheme": "textgrain",
+      "status": "PASS",
+      "completion_tokens": 64,
+      "trace_steps": 24,
+      "tokens_scored": 60,
+      "p_value": 0.16198052040251912,
+      "verdict": "no_match",
+      "statistical_match_required": false
+    }
+  ],
+  "weight_reuse": {
+    "status": "PASS",
+    "weight_download_calls": 0,
+    "network_calls": 0,
+    "identity_and_hash_unchanged": true,
+    "kind": "real-weight repeat setup; not a literal-version upgrade",
+    "files": {
+      ".models/qwen3.8-27b/Qwen3.8-27B-Q4_K_M.gguf": {
+        "sha256": "880a52af8317974f7b4b064a6bc29ff49e188b91aa218e08eea3078b6b1cc673",
+        "bytes": 17442399968,
+        "device": 16777233,
+        "inode": 391270585,
+        "mtime_ns": 1791821574365906502,
+        "ctime_ns": 1791821606383682781
+      },
+      ".models/qwen3.8-27b-assets/config.json": {
+        "sha256": "191e0af232104ed8b65258cf3fb2b842e288008baca7633c11b82a1ac7203aab",
+        "bytes": 4312,
+        "device": 16777233,
+        "inode": 391361635,
+        "mtime_ns": 1791821606618199318,
+        "ctime_ns": 1791821606618695988
+      },
+      ".models/qwen3.8-27b-assets/tokenizer.json": {
+        "sha256": "0997f410c57a1f4e53b09e4be8f4a172d90edd9564368fb0847030937229b9f3",
+        "bytes": 12809320,
+        "device": 16777233,
+        "inode": 391361637,
+        "mtime_ns": 1791821607368637962,
+        "ctime_ns": 1791821607383779595
+      },
+      ".models/qwen3.8-27b-assets/tokenizer_config.json": {
+        "sha256": "b11349aafa7cdc6a320767cf7ceb29ed82f7eda5d65e8e0819e76f0ce947bf27",
+        "bytes": 17928,
+        "device": 16777233,
+        "inode": 391361639,
+        "mtime_ns": 1791821607478118246,
+        "ctime_ns": 1791821607478614041
+      },
+      ".models/qwen3.8-27b-assets/chat_template.jinja": {
+        "sha256": "c3cf9e34abf4f9e36c2d72165aa9c132d3e2a725b6c2586aaa3a8af9d7a81041",
+        "bytes": 8952,
+        "device": 16777233,
+        "inode": 391361641,
+        "mtime_ns": 1791821607586874068,
+        "ctime_ns": 1791821607587368904
+      },
+      ".models/qwen3.8-27b-assets/generation_config.json": {
+        "sha256": "e70c136c1b78ddc1fb0905bac8e733a4dc448d4f852a5dd75143fffc70be550e",
+        "bytes": 202,
+        "device": 16777233,
+        "inode": 391361643,
+        "mtime_ns": 1791821607703969689,
+        "ctime_ns": 1791821607704187482
+      }
+    }
+  },
+  "cleanup": {
+    "attempt1": true,
+    "tool_retry": {
+      "status": "PASS",
+      "native_pid": 68347,
+      "process_exited": true,
+      "no_listener": true,
+      "receipt_removed": true,
+      "port_bind_with_production_reuseaddr": true,
+      "note": "Initial wrapper omitted SO_REUSEADDR and reported a transient bind failure after successful child cleanup; this check matches inference.port_available and independently checks process/listener absence."
+    },
+    "profiles_restored": true
+  },
+  "limits": [
+    "Smoke coverage is selected Qwen generation, tool continuation, MCP stdio and three watermark evidence paths; not a full release gate.",
+    "Short watermark samples returned no_match; no statistical detection-power or quality claim.",
+    "No live DeepSeek/CLM, deliberate OOM, long-context, macOS15, browser-click, Homebrew or literal-version upgrade run in this lane.",
+    "GGUF fallback agrees with ordinary official-tokenizer IDs/merges and recorded trace positions; it recognizes extra padding labels and uses EOS248046, omitting official secondaryEOS248044.",
+    "No application/runtime pins, weights, or SynthID/tournament implementation changed. No Cargo or GitHub CI."
+  ],
+  "evidence": [
+    {
+      "path": "/private/tmp/qwen38-live-20261012/setup-install.json",
+      "sha256": "679ee5a29c77d7e9419bbfb990bf6e455a8d4772bc23e440797c43f2ccc45e99"
+    },
+    {
+      "path": "/private/tmp/qwen38-live-20261012/setup-install.stdout",
+      "sha256": "b06b0c3bf50340896aff68d3d58bc335027f128282bfc5326bc7e62ef6fc5353"
+    },
+    {
+      "path": "/private/tmp/qwen38-live-20261012/attempt1/native-results.json",
+      "sha256": "4dbfe9571662ce9938a434c0032dd65c55e8f5c7f17734464a495f69c228b954"
+    },
+    {
+      "path": "/private/tmp/qwen38-live-20261012/attempt1/native-command.json",
+      "sha256": "6028e56936858433af155063934d178868c1271d08893324e36d5cb88f9fb69a"
+    },
+    {
+      "path": "/private/tmp/qwen38-live-20261012/attempt1/check_selected_qwen.py",
+      "sha256": "94c1944295983367377a0544eec6200577d1155a1e49f778b164f81f22bef33b"
+    },
+    {
+      "path": "/private/tmp/qwen38-live-20261012/attempt1/qwen38-server.log",
+      "sha256": "80ff4f09ad43519d3d6673885f98361b3b44d94201f511f74d8e9e5700c2e8eb"
+    },
+    {
+      "path": "/private/tmp/qwen38-live-20261012/tool-retry/native-results.json",
+      "sha256": "b62149905a2dc8dc6e3ae976d44881ffc4a099bcc86a60df305ba81e2710f6a2"
+    },
+    {
+      "path": "/private/tmp/qwen38-live-20261012/tool-retry/native-command.json",
+      "sha256": "3e4fd7577222fc48430e92714e72a858e5d2312fe1758f82059b898f3d035c5e"
+    },
+    {
+      "path": "/private/tmp/qwen38-live-20261012/tool-retry/cleanup-verification.json",
+      "sha256": "d7c7a741d19c42937fc5ef9c60039fa2929a09574c8e30634a9c19080d59e71f"
+    },
+    {
+      "path": "/private/tmp/qwen38-live-20261012/tool-retry/check_selected_qwen.py",
+      "sha256": "1c18ada47950d88d54922173b89b83f64f3784e681c789b8286a84bbc51e2db0"
+    },
+    {
+      "path": "/private/tmp/qwen38-live-20261012/weight-reuse.json",
+      "sha256": "ef41b2dbbf7d4918e83f2616e7261ede923d7aae0a93eb0ec34f2dd00fc52632"
+    },
+    {
+      "path": "/private/tmp/qwen38-live-20261012/native-trace-position-audit.json",
+      "sha256": "16ebe0b9a3d1992f923b05958c132f7698fb7d59172868734a9652a7644b12c9"
+    },
+    {
+      "path": "/private/tmp/qwen38-live-20261012/tokenizer-metadata-audit.json",
+      "sha256": "2a6ce4f9ff63ec1923470b6c953e074df3bc8237a16cf1ec6eb985d016ff79db"
+    },
+    {
+      "path": "/private/tmp/qwen38-live-20261012/tokenizer-and-startup-audit.md",
+      "sha256": "5c6086390d39ab872e48e840b33c2807d0e5c842ed5a7e3d60d1943cfec7b2ca"
+    },
+    {
+      "path": "/private/tmp/qwen38-live-20261012/GRANT.md",
+      "sha256": "e610f24882d27bdedb46de3d2b639e5b0f5a06d73331cdec93510f06cb3bf7e7"
+    }
+  ]
+}

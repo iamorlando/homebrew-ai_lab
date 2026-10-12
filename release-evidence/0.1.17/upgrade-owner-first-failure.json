@@ -1,0 +1,24 @@
+{
+  "status": "FAIL",
+  "events": [
+    {
+      "event": "prior-owner",
+      "pid": 46093
+    },
+    {
+      "event": "literal-upgrade",
+      "command": [
+        "/Users/orlando/.local/bin/uv",
+        "pip",
+        "install",
+        "--offline",
+        "--no-deps",
+        "--python",
+        "/private/tmp/ai-lab-qwen38-release-017/upgrade-env/bin/python",
+        "/private/tmp/ai-lab-qwen38-release-017/dist/ai_lab-0.1.17-py3-none-any.whl"
+      ],
+      "exit": 0
+    }
+  ],
+  "error": "AssertionError()"
+}

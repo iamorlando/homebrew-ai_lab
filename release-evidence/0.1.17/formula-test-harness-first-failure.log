@@ -1,0 +1,8 @@
+/private/tmp/qwen017-formula-test.rb:31:in 'Kernel.system': no implicit conversion of Pathname into String (TypeError)
+
+    raise 'Formula import check failed' unless Kernel.system({'PYTHONPATH'=>nil,'PYTHONHOME'=>nil}, *arguments)
+                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+	from /private/tmp/qwen017-formula-test.rb:31:in 'Formula#system'
+	from /private/tmp/qwen017-tap/Formula/ai_lab.rb:70:in 'block in <class:AiLab>'
+	from /private/tmp/qwen017-formula-test.rb:35:in 'BasicObject#instance_eval'
+	from /private/tmp/qwen017-formula-test.rb:35:in '<main>'

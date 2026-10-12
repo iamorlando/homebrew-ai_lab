@@ -1,0 +1,681 @@
+{
+  "version": "0.1.17",
+  "artifacts": {
+    "/private/tmp/ai-lab-qwen38-release-017/dist/ai_lab-0.1.17-py3-none-any.whl": {
+      "sha256": "962de95352a893e0c0afef603a5e670dffbad98d3ae56ec46057a9bdd579fb60",
+      "bytes": 415434
+    },
+    "/private/tmp/ai-lab-qwen38-release-017/dist/ai_lab-0.1.17.tar.gz": {
+      "sha256": "c7fe0b1e6f04290da91cf56e99668fc4d78dd1a4eb4f5750057d989bc74cd69f",
+      "bytes": 580162
+    },
+    "/private/tmp/ai-lab-qwen38-release-017/sdist-wheel/ai_lab-0.1.17-py3-none-any.whl": {
+      "sha256": "962de95352a893e0c0afef603a5e670dffbad98d3ae56ec46057a9bdd579fb60",
+      "bytes": 415434
+    }
+  },
+  "bindings": [
+    {
+      "installed_path": "ai_lab/__init__.py",
+      "source_path": "ai_lab/__init__.py",
+      "sha256": "afc07cdd6faf79f5bfe41d1c5fd3d90550985f121dcb52399421db19ce3b7199"
+    },
+    {
+      "installed_path": "ai_lab/__main__.py",
+      "source_path": "ai_lab/__main__.py",
+      "sha256": "8a751bd951f505266f24cc944f257990dd3c108adfbda820107c11b042bdc401"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/deepseek-chat.jinja",
+      "source_path": "deepseek-chat.jinja",
+      "sha256": "f3ee548562d647b506a7b60a4cf0a955d1aab29a3f358a625ce721f325d06d44"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/clm_encoder.py",
+      "source_path": "harness/clm_encoder.py",
+      "sha256": "7b523fae70da6266b1aef2961093e6fe5922201a882c19ca1b1f94087fab30d5"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/clm_upstream.py",
+      "source_path": "harness/clm_upstream.py",
+      "sha256": "128f15e34aebbd7276c1ddf9ad280971cbdfd2ca5991fd03d04deab733098dcb"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/common.py",
+      "source_path": "harness/common.py",
+      "sha256": "8346a4ab41733b43fa889e2d02a0e713d2b828cd8299c3e0adf63f380e9dadf9"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/comparison_app.py",
+      "source_path": "harness/comparison_app.py",
+      "sha256": "4501491a8686e5c0229d1c238cb6b615809956bee276a382244bf8c122d25c0f"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/decisions.py",
+      "source_path": "harness/decisions.py",
+      "sha256": "5f1a005098dbfbd0e408954e8282cbc950f00cfd761b76d278d6cfaa49e85c17"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/detection_lab.py",
+      "source_path": "harness/detection_lab.py",
+      "sha256": "d046f94873d7ae9528b76e10d4dfba5adbc31ea511e4a0a88e6c8d945310bf92"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/generation_models.py",
+      "source_path": "harness/generation_models.py",
+      "sha256": "d1b6fe97d785137027ecfd857351cb8defce2d41cb055b6f791e24a7fba3fbc9"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/generation_tournament.py",
+      "source_path": "harness/generation_tournament.py",
+      "sha256": "88c915fb45db2f7eb8f11d80e7d761bd80d22f509b2345a59cfb98f676cf8ece"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/harbor_exports.py",
+      "source_path": "harness/harbor_exports.py",
+      "sha256": "88a7f7919659785f081ec290e3c8c80fbbf03996cf9af5eab1d1a61784196ce7"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/laya/package-lock.json",
+      "source_path": "harness/laya/package-lock.json",
+      "sha256": "c397d7b6733a1e6d1038be9d7ec345e960d54adf1a7148dfd3f244f682f12bce"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/laya/package.json",
+      "source_path": "harness/laya/package.json",
+      "sha256": "52bf5778ea6733fe4fe76a8d7e30518588ccabf540ad0c51c7f84cd04cd7aac8"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/laya/server.mjs",
+      "source_path": "harness/laya/server.mjs",
+      "sha256": "dbfb0afc863d13407c8ff1aa57b955cb4d2aab5dd243e28220f7383be465c796"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/model_profiles.py",
+      "source_path": "harness/model_profiles.py",
+      "sha256": "00f109c13baa135cd0cd6485b71d63df56fddb5c4f8e2fbaa0211978799c271d"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/paired_chat.py",
+      "source_path": "harness/paired_chat.py",
+      "sha256": "869e910cfade99b39a0486cee394bd8c7a05165ee0259198b8ca2c25682932b1"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/result_index.py",
+      "source_path": "harness/result_index.py",
+      "sha256": "21c3ec38a561bf449e1099a12edc6413789b49d89b71ce8435135ac0c6fa0e08"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/sampling_trace.py",
+      "source_path": "harness/sampling_trace.py",
+      "sha256": "39a58f73f1ab3b27e76ebbf815f754246fa1240e6e61757166468265bb4f6f71"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/seeded-profiles.mjs",
+      "source_path": "harness/seeded-profiles.mjs",
+      "sha256": "ed55279433930ff4ada2a41b57d915a965106abc373db0b8ac068194ff6e80e1"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/textgrain_trace.py",
+      "source_path": "harness/textgrain_trace.py",
+      "sha256": "dbd4a9485c9609a043d0ba27fb3de78c5adc431514004ce9f9c3d4212a96e68d"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/app/icon-180.png",
+      "source_path": "harness/ui/app/icon-180.png",
+      "sha256": "14c600cdc6a94b8401799f70b96be70a387d6d9bb2ffc04d8e727c619fa6060f"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/app/icon-192.png",
+      "source_path": "harness/ui/app/icon-192.png",
+      "sha256": "15b221d691433bc362f5e9e59697b9a73eb054ad13c002c235174751224bd3e8"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/app/icon-512.png",
+      "source_path": "harness/ui/app/icon-512.png",
+      "sha256": "538b68cd46c4d11fb6e4369ebf3bb77a319c51b99b1cd81139a6a16e7e3c1a0b"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/app/icon.svg",
+      "source_path": "harness/ui/app/icon.svg",
+      "sha256": "6220f1933a083ee07cbd9a92e15c6e65f7b852e5d14fbe2f475b470e62799b0c"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/app/manifest.webmanifest",
+      "source_path": "harness/ui/app/manifest.webmanifest",
+      "sha256": "6bc6818a6145a046c3cf4af06f1fac0331161d79b9a39b7bd4a5cac4df10e94b"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/completion-watermark-data.mjs",
+      "source_path": "harness/ui/completion-watermark-data.mjs",
+      "sha256": "5142d34771c2b7bf7a863862663baa3a24dc465f6b7914109c004a9b5e15b72a"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/completion-watermark.js",
+      "source_path": "harness/ui/completion-watermark.js",
+      "sha256": "ca64450bbfe7293c7eeee2544aa1d877bb5d3b803d01c34df7fd6837c40b94f2"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/completion.css",
+      "source_path": "harness/ui/completion.css",
+      "sha256": "ea3dd50e158194c72e33495211d857a1a143553cd132c7e119df71af0bded32a"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/completion.html",
+      "source_path": "harness/ui/completion.html",
+      "sha256": "4b84f9144b4374c1086578db47f6cabe1742df3b371ce90fb7ac87bec90b8876"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/completion.js",
+      "source_path": "harness/ui/completion.js",
+      "sha256": "32bdbdde1d74fa82bf47b8736150abfa715959959f69794c3c1a0b4599fddcb4"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/decisions.css",
+      "source_path": "harness/ui/decisions.css",
+      "sha256": "92c4d9f13ca0b6daa5523159ee009ccc6a054c7ec5786612e1cc56415f58e105"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/decisions.html",
+      "source_path": "harness/ui/decisions.html",
+      "sha256": "6a9d18235137e23ff548f36fb6a82192be54c2ce617394aa45063a7dd546c139"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/decisions.js",
+      "source_path": "harness/ui/decisions.js",
+      "sha256": "570f7bc7e28dd7b68b11af75ab9c165a81c9b9de324cff1325ee702500ff63c9"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/decoder-api.js",
+      "source_path": "harness/ui/decoder-api.js",
+      "sha256": "6389e1fea71bde53fd214a90d8f304010b84dceade44a6d83507fa41e6ab67de"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/decoder-evidence.mjs",
+      "source_path": "harness/ui/decoder-evidence.mjs",
+      "sha256": "576f5f46cd89c1167200918e06673239e4e5394912b79bef5e335b200125a1e0"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/decoder-ui.js",
+      "source_path": "harness/ui/decoder-ui.js",
+      "sha256": "c4510bf68fc0fb52cf0fb353bb1f47d36004c68c383b90bbc86d6813d5e6b29f"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/detection-edit-data.mjs",
+      "source_path": "harness/ui/detection-edit-data.mjs",
+      "sha256": "837db7c35b85973ffa33cd477e9dab55fb28814b0c5756de4a7d6a15201629f2"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/detection-editor.js",
+      "source_path": "harness/ui/detection-editor.js",
+      "sha256": "5a5d8c87b7480ce3c805464cb67e5b4e60d55c62bcf540c344cb7342cf04ec44"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/detection.css",
+      "source_path": "harness/ui/detection.css",
+      "sha256": "47b5b5d178ce7a5946f5b3619d58d8aa1a036440776d9bda371a7a365f25cb63"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/detection.html",
+      "source_path": "harness/ui/detection.html",
+      "sha256": "cb6e5d887fd1fd472f40391b7d312e97ed303446070c5bd108ca173bbe342cfe"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/detection.js",
+      "source_path": "harness/ui/detection.js",
+      "sha256": "56476bd709129e326e5480a0e401fd456c15105f15f07d64e7b8be5b6f3719d8"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/distribution-bars.js",
+      "source_path": "harness/ui/distribution-bars.js",
+      "sha256": "05d26cdff962c71b8a38d710c283cd9990bcc4a5d8649b5116336f1e7be4c17d"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/fonts/fonts.css",
+      "source_path": "harness/ui/fonts/fonts.css",
+      "sha256": "ee1cd237c058e815b1408a55c60bd7a5ba4be2c224ebc5afaceb8179ee31e6be"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/fonts/jetbrains-mono-OFL.txt",
+      "source_path": "harness/ui/fonts/jetbrains-mono-OFL.txt",
+      "sha256": "b2fe5e8987594e9ffd1d2ca52a2f5d73eb8335243893c5d6254b5ad69269591d"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/fonts/jetbrains-mono-latin-ext.woff2",
+      "source_path": "harness/ui/fonts/jetbrains-mono-latin-ext.woff2",
+      "sha256": "9c38cb2d0d2d93c1ee6e21fa78db76f13ea7e15e15cc64214c7ca89b6aaa35c4"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/fonts/jetbrains-mono-latin.woff2",
+      "source_path": "harness/ui/fonts/jetbrains-mono-latin.woff2",
+      "sha256": "2c32b9b3ee358c119e210f6f5195f9bd34894d78a785ff2e95d60e718e400af4"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/fonts/space-grotesk-OFL.txt",
+      "source_path": "harness/ui/fonts/space-grotesk-OFL.txt",
+      "sha256": "564ce565c371c5e5bbf286006565a7c9aa55a9f56e7ca58d56e05d649dd61a72"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/fonts/space-grotesk-latin-ext.woff2",
+      "source_path": "harness/ui/fonts/space-grotesk-latin-ext.woff2",
+      "sha256": "054c266fbb441ee059365dba0885d206f67ca05b375de869b88e02ebfccc9b9d"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/fonts/space-grotesk-latin.woff2",
+      "source_path": "harness/ui/fonts/space-grotesk-latin.woff2",
+      "sha256": "a0d054c4af557de20afd6ca59f47ab353bcaec49c63ff04b6c9d39d0f8910557"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/generation-tournament-data.mjs",
+      "source_path": "harness/ui/generation-tournament-data.mjs",
+      "sha256": "47eea7f2d61cb0385953d97d301507d56a31c503c2a7595877191bfaa44e7b86"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/generation-tournament.js",
+      "source_path": "harness/ui/generation-tournament.js",
+      "sha256": "a51ae4d610e94eab0fe9c4cd1395ee97420dd0e02ef994c9a47385f8cc519c9d"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/licenses/CLM-LICENSE.txt",
+      "source_path": "harness/ui/licenses/CLM-LICENSE.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/licenses/CLM-NOTICE.txt",
+      "source_path": "harness/ui/licenses/CLM-NOTICE.txt",
+      "sha256": "35e5499658827a842f547df0a74339e7c098d92a88a5e312a40678f7cbe18193"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/models.html",
+      "source_path": "harness/ui/models.html",
+      "sha256": "1a7aa5270c566f778e3f51851a739d74a6dd57e1f0ba8e7414e918c2e84c7351"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/models.js",
+      "source_path": "harness/ui/models.js",
+      "sha256": "e25c05660bbca2deb0c169bc74dbe1a0383aa78ba7ba68a90583386a589a5dd3"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/navigation.mjs",
+      "source_path": "harness/ui/navigation.mjs",
+      "sha256": "0fd0bb333d589501dd686d0047fc32f0b5d3f8991bcb083a8d6957d969db13c7"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/results.html",
+      "source_path": "harness/ui/results.html",
+      "sha256": "f7e59baf7934c29f071e025ccafe85ebb2cfd53309e6c76a1f70468e2fe35550"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/results.js",
+      "source_path": "harness/ui/results.js",
+      "sha256": "9d0f38440fc012714eea0b09db72ea7ada98ab77868e271833589a9436f70ac7"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/service-worker.js",
+      "source_path": "harness/ui/service-worker.js",
+      "sha256": "21006273f2068ed0c298763fea9218205b86780d135ef6341f7201b81cb19921"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/shell.js",
+      "source_path": "harness/ui/shell.js",
+      "sha256": "6639cf1b7cadad7afc3e1498adfffaae783ea8a8335910e6117075c59dff4a62"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/style.css",
+      "source_path": "harness/ui/style.css",
+      "sha256": "bc89dc332ca058ee8ec63d0c374c27004915c57e652fd90249e6f4e7dad785f5"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/teaching-tournament.js",
+      "source_path": "harness/ui/teaching-tournament.js",
+      "sha256": "a3df2fc2b6f53458b20d90da83e32e9636dfc92fa1ae73f498df3eba4bfc3cf9"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/terminal.css",
+      "source_path": "harness/ui/terminal.css",
+      "sha256": "1e139f1efa5432c1ab3ed7fa7c8064dee5822276a52edf4e4d7cedcae6fd2bc2"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/textgrain-data.mjs",
+      "source_path": "harness/ui/textgrain-data.mjs",
+      "sha256": "7deae5a31ec843e1d4793e554ba29b38d0ed263b53011609d29b740444da5a9d"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/textgrain.css",
+      "source_path": "harness/ui/textgrain.css",
+      "sha256": "95afdb11c54b46ceec20699f33e330c96bef56224ac64bd97f19d36632507bdc"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/textgrain.js",
+      "source_path": "harness/ui/textgrain.js",
+      "sha256": "010f659d145461df87106352248fe48a91329c781489e6510045e0a6a6bd45b9"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/watermark-config.js",
+      "source_path": "harness/ui/watermark-config.js",
+      "sha256": "c8529c8bb3704a8b7f99923085177349a899e4b97ba1abb8ec64edbd9157f9b7"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/watermark-trace-data.mjs",
+      "source_path": "harness/ui/watermark-trace-data.mjs",
+      "sha256": "7b228a4b16910ced80fbe05fc59c9f419332045af91f4858f7441d5bb909bbb7"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/watermark-trace.css",
+      "source_path": "harness/ui/watermark-trace.css",
+      "sha256": "0d572a63df90876b82889fc68bcf591c5ff52fceca85fd766f6bcd9c059ae618"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/ui/web-app.js",
+      "source_path": "harness/ui/web-app.js",
+      "sha256": "6f4b516012978e1dee2f64e808b35c9b68eb1f43c52ce17a8846373958a7a244"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/watermark_experiments.py",
+      "source_path": "harness/watermark_experiments.py",
+      "sha256": "9321296e42b100d16eff5dd5183714c5c6ec946ec516b01a2173777aacb07056"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/watermark_runtime.py",
+      "source_path": "harness/watermark_runtime.py",
+      "sha256": "1923bd18cf61dc5fdbaf9f6135bf3b994742eead94c292e6d7d578a78557e864"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/watermark_scoring.py",
+      "source_path": "harness/watermark_scoring.py",
+      "sha256": "d1fba9c285fcd383a70a02da94eedce6dc95dd20f2da64c71625176ef42702eb"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/watermarks.py",
+      "source_path": "harness/watermarks.py",
+      "sha256": "5ad0cd535c77e50583383dea06bc6b6eaa6cb77b4de4543106f88b9aff68e460"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/harness/web_viewer.py",
+      "source_path": "harness/web_viewer.py",
+      "sha256": "584302aaaed66d1226d53349fe5ccb4e4a9f59b913fe69d89fa89202175d46f8"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/inference.py",
+      "source_path": "inference.py",
+      "sha256": "c5a9d1f0926daee5967c046fd8f56d4b0482dfb6ee81816f3282b9866b10aee3"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/licenses/Qwen3.8-27B-LICENSE",
+      "source_path": "docs/ai-lab/licenses/Qwen3.8-27B-LICENSE",
+      "sha256": "bbedc3fda3305820b977265f01b8619d87570a6739de3a5582c3464840f1e57a"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/offline.sb",
+      "source_path": "offline.sb",
+      "sha256": "f3adfb5bb3c8928d8de3de697a7eb1ac7b93ef53b6fe7acaa9165b5562dd7e29"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/project_paths.py",
+      "source_path": "project_paths.py",
+      "sha256": "c0cfeb69effce00b8104fbacf99ce16bf0fe6653eb1ff8ce11efa5076e9d607e"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/qwen-chat.jinja",
+      "source_path": "qwen-chat.jinja",
+      "sha256": "3b296655c957f3c81658af9d85175dcbfc38f84c7dc350ade496c8935dcf6239"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/qwen38-chat.jinja",
+      "source_path": "qwen38-chat.jinja",
+      "sha256": "ab8504a2f40b37824f1d0eb382dfba6438beb65f5006d96def9d3d4f532862f6"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/runtime_setup.py",
+      "source_path": "runtime_setup.py",
+      "sha256": "ecd71a2bde7f40c27b93ffd7e518772ba4009e2726c14276ea5a1284c2610ad9"
+    },
+    {
+      "installed_path": "ai_lab/_bundle/sources.json",
+      "source_path": "sources.json",
+      "sha256": "b859613c8612e7724554988168b4216de4aeb73a525d94812d8062cfb285b6ce"
+    },
+    {
+      "installed_path": "ai_lab/agent_backend.py",
+      "source_path": "ai_lab/agent_backend.py",
+      "sha256": "351e002265cc55b314fc891a134a2025027d93b36f73d47593f8bdf3c93eefa1"
+    },
+    {
+      "installed_path": "ai_lab/agent_channel.py",
+      "source_path": "ai_lab/agent_channel.py",
+      "sha256": "d0dc87c2d37f12dd54193bddea1687314fe08497349e340e4cd9caa1030b75e3"
+    },
+    {
+      "installed_path": "ai_lab/agent_prompt.py",
+      "source_path": "ai_lab/agent_prompt.py",
+      "sha256": "fffa7c08c639310fa310d82d556696620d78c28bc8df765416fa156984d54b35"
+    },
+    {
+      "installed_path": "ai_lab/agent_types.py",
+      "source_path": "ai_lab/agent_types.py",
+      "sha256": "f17a8f0b2772a10954c95f3ad9efbc620fdc38ee167c4e5a56c94ae1e80325bb"
+    },
+    {
+      "installed_path": "ai_lab/api-schema.json",
+      "source_path": "ai_lab/api-schema.json",
+      "sha256": "8430c7507c3acbbdc7907f37286445862b77acee4af404aabe461b1c8082a3ee"
+    },
+    {
+      "installed_path": "ai_lab/api_manager.py",
+      "source_path": "ai_lab/api_manager.py",
+      "sha256": "17ad565a45b2e7eace9c366073d2dcddb2e91a09a1827bb4305d7e2976212abf"
+    },
+    {
+      "installed_path": "ai_lab/cli.py",
+      "source_path": "ai_lab/cli.py",
+      "sha256": "284f30abd63f8735023585e626a019805016db349bf870411fc645dcd69c6347"
+    },
+    {
+      "installed_path": "ai_lab/client.py",
+      "source_path": "ai_lab/client.py",
+      "sha256": "9788b36949bf7a59eaeb318fd57c3fe303779bbcc7125f855a1a89a1de58a433"
+    },
+    {
+      "installed_path": "ai_lab/coordination.py",
+      "source_path": "ai_lab/coordination.py",
+      "sha256": "1cea17103a78bceb38906785a3c9352053a15af16bd4cad80ce31cefc33f062c"
+    },
+    {
+      "installed_path": "ai_lab/credentials.py",
+      "source_path": "ai_lab/credentials.py",
+      "sha256": "73e3ec12478992d27e348e0d0688e8bc8a6104293eb3af7c56dd93f52f96e28e"
+    },
+    {
+      "installed_path": "ai_lab/decision_descriptions.py",
+      "source_path": "ai_lab/decision_descriptions.py",
+      "sha256": "247e45211c904ef956da98b513e7086e289a8e3cbcf7e6fcafc362f139da9cc6"
+    },
+    {
+      "installed_path": "ai_lab/decision_processes.py",
+      "source_path": "ai_lab/decision_processes.py",
+      "sha256": "16b764821f60b51dc748c131059349035f2377f533e3005ceb46506735d2e601"
+    },
+    {
+      "installed_path": "ai_lab/decisions-runtime.json",
+      "source_path": "ai_lab/decisions-runtime.json",
+      "sha256": "ba0174dc0e46b22afafe3f092ec96a741447bbb3b7d2b24dbd6dc67a138160cc"
+    },
+    {
+      "installed_path": "ai_lab/decisions_client.py",
+      "source_path": "ai_lab/decisions_client.py",
+      "sha256": "43d0a8e0b5a7932ab8af877b17523541d51263ce9ae7b010d8763fd91e19aed0"
+    },
+    {
+      "installed_path": "ai_lab/decisions_request.py",
+      "source_path": "ai_lab/decisions_request.py",
+      "sha256": "b4904e152fe3b0a65ca265a976f9930d46b0d4a0ef7c6ceb0819767d07571d40"
+    },
+    {
+      "installed_path": "ai_lab/decoder_evidence.py",
+      "source_path": "ai_lab/decoder_evidence.py",
+      "sha256": "e8d6bbef8bf95a67453fc8373484f1db188fbdca3c39795f97adde83ec802782"
+    },
+    {
+      "installed_path": "ai_lab/decoder_service.py",
+      "source_path": "ai_lab/decoder_service.py",
+      "sha256": "072bb4fdd283cb2b325c4c71a3ca9128d3a6173c80c406daec91fa6d8be588eb"
+    },
+    {
+      "installed_path": "ai_lab/download_ui.py",
+      "source_path": "ai_lab/download_ui.py",
+      "sha256": "a83839fc555a82d3f99f777fe48e6640e8f231569192c80a9909ae222690a5f7"
+    },
+    {
+      "installed_path": "ai_lab/downloads.py",
+      "source_path": "ai_lab/downloads.py",
+      "sha256": "3e21ea7098ed1b4b24d6019fd6f07b5fa70106dd4057b7e786e5edb4016a52bb"
+    },
+    {
+      "installed_path": "ai_lab/experiments_setup.py",
+      "source_path": "ai_lab/experiments_setup.py",
+      "sha256": "1189ea723438489e2c3e446fadcb73cf950c796ff24131eca32fdd95bbac62a3"
+    },
+    {
+      "installed_path": "ai_lab/herdr.py",
+      "source_path": "ai_lab/herdr.py",
+      "sha256": "f5fdd952c00ef8bdcba1e1e84b49d2c9b86e2138a0ff7add800316cfdbd6bfb7"
+    },
+    {
+      "installed_path": "ai_lab/laya.py",
+      "source_path": "ai_lab/laya.py",
+      "sha256": "25969d1d6473f9f87c2b40d45b17f03f9fe93400cdb6c4c2294617b959460364"
+    },
+    {
+      "installed_path": "ai_lab/mcp_client.py",
+      "source_path": "ai_lab/mcp_client.py",
+      "sha256": "f72f902aa3377aac583081d648bd4fb7f8dcc7915c6d491a36013e2bc4910851"
+    },
+    {
+      "installed_path": "ai_lab/mcp_install.py",
+      "source_path": "ai_lab/mcp_install.py",
+      "sha256": "6318d6f3d59ea399e978dbc4a0006243dd0ea76d6a6a47413a8048e88044b145"
+    },
+    {
+      "installed_path": "ai_lab/mcp_schema.py",
+      "source_path": "ai_lab/mcp_schema.py",
+      "sha256": "7e6e2904132fcdbca5cb741c10729090dcf08cd291fdc3331f806a5ba97ceff7"
+    },
+    {
+      "installed_path": "ai_lab/mcp_server.py",
+      "source_path": "ai_lab/mcp_server.py",
+      "sha256": "d0ae172a09788043890eaf2405c0e1ae9cdc33b281f8a94e897826acc0e45b9c"
+    },
+    {
+      "installed_path": "ai_lab/mcp_tools.py",
+      "source_path": "ai_lab/mcp_tools.py",
+      "sha256": "342f6bad88f239ec8f455070f4cb5ad0668be3a6a5fc6ea3539cf7bd7f2d19f8"
+    },
+    {
+      "installed_path": "ai_lab/model-downloads.json",
+      "source_path": "ai_lab/model-downloads.json",
+      "sha256": "caa256a5b02f9e847b9617a333a56bf5d221cc5508165b6b55c527b3c194417f"
+    },
+    {
+      "installed_path": "ai_lab/model_servers.py",
+      "source_path": "ai_lab/model_servers.py",
+      "sha256": "00f2046c34d7835cc1674762547c0c6769ff42ac0c83cc90a59158efbc0646be"
+    },
+    {
+      "installed_path": "ai_lab/native_chat.py",
+      "source_path": "ai_lab/native_chat.py",
+      "sha256": "de681657b1c82f529bede6bf86319316393cf4a234a1ae63fce43fc466eaa35a"
+    },
+    {
+      "installed_path": "ai_lab/paths.py",
+      "source_path": "ai_lab/paths.py",
+      "sha256": "95fe8b6d567f09d137f41590bca63845cc6316c879f0565f9c3815ef9ec5a40a"
+    },
+    {
+      "installed_path": "ai_lab/runtime.json",
+      "source_path": "ai_lab/runtime.json",
+      "sha256": "d5c7e9ae27f10f3c439e287b465e67d5ba53ed38391188949a965c15c7a29f22"
+    },
+    {
+      "installed_path": "ai_lab/runtime.py",
+      "source_path": "ai_lab/runtime.py",
+      "sha256": "671b6b6a46cc874b93e2ec99d9dfb7b7b0831b421688fb020281facafed27271"
+    },
+    {
+      "installed_path": "ai_lab/server.py",
+      "source_path": "ai_lab/server.py",
+      "sha256": "6b42a24e0b4f0fc0dc8175a3f36f82bda09243f9fe3f8ea89d52c8269c73f981"
+    },
+    {
+      "installed_path": "ai_lab/service.py",
+      "source_path": "ai_lab/service.py",
+      "sha256": "1ac120c30a60963cd0fe0f805349a55ba4d626a979206a4616b8744c7c85f4c8"
+    },
+    {
+      "installed_path": "ai_lab/service_manager.py",
+      "source_path": "ai_lab/service_manager.py",
+      "sha256": "7ad5a34ddaf6f36d4b0cb1637e03a5177ee1d8ab463e9e73ca49b46ec54759e9"
+    },
+    {
+      "installed_path": "ai_lab/session_compat.py",
+      "source_path": "ai_lab/session_compat.py",
+      "sha256": "e83d8e7ba93305be3698a4b1d9d6d7cae8a6dd64a7a1aa732b7b97d4c080d099"
+    },
+    {
+      "installed_path": "ai_lab/setup.py",
+      "source_path": "ai_lab/setup.py",
+      "sha256": "e0c49c80072c44866a977bdd771c7286ed0342b5766f257a0b2b46bdb6207b4f"
+    },
+    {
+      "installed_path": "ai_lab/skill_metadata.md",
+      "source_path": "ai_lab/skill_metadata.md",
+      "sha256": "ac3c3d029e2dbd33c98165a1ab4d657830328560a495906aa7ab8ab636ba1af2"
+    },
+    {
+      "installed_path": "ai_lab/skills.py",
+      "source_path": "ai_lab/skills.py",
+      "sha256": "88925d8904e9b89e28ac3a09d8d76bc65e464ae4e16e5822f6342b7c3556032d"
+    },
+    {
+      "installed_path": "ai_lab/startup_errors.py",
+      "source_path": "ai_lab/startup_errors.py",
+      "sha256": "4d5c47a2c74803e7a6e07d1d133e3c15e336beb7027a16b910cc26ff3512eadf"
+    },
+    {
+      "installed_path": "ai_lab/views.py",
+      "source_path": "ai_lab/views.py",
+      "sha256": "6127bc47ac9d6d5e757e86252339fd2dd58982356997a77333f676954e9be332"
+    },
+    {
+      "installed_path": "ai_lab/web.py",
+      "source_path": "ai_lab/web.py",
+      "sha256": "a68eb6ea6df8d4c63a8241b306f4e19a9c2db9cf4b748f4fe5048bb7450d1961"
+    },
+    {
+      "installed_path": "ai_lab/web_app.py",
+      "source_path": "ai_lab/web_app.py",
+      "sha256": "0eb977c436a18718ffb124584b88ca1fedda6da336c2689eddb510146f8b72ed"
+    },
+    {
+      "installed_path": "ai_lab/web_runtime.py",
+      "source_path": "ai_lab/web_runtime.py",
+      "sha256": "49b3d351e9727b2d8547bb8b844063b415b50c3865c79b0eacecebe41cf03562"
+    }
+  ],
+  "generated_metadata": {
+    "dist": {
+      "ai_lab-0.1.17.dist-info/METADATA": "b0e10fcec9329984732cdf9824e2cac6e4450fa3c6aa73fd9a80ae223d296c03",
+      "ai_lab-0.1.17.dist-info/RECORD": "d8ff6767769abaa795efd02c1dfba5ed102a6730e54be118418a26e40dd5645d",
+      "ai_lab-0.1.17.dist-info/WHEEL": "5b77e4a649bbfb07fdbc123967eeecd1e5a478cfaca6eefc23c35e6fdf037848",
+      "ai_lab-0.1.17.dist-info/entry_points.txt": "388e24356fc29c6d4f31682dd2bcf789e8eb3fc2131289058db991a0311df58a"
+    },
+    "sdist-wheel": {
+      "ai_lab-0.1.17.dist-info/METADATA": "b0e10fcec9329984732cdf9824e2cac6e4450fa3c6aa73fd9a80ae223d296c03",
+      "ai_lab-0.1.17.dist-info/RECORD": "d8ff6767769abaa795efd02c1dfba5ed102a6730e54be118418a26e40dd5645d",
+      "ai_lab-0.1.17.dist-info/WHEEL": "5b77e4a649bbfb07fdbc123967eeecd1e5a478cfaca6eefc23c35e6fdf037848",
+      "ai_lab-0.1.17.dist-info/entry_points.txt": "388e24356fc29c6d4f31682dd2bcf789e8eb3fc2131289058db991a0311df58a"
+    }
+  },
+  "sdist_source_files": 171,
+  "package_resource_files": 129,
+  "status": "PASS"
+}

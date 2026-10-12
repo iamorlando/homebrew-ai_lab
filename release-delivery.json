@@ -1,14 +1,13 @@
 {
-  "version": "0.1.16",
-  "source_sha": "bd2be508bf738cd267ab483257a8188aa1219724",
-  "delivery": "GitHub release; exact locally validated artifact bytes",
+  "version": "0.1.17",
+  "source_sha": "83f5ce69046810e664d9686683d50f6db4fca5ca",
+  "artifact_git_sha": "b6075281df29cb76fea4479d850b263192b6cf03",
+  "delivery": "Immutable Git commit URLs; exact locally validated artifact bytes",
   "assets": {
-    "ai_lab-0.1.16-py3-none-any.whl": "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.16/ai_lab-0.1.16-py3-none-any.whl",
-    "ai_lab-0.1.16.tar.gz": "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.16/ai_lab-0.1.16.tar.gz",
-    "ai_lab-runtime-macos-arm64.tar.gz": "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.16/ai_lab-runtime-macos-arm64.tar.gz",
-    "release-binding.json": "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.16/release-binding.json",
-    "release-validation.json": "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.16/release-validation.json"
+    "ai_lab-0.1.17.tar.gz": "https://raw.githubusercontent.com/iamorlando/homebrew-ai_lab/b6075281df29cb76fea4479d850b263192b6cf03/packages/0.1.17/ai_lab-0.1.17.tar.gz",
+    "ai_lab-0.1.17-py3-none-any.whl": "https://raw.githubusercontent.com/iamorlando/homebrew-ai_lab/b6075281df29cb76fea4479d850b263192b6cf03/packages/0.1.17/ai_lab-0.1.17-py3-none-any.whl",
+    "manifest.json": "https://raw.githubusercontent.com/iamorlando/homebrew-ai_lab/b6075281df29cb76fea4479d850b263192b6cf03/packages/0.1.17/manifest.json"
   },
-  "checksums": "release-binding.json",
-  "validation": "Local package, upgrade, browser and bounded native evidence is recorded in release-validation.json. GitHub CI is unavailable and excluded by explicit user instruction. Actual Homebrew clean installation is blocked by outdated Command Line Tools; Homebrew upgrade and brew test could not run. The user explicitly authorized publication with this recorded Homebrew limitation."
+  "checksums": "release-binding.json and packages/0.1.17/manifest.json",
+  "validation": "Execution results and limits are recorded in release-validation.json. GitHub CI is explicitly excluded by the release owner. CLT 26.6 remains installed on macOS 27; actual Homebrew clean installation, literal upgrade and brew test remain unavailable under the recorded user-authorized limitation. Package and native test results are recorded separately."
 }

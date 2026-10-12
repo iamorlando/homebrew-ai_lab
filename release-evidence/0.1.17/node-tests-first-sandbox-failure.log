@@ -1,0 +1,182 @@
+✔ production probability progression caps at four layers and preserves real values (4.748458ms)
+✔ native teaching matches retain draw identity, source edges, probabilities and winners (46.747ms)
+✔ match explanations distinguish watermark wins from random ties (0.4265ms)
+✔ skipped or absent demo data cannot masquerade as production matches (0.374666ms)
+✔ lists follow selected round, not model ranking or a fixed green group (0.249458ms)
+✔ fixed lists include zero-probability tokens and do not invent missing membership (0.140959ms)
+✔ no fictitious tournaments for warmup, missing traces, or other schemes (0.146459ms)
+✔ support preset supplies all three question types and selected model (92.721833ms)
+✔ switching CLM and Jev preserves the decision request (3.429ms)
+✔ rank mode and JSON state preserve the API contract (104.944917ms)
+✔ duplicate question and option names cannot silently overwrite input (138.531292ms)
+✔ generated scripts target AI Lab and never include a provider key (2.009208ms)
+✔ answer HTML escapes provider text and user instructions (30.465209ms)
+✔ pending requests show progress and block duplicates until a response arrives (109.895625ms)
+✔ request timeout renders an error and restores the Run button (91.463ms)
+✔ failed model discovery and unavailable Run show an actionable error (2.730291ms)
+✔ an open page picks up a CLI-synced Jev key without disrupting a request (12.180042ms)
+✔ background discovery cannot change status or model while a request is running (0.779542ms)
+✔ shows supplied known-key evidence and redacts normal dumps with an allowlist (238.155125ms)
+✔ short and unscorable evidence never displays numeric confidence or p-value (0.189625ms)
+✔ invalid or inconsistent results cannot be rendered as confident matches (0.291458ms)
+✔ review R1: contradictory verdicts and matches fail while cutoff equality passes (0.4335ms)
+✔ high confidence below the configured detection threshold is not a missing-key result (0.238334ms)
+✔ presentation follows the supplied cutoff, including equality, without changing evidence (0.073416ms)
+✔ insufficient tokens and unavailable scores do not report a failed threshold test (0.131125ms)
+✔ missing-key validation is not accepted as statistical evidence (0.077875ms)
+✔ only the selected occurrence changes; punctuation, Unicode and whitespace are preserved (12.460166ms)
+✔ words beyond the original capture and replacement/typed words all remain eligible (2.913333ms)
+✔ the model prefix excludes exactly the space carried by a candidate token (2.277792ms)
+✔ later inspection uses the edited prefix; no stale original text is reused (0.092791ms)
+✔ response edits update linked or empty detector text but preserve custom pasted text (0.064875ms)
+✔ actual graph follows native draw identities and emits its recorded winner (3.4525ms)
+✔ sparse IDs, shuffled arrays and collapsed subtrees use native references (0.323791ms)
+✔ missing production graphs and mismatched winners cannot produce a misleading bracket (0.482292ms)
+✖ Laya discovery identifies the independent model and workspace (23.750084ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1915:21)
+      at listenInCluster (node:net:1994:12)
+      at node:net:2203:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+✖ typed requests preserve state, normalize JSON criteria, and restore caller IDs (2.245667ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1915:21)
+      at listenInCluster (node:net:1994:12)
+      at node:net:2203:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+✖ invalid and oversized requests never reach inference (3.49325ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1915:21)
+      at listenInCluster (node:net:1994:12)
+      at node:net:2203:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+✖ model work is serialized and an inference failure does not poison the queue (0.329125ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1915:21)
+      at listenInCluster (node:net:1994:12)
+      at node:net:2203:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+✔ Harbor job deep links inherit their experiment context at every depth (2.227041ms)
+✔ Mixed Harbor comparisons and the global archive keep a neutral context (0.353833ms)
+✔ Embedding preserves Harbor query filters without duplicating the embed parameter (0.579584ms)
+✔ watermarks follow the selected model and never leak to a plain profile (1.797542ms)
+✔ a selected model fixes its own seed despite stale session settings (0.166875ms)
+✔ interleaved conversations and follow-ups do not advance or share sampling seeds (0.196084ms)
+✔ unknown profiles cannot silently fall back to a different seed (11.148125ms)
+✔ the outbound system prompt omits date, workspace and prior instructions (0.442917ms)
+✔ each recorded user turn selects temperature without changing the seed or other sampling parameters (0.852583ms)
+✔ new named profiles support both zero and the largest exactly representable seed (0.638375ms)
+✔ unseeded profiles remove stale seeds and keep temperature, watermark and system behavior (0.722459ms)
+(node:33730) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///Users/orlando/dev/deepseek/.worktrees/qwen38-release-0.1.17/harness/tasks/sonnet/environment/stable-prompt.js is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to /Users/orlando/package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ the retained system prompt has no date or workspace context (1.763417ms)
+✔ TextGrain rows retain candidate identity, full-vocabulary mass and native signal (2.596709ms)
+✔ transport uses row-major native cells and marks only the recorded column (0.431625ms)
+✔ skipped and missing traces cannot invent block assignment (0.651083ms)
+✔ decoder retains TextGrain native evidence and filters private fields (0.824375ms)
+✔ production match labels and navigation inspect genuine scores, winners and ties (58.813792ms)
+✔ production keyboard navigation selects matches, keeps focus and respects boundaries (2.923375ms)
+✔ missing final, empty and nonproduction captures give honest actionable notices (2.979792ms)
+✔ fully collapsed production captures show winners without inventing match scores (1.422584ms)
+✔ teaching remains separate and supports mouse, previous/next and keyboard selection (96.332417ms)
+✔ teaching missing final and empty captures explain what can be inspected (4.187958ms)
+✔ selected token is visible even when it is not top ranked; full probability mass survives slicing (1.300042ms)
+✔ layer arrays follow original candidate IDs even after sorting the chart (0.083208ms)
+✔ keyed scores never become probabilities and unavailable mass stays unavailable (0.132291ms)
+✔ zero probabilities, null logits, and token boundaries are preserved (0.533708ms)
+✔ old answers use a clearly separate sample and existing real traces take precedence (1.17075ms)
+✔ skip explanations do not claim watermark changes or invent tournaments (0.526458ms)
+✔ install option explains browser installation before a native prompt exists (2.537708ms)
+✔ native installation waits for click, consumes each event once, and allows dismissal (95.141792ms)
+✔ standalone and browser-installed apps hide installation controls (6.9825ms)
+✔ worker policy failures leave website and browser-install help usable (1.002458ms)
+✔ worker passes API, writes, assets, frames, and external navigations through untouched (141.718292ms)
+✔ worker serves current navigation and gives a port-specific stopped-server notice (32.94ms)
+ℹ tests 72
+ℹ suites 0
+ℹ pass 68
+ℹ fail 4
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2436.421916
+
+✖ failing tests:
+
+test at harness/tests/laya-server.test.mjs:16:1
+✖ Laya discovery identifies the independent model and workspace (23.750084ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1915:21)
+      at listenInCluster (node:net:1994:12)
+      at node:net:2203:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at harness/tests/laya-server.test.mjs:21:1
+✖ typed requests preserve state, normalize JSON criteria, and restore caller IDs (2.245667ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1915:21)
+      at listenInCluster (node:net:1994:12)
+      at node:net:2203:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at harness/tests/laya-server.test.mjs:42:1
+✖ invalid and oversized requests never reach inference (3.49325ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1915:21)
+      at listenInCluster (node:net:1994:12)
+      at node:net:2203:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }
+
+test at harness/tests/laya-server.test.mjs:52:1
+✖ model work is serialized and an inference failure does not poison the queue (0.329125ms)
+  Error: listen EPERM: operation not permitted 127.0.0.1
+      at Server.setupListenHandle [as _listen2] (node:net:1915:21)
+      at listenInCluster (node:net:1994:12)
+      at node:net:2203:7
+      at process.processTicksAndRejections (node:internal/process/task_queues:90:21) {
+    code: 'EPERM',
+    errno: -1,
+    syscall: 'listen',
+    address: '127.0.0.1'
+  }

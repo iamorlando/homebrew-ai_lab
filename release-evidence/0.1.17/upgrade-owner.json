@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "events": [
+    {
+      "event": "prior-owner",
+      "pid": 22497
+    },
+    {
+      "event": "literal-upgrade",
+      "command": [
+        "/Users/orlando/.local/bin/uv",
+        "pip",
+        "install",
+        "--offline",
+        "--no-deps",
+        "--python",
+        "/private/tmp/ai-lab-qwen38-release-017/owner-upgrade-env/bin/python",
+        "/private/tmp/ai-lab-qwen38-release-017/dist/ai_lab-0.1.17-py3-none-any.whl"
+      ],
+      "exit": 0
+    },
+    {
+      "event": "retained-prior-owner",
+      "pid": 22497,
+      "existing": false,
+      "incompatible_launcher_rejected": true
+    },
+    {
+      "event": "candidate-owner",
+      "pid": 25221
+    }
+  ],
+  "prior_version": "0.1.16",
+  "version": "0.1.17",
+  "profiles_preserved": true,
+  "owned_sockets_released": true,
+  "native_starts": 0
+}

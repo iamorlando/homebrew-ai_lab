@@ -1,0 +1,44 @@
+{
+  "status": "PASS_LOCAL_RECIPE_CHECKS_ONLY",
+  "source_sha": "83f5ce69046810e664d9686683d50f6db4fca5ca",
+  "artifact_git_sha": "b6075281df29cb76fea4479d850b263192b6cf03",
+  "formula_sha256": "1555c88f55fc1500d60f46e5429940c8d19bcb8890c2570ebb064f3f5d36364f",
+  "ruby_syntax": "PASS",
+  "formula_test_block": {
+    "status": "PASS",
+    "kind": "Exact recipe test block executed in an owned Ruby DSL harness against installed clean 0.1.17 Python package. This is not an actual brew test.",
+    "command": "/opt/homebrew/Library/Homebrew/vendor/portable-ruby/4.0.7/bin/ruby /private/tmp/qwen017-formula-test.rb",
+    "log": "formula-test-harness.log",
+    "test_body_unchanged_after_final_artifact_URL_rebinding": true
+  },
+  "candidate_downloader": {
+    "status": "PASS",
+    "command": "python3 -B release-evidence/0.1.17/check_candidate_download.py",
+    "log": "candidate-download-check.log",
+    "cases": [
+      "exact accepted",
+      "same-size wrong hash rejected",
+      "truncated rejected",
+      "non-HTTPS rejected before transport"
+    ],
+    "network_calls": 0,
+    "homebrew_processes": 0,
+    "native_processes": 0
+  },
+  "actual_homebrew": {
+    "clean_install": "BLOCKED_INPUT",
+    "literal_upgrade": "NOT_RUN",
+    "brew_test": "NOT_RUN",
+    "candidate_install_attempted": false,
+    "reason": "Current macOS 27 host still has CLT26.6; the separate CLT27 required by Homebrew is unavailable. Prior actual 0.1.16 clean attempt failed this prerequisite; no new 0.1.17 attempt is relabeled as a result.",
+    "current_host_evidence": "homebrew-config.txt",
+    "prior_actual_attempt_log": "/private/tmp/textgrain-homebrew-clean/candidate-install.log",
+    "prior_attempt_sha256": "55c84b4d1a401edcbd41ad09542f6e2b7f406b29d6f6552d337128d49617f244",
+    "publication_exception": "User explicitly authorized publication with the recorded Homebrew limitation."
+  },
+  "github_ci": "NOT_RUN_USER_PROHIBITED",
+  "workflow_and_runtime_paths_changed": false,
+  "preserved_initial_failures": [
+    "formula-test-harness-first-failure.log: owned harness initially failed to coerce a Pathname for Kernel.system; corrected wrapper rerun passed."
+  ]
+}

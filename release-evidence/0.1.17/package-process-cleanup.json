@@ -1,0 +1,6 @@
+{
+  "status": "PASS",
+  "owned_checker_processes_remaining": [],
+  "retained_owner_sockets_released": true,
+  "scope": "Packaging checker and installed test processes only; native/browser lane cleanup belongs to its own report."
+}

@@ -1,9 +1,9 @@
 class AiLab < Formula
-  desc "AI Lab web app for DeepSeek, CLM decisions, and watermark decoding"
+  desc "AI Lab web app for DeepSeek, Qwen, CLM decisions, and watermark decoding"
   homepage "https://github.com/iamorlando/homebrew-ai_lab"
-  url "https://github.com/iamorlando/homebrew-ai_lab/releases/download/ai_lab-v0.1.16/ai_lab-0.1.16.tar.gz"
-  version "0.1.16"
-  sha256 "58908a7402069823b433f66dcb822e6cd3ded7b9c19de316c6c4716746497ecd"
+  url "https://raw.githubusercontent.com/iamorlando/homebrew-ai_lab/b6075281df29cb76fea4479d850b263192b6cf03/packages/0.1.17/ai_lab-0.1.17.tar.gz"
+  version "0.1.17"
+  sha256 "c7fe0b1e6f04290da91cf56e99668fc4d78dd1a4eb4f5750057d989bc74cd69f"
 
 
   depends_on arch: :arm64
@@ -28,9 +28,10 @@ class AiLab < Formula
     <<~EOS
       Open AI Lab:
         ai-lab web
-      The website keeps both DeepSeek and CLM APIs running. Keep its terminal open.
+      Selected model APIs start on demand. Keep the website terminal open.
       Download missing models explicitly; existing verified weights are reused:
-        ai-lab setup install deepseek clm --yes
+        ai-lab setup install qwen38 --yes
+      Use deepseek or clm instead to install those families.
       Configure saved models in the website's Models page. Completion, Decisions,
       and Watermark decoder are available in the top navigation.
       Connect an agent client to AI Lab's MCP tools:
@@ -43,8 +44,9 @@ class AiLab < Formula
       Keep the same AI_LAB_ROOT if you use a custom workspace. No data cleanup or
       weight redownload is required for this update. Stop an older AI Lab launcher
       before opening the updated website.
-      Install the TextGrain-capable runtime while reusing existing weights:
-        ai-lab setup repair-runtime --model deepseek --yes
+      If setup reports a runtime repair is needed, reuse existing weights with:
+        ai-lab setup repair-runtime --model qwen38 --yes
+      For a CLM memory failure, start with AI_LAB_CLM_ISQ=q4k ai-lab web.
       Requires Apple Silicon and macOS 15+. Native setup uses verified prebuilt
       Metal servers; no Rust or Xcode installation is needed.
     EOS
@@ -53,11 +55,12 @@ class AiLab < Formula
   test do
     assert_match "AI Lab #{version}", shell_output("#{bin}/ai-lab --version")
     discovery = JSON.parse(shell_output("#{bin}/ai-lab --json"))
-    assert_equal %w[mcp setup web], discovery.fetch("commands").keys.sort
+    assert_equal %w[mcp services setup web], discovery.fetch("commands").keys.sort
     assert_match "--port", shell_output("#{bin}/ai-lab web --help")
     assert_match "install", shell_output("#{bin}/ai-lab setup --help")
     assert_match "--codex", shell_output("#{bin}/ai-lab mcp install --help")
-    %w[chat completion decisions decoder models services weights apis skills completions].each do |command|
+    assert_match "--json", shell_output("#{bin}/ai-lab services --help")
+    %w[chat completion decisions decoder models weights apis skills completions].each do |command|
       assert_match "invalid choice", shell_output("#{bin}/ai-lab #{command} --help 2>&1", 2)
     end
     guide = shell_output("#{bin}/ai-lab --skill")

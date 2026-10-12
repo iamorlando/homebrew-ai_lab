@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "native_pid": 20541,
+  "process_gone": true,
+  "listener_absent": true,
+  "production_style_rebind": true,
+  "receipt_removed": true,
+  "wrapper_limitation": "Driver exit0. Wrapper exit1 was a faulty cleanup check: attempted bind on the same socket after connect_ex. Independent sockets prove no listener and successful SO_REUSEADDR bind. Original report retained."
+}

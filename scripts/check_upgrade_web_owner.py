@@ -61,7 +61,7 @@ def stop(process,log):
     with socket.socket() as s:assert s.connect_ex(('127.0.0.1',port))!=0, 'Owned web socket leaked'
 
 try:
-    assert version()=='AI Lab 0.1.15'
+    assert version()=='AI Lab 0.1.16'
     with checker.owned_api_fixtures(out) as (endpoints,providers):
         fixture=out/'generation.json';fixture.write_text(json.dumps({'version':1,'endpoints':{'deepseek':endpoints['deepseek']}}))
         env.update(AI_LAB_GENERATION_FIXTURE_FILE=str(fixture),AI_LAB_DECISIONS_URL=endpoints['contrastive'])
@@ -71,21 +71,28 @@ try:
             (out/'upgrade.log').write_text(completed.stdout+completed.stderr)
             events.append(dict(event='literal-upgrade',command=command,exit=completed.returncode))
             assert completed.returncode==0
-            assert version()=='AI Lab 0.1.16'
+            assert version()=='AI Lab 0.1.17'
             assert old.poll() is None
             assert json.loads(call('/api/workspace'))['root']==str(root)
             reused=subprocess.run(argv,cwd=out,env=env,capture_output=True,text=True,timeout=30)
-            assert reused.returncode==0 and json.loads(reused.stdout)['existing'] is True
-            events.append(dict(event='retained-prior-owner',pid=old.pid,existing=True))
+            (out/'retained-owner-rejection.log').write_text(reused.stdout+reused.stderr)
+            assert reused.returncode != 0
+            assert 'older website launcher' in reused.stdout+reused.stderr
+            assert 'left untouched' in reused.stdout+reused.stderr
+            assert old.poll() is None
+            assert json.loads(call('/api/workspace'))['root']==str(root)
+            events.append(dict(event='retained-prior-owner',pid=old.pid,existing=False,
+                               incompatible_launcher_rejected=True))
             assert all(process.poll() is None for process in providers.values())
         finally:stop(old,oldlog)
         new,newlog=start('candidate-owner')
         try:
             assert b'textgrain.js' in call('/pair-assets/completion-watermark.js')
+            assert json.loads(call('/api/workspace'))['supported_models']==['deepseek','qwen38','clm']
             assert all(process.poll() is None for process in providers.values())
             assert (root/'harness/models.json').read_bytes()==before
         finally:stop(new,newlog)
-    result=dict(status='PASS',events=events,prior_version='0.1.15',version='0.1.16',profiles_preserved=True,owned_sockets_released=True,native_starts=0)
+    result=dict(status='PASS',events=events,prior_version='0.1.16',version='0.1.17',profiles_preserved=True,owned_sockets_released=True,native_starts=0)
 except BaseException as error:
     result=dict(status='FAIL',events=events,error=repr(error));raise
 finally:

@@ -1,0 +1,30 @@
+{
+  "command": [
+    "/private/tmp/ai-lab-qwen38-release-017/clean-env/bin/python",
+    "-I",
+    "/private/tmp/qwen017-native/check_qwen_native.py",
+    "--root",
+    "/Users/orlando/dev/deepseek/.worktrees/qwen38-integration",
+    "--output",
+    "/private/tmp/qwen017-native/native-results.json",
+    "--start-through-app",
+    "--mcp-wire"
+  ],
+  "cwd": "/private/tmp",
+  "started_at": "2026-10-12T17:02:01.096831+00:00",
+  "environment_keys": [
+    "HOME",
+    "LANG",
+    "PATH",
+    "PYTHONUNBUFFERED",
+    "TMPDIR"
+  ],
+  "fixture": false,
+  "driver_sha256": "1c18ada47950d88d54922173b89b83f64f3784e681c789b8286a84bbc51e2db0",
+  "driver_pid": 18343,
+  "exit_code": 0,
+  "remaining_owned_state": null,
+  "endpoint_released": false,
+  "receipt_removed": true,
+  "elapsed_seconds": 251.82
+}

@@ -1,0 +1,5 @@
+exact PASS
+bad-hash PASS
+truncated PASS
+insecure PASS
+Four integrity/transport cases passed. No network, Homebrew, or native execution.
