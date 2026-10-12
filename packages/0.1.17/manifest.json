@@ -1,0 +1,18 @@
+{
+  "version": "0.1.17",
+  "source_sha": "83f5ce69046810e664d9686683d50f6db4fca5ca",
+  "source_repository": "https://github.com/iamorlando/deepseek",
+  "dependency_lock_sha256": "a4756a4d342a19b98c8bed44d7ddee966c52bf5cb72e95865b7cfcf70b00638f",
+  "artifacts": {
+    "ai_lab-0.1.17.tar.gz": {
+      "sha256": "c7fe0b1e6f04290da91cf56e99668fc4d78dd1a4eb4f5750057d989bc74cd69f",
+      "bytes": 580162
+    },
+    "ai_lab-0.1.17-py3-none-any.whl": {
+      "sha256": "962de95352a893e0c0afef603a5e670dffbad98d3ae56ec46057a9bdd579fb60",
+      "bytes": 415434
+    }
+  },
+  "runtime": "Existing pinned 0.1.16 runtime descriptor unchanged.",
+  "scope": "Immutable package bytes; acceptance results are published separately with the final formula."
+}
